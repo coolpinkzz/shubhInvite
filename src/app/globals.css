@@ -1,0 +1,347 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ───────────────────────────────────────────────────────────
+   Luxury wedding palette: Apple restraint × Cartier gold × Indian royal warmth
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@theme {
+  /* Colors — Ivory & Cream */
+  --color-ivory-50: #fdfbf7;
+  --color-ivory-100: #faf7f2;
+  --color-ivory-200: #f5f0e8;
+  --color-ivory-300: #ebe3d5;
+
+  /* Colors — Royal Maroon */
+  --color-maroon-950: #2a0a0a;
+  --color-maroon-900: #3d1212;
+  --color-maroon-800: #5c1a1a;
+  --color-maroon-700: #722f37;
+  --color-maroon-600: #8b3a42;
+  --color-maroon-500: #a64d56;
+
+  /* Colors — Cartier Gold */
+  --color-gold-200: #f0e6c8;
+  --color-gold-300: #e8d5a3;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #c9a962;
+  --color-gold-600: #b8943f;
+  --color-gold-700: #9a7b32;
+
+  /* Colors — Royal Emerald */
+  --color-emerald-900: #0f2e24;
+  --color-emerald-800: #1b4d3e;
+  --color-emerald-700: #2d6a4f;
+  --color-emerald-600: #3d8b6e;
+
+  /* Colors — Charcoal */
+  --color-charcoal-950: #0d0d0d;
+  --color-charcoal-900: #1a1a1a;
+  --color-charcoal-800: #2c2c2c;
+  --color-charcoal-700: #404040;
+  --color-charcoal-600: #6b6b6b;
+  --color-charcoal-500: #8a8a8a;
+  --color-charcoal-400: #a3a3a3;
+
+  /* Colors — Rose accent */
+  --color-rose-100: #faf0f1;
+  --color-rose-200: #f5e1e4;
+  --color-rose-300: #e8c4ca;
+
+  /* Semantic aliases */
+  --color-background: var(--color-ivory-50);
+  --color-foreground: var(--color-charcoal-900);
+  --color-muted: var(--color-charcoal-600);
+  --color-muted-foreground: var(--color-charcoal-500);
+  --color-border: var(--color-ivory-300);
+  --color-ring: var(--color-gold-500);
+  --color-primary: var(--color-maroon-800);
+  --color-primary-foreground: var(--color-ivory-50);
+  --color-accent: var(--color-gold-500);
+  --color-accent-foreground: var(--color-charcoal-900);
+  --color-destructive: #b91c1c;
+  --color-destructive-foreground: var(--color-ivory-50);
+  --color-card: var(--color-ivory-100);
+  --color-card-foreground: var(--color-charcoal-900);
+
+  /* Typography */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body: var(--font-inter), "Inter", system-ui, -apple-system, sans-serif;
+  --font-accent: var(--font-pinyon), "Pinyon Script", cursive;
+
+  /* Font sizes — fluid scale */
+  --text-display-xl: clamp(3rem, 6vw + 1rem, 5.5rem);
+  --text-display-lg: clamp(2.25rem, 4vw + 1rem, 4rem);
+  --text-display-md: clamp(1.875rem, 3vw + 0.5rem, 3rem);
+  --text-display-sm: clamp(1.5rem, 2vw + 0.5rem, 2.25rem);
+  --text-heading-lg: clamp(1.25rem, 1.5vw + 0.5rem, 1.75rem);
+  --text-heading-md: clamp(1.125rem, 1vw + 0.5rem, 1.375rem);
+  --text-heading-sm: clamp(1rem, 0.5vw + 0.875rem, 1.125rem);
+  --text-body-lg: clamp(1.0625rem, 0.5vw + 0.9rem, 1.1875rem);
+  --text-body-md: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-caption: 0.75rem;
+  --text-overline: 0.6875rem;
+
+  /* Spacing — 4px base, generous rhythm */
+  --spacing-section-sm: clamp(3rem, 8vw, 5rem);
+  --spacing-section-md: clamp(4rem, 10vw, 7rem);
+  --spacing-section-lg: clamp(6rem, 12vw, 10rem);
+  --spacing-section-xl: clamp(8rem, 15vw, 14rem);
+
+  /* Border radius */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows — soft, Apple-like */
+  --shadow-soft: 0 2px 20px -4px rgb(26 26 26 / 0.06);
+  --shadow-elevated: 0 8px 40px -8px rgb(26 26 26 / 0.1);
+  --shadow-luxury: 0 20px 60px -12px rgb(92 26 26 / 0.15);
+  --shadow-gold: 0 4px 24px -4px rgb(201 169 98 / 0.35);
+
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-slower: 800ms;
+
+  /* Easing */
+  --ease-luxury: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ─── Base Styles ─────────────────────────────────────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    font-size: var(--text-body-md);
+    line-height: 1.6;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    background-color: var(--color-gold-300);
+    color: var(--color-charcoal-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+}
+
+/* ─── Animations ────────────────────────────────────────────────────────────── */
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fade-in var(--duration-slow) var(--ease-reveal) forwards;
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up var(--duration-slower) var(--ease-reveal) forwards;
+  }
+
+  .animate-fade-in-down {
+    animation: fade-in-down var(--duration-slower) var(--ease-reveal) forwards;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-reveal {
+    animation: reveal var(--duration-slower) var(--ease-reveal) forwards;
+  }
+
+  .animate-scale-in {
+    animation: scale-in var(--duration-slow) var(--ease-spring) forwards;
+  }
+
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+
+  .animate-delay-700 {
+    animation-delay: 700ms;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  /* Gold gradient text */
+  .text-gold-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--color-gold-600) 0%,
+      var(--color-gold-400) 40%,
+      var(--color-gold-300) 60%,
+      var(--color-gold-500) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Subtle noise texture overlay */
+  .texture-noise {
+    position: relative;
+  }
+
+  .texture-noise::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+
+  /* Ornamental divider pattern */
+  .ornament-line {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-gold-400) 20%,
+      var(--color-gold-500) 50%,
+      var(--color-gold-400) 80%,
+      transparent 100%
+    );
+    height: 1px;
+  }
+
+  .ornament-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-gold-500);
+    box-shadow: 0 0 8px var(--color-gold-400);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-down {
+  from {
+    opacity: 0;
+    transform: translateY(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background-position: 200% center;
+  }
+  50% {
+    background-position: -200% center;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(32px) scale(0.98);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

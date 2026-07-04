@@ -1,0 +1,277 @@
+---
+alwaysApply: true
+---
+
+Goal
+
+Build one cinematic wedding invitation.
+
+Not a template.
+
+A masterpiece.
+
+When someone opens it, they should think:
+
+"I've never seen an invitation like this."
+
+Theme 1
+
+Based on the reel you shared.
+
+Let's call it
+
+Shiv Parvati Divine
+
+Luxury.
+
+Elegant.
+
+Minimal.
+
+Indian.
+
+Premium.
+
+User Journey
+Loading Screen
+
+↓
+
+Bell Sound 🔔
+
+↓
+
+Om Symbol Appears
+
+↓
+
+Flower Petals
+
+↓
+
+Envelope Opens
+
+↓
+
+Bride & Groom Initials
+
+↓
+
+Welcome Screen
+
+↓
+
+Scroll Begins
+
+↓
+
+Story
+
+↓
+
+Save The Date
+
+↓
+
+Countdown
+
+↓
+
+Events
+
+↓
+
+Parents
+
+↓
+
+Venue
+
+↓
+
+Gallery
+
+↓
+
+RSVP
+
+↓
+
+Thank You
+
+Notice
+
+No boring scrolling.
+
+Everything is cinematic.
+
+Page Structure
+Hero
+
+Story
+
+Quote
+
+Save The Date
+
+Countdown
+
+Timeline
+
+Venue
+
+Gallery
+
+Family
+
+Blessings
+
+RSVP
+
+Footer
+Hero
+
+Imagine
+
+Full screen.
+
+Temple background.
+
+Soft fog.
+
+Particles.
+
+Temple bells.
+
+Gold typography.
+
+Bride & Groom names slowly fade in.
+
+Button
+
+Begin Our Journey
+
+Click.
+
+Smooth transition.
+
+Story
+
+Apple-style.
+
+Full screen.
+
+Photo left.
+
+Story right.
+
+Large typography.
+
+Scroll animations.
+
+Save The Date
+
+Large card.
+
+Animated calendar.
+
+Floating petals.
+
+Countdown
+
+Huge numbers.
+
+Elegant animation.
+
+Temple bell every minute (optional).
+
+Timeline
+
+Cards.
+
+Haldi
+
+↓
+
+Mehendi
+
+↓
+
+Wedding
+
+↓
+
+Reception
+
+Animated as they enter viewport.
+
+Venue
+
+3D looking card.
+
+Google Maps.
+
+Directions.
+
+Hotel.
+
+Parking.
+
+Gallery
+
+Horizontal scroll.
+
+Large images.
+
+Parallax.
+
+Pinch zoom on mobile.
+
+RSVP
+
+Beautiful form.
+
+Large inputs.
+
+Elegant buttons.
+
+Footer
+
+Thank you.
+
+Music controls.
+
+Social.
+
+Theme Folder
+themes/
+
+shiv-parvati/
+
+    config.ts
+
+    sections/
+
+        Hero/
+
+        Story/
+
+        Countdown/
+
+        Timeline/
+
+        Venue/
+
+        Gallery/
+
+        RSVP/
+
+    assets/
+
+    fonts/
+
+    music/
+
+    animations/
+
+Every theme follows this.
