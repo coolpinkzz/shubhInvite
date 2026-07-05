@@ -8,12 +8,16 @@ import {
   useState,
   type PointerEvent as ReactPointerEvent,
 } from "react";
+
+import { useTheme } from "@/hooks/useTheme";
 import {
   CelebrationBurst,
   FlowerShower,
   SparkleEffect,
   type CelebrationOrigin,
 } from "@/themes/royal-wedding/components/celebration";
+import { hexToRgba } from "@/themes/shared/utils/color";
+import type { ThemeColorTokens } from "@/types/theme";
 
 interface ScratchRevealCardProps {
   weddingDate: string;
@@ -30,26 +34,24 @@ interface GoldDust {
 }
 
 const BRUSH_RADIUS = 22;
-const GOLD = "#D4AF37";
-const IVORY = "#FAF5EB";
-const MAROON = "#7A1F2B";
 
 function drawGoldScratchLayer(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
+  colors: ThemeColorTokens,
 ) {
   const gradient = ctx.createLinearGradient(0, 0, width, height);
-  gradient.addColorStop(0, "#E8C872");
-  gradient.addColorStop(0.35, GOLD);
-  gradient.addColorStop(0.65, "#C9A962");
-  gradient.addColorStop(1, "#B8943F");
+  gradient.addColorStop(0, colors.accentLight);
+  gradient.addColorStop(0.35, colors.accent);
+  gradient.addColorStop(0.65, colors.accentMid);
+  gradient.addColorStop(1, colors.accentDark);
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, width, height);
 
   ctx.save();
   ctx.globalAlpha = 0.12;
-  ctx.strokeStyle = MAROON;
+  ctx.strokeStyle = colors.primaryContainer;
   ctx.lineWidth = 1;
 
   for (let x = 0; x < width; x += 36) {
@@ -108,7 +110,15 @@ function getScratchProgress(ctx: CanvasRenderingContext2D): number {
   return transparent / total;
 }
 
-function FloralCorner({ className }: { className?: string }) {
+function FloralCorner({
+  className,
+  accent,
+  primary,
+}: {
+  className?: string;
+  accent: string;
+  primary: string;
+}) {
   return (
     <svg
       className={className}
@@ -119,18 +129,18 @@ function FloralCorner({ className }: { className?: string }) {
     >
       <path
         d="M4 44C4 44 8 28 20 20C32 12 44 8 44 8"
-        stroke={GOLD}
+        stroke={accent}
         strokeWidth="1.2"
         strokeOpacity="0.6"
       />
       <path
         d="M8 40C12 32 18 26 28 22"
-        stroke={MAROON}
+        stroke={primary}
         strokeWidth="0.8"
         strokeOpacity="0.25"
       />
-      <circle cx="10" cy="38" r="2.5" fill={GOLD} fillOpacity="0.5" />
-      <circle cx="22" cy="26" r="1.5" fill={GOLD} fillOpacity="0.35" />
+      <circle cx="10" cy="38" r="2.5" fill={accent} fillOpacity="0.5" />
+      <circle cx="22" cy="26" r="1.5" fill={accent} fillOpacity="0.35" />
     </svg>
   );
 }
@@ -146,6 +156,9 @@ export function ScratchRevealCard({
   revealThreshold = 0.55,
   onRevealed,
 }: ScratchRevealCardProps) {
+  const { tokens } = useTheme();
+  const { colors, shadows } = tokens;
+
   const cardRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -186,8 +199,8 @@ export function ScratchRevealCard({
 
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctxRef.current = ctx;
-    drawGoldScratchLayer(ctx, width, height);
-  }, []);
+    drawGoldScratchLayer(ctx, width, height, colors);
+  }, [colors]);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -311,6 +324,8 @@ export function ScratchRevealCard({
   }, [goldDust]);
 
   const showCelebration = isCelebrating || isRevealed;
+  const revealedShadow = `0 20px 50px -12px ${hexToRgba(colors.primaryContainer, 0.22)}, 0 0 40px -8px ${hexToRgba(colors.accent, 0.35)}`;
+  const defaultShadow = shadows.card;
 
   return (
     <>
@@ -330,23 +345,21 @@ export function ScratchRevealCard({
           isRevealed
             ? {
                 y: -6,
-                boxShadow:
-                  "0 20px 50px -12px rgba(122,31,43,0.22), 0 0 40px -8px rgba(212,175,55,0.35)",
+                boxShadow: revealedShadow,
               }
             : {
                 y: 0,
-                boxShadow: "0 12px 32px -10px rgba(122,31,43,0.15)",
+                boxShadow: defaultShadow,
               }
         }
         transition={{ type: "spring", stiffness: 260, damping: 22 }}
       >
         <div
-          className={`relative overflow-hidden rounded-xl border bg-[#FAF5EB] px-4 py-3 transition-colors duration-700 ${
+          className={`relative overflow-hidden rounded-xl border bg-surface px-4 py-3 transition-colors duration-700 ${
             isRevealed
-              ? "border-[#D4AF37]/70 ring-2 ring-[#D4AF37]/25"
-              : "border-[#D4AF37]/40"
+              ? "border-accent/70 ring-2 ring-accent/25"
+              : "border-accent/40"
           }`}
-          style={{ backgroundColor: IVORY }}
         >
           {isRevealed && (
             <motion.div
@@ -355,26 +368,41 @@ export function ScratchRevealCard({
               animate={{ opacity: [0, 0.5, 0.2] }}
               transition={{ duration: 1.2 }}
               style={{
-                background:
-                  "radial-gradient(ellipse at 50% 60%, rgba(212,175,55,0.25) 0%, transparent 65%)",
+                background: `radial-gradient(ellipse at 50% 60%, ${hexToRgba(colors.accent, 0.25)} 0%, transparent 65%)`,
               }}
               aria-hidden="true"
             />
           )}
 
-          <FloralCorner className="pointer-events-none absolute left-1 top-1 z-10 h-7 w-7" />
-          <FloralCorner className="pointer-events-none absolute right-1 top-1 z-10 h-7 w-7 -scale-x-100" />
-          <FloralCorner className="pointer-events-none absolute bottom-1 left-1 z-10 h-7 w-7 -scale-y-100" />
-          <FloralCorner className="pointer-events-none absolute bottom-1 right-1 z-10 h-7 w-7 -scale-100" />
+          <FloralCorner
+            className="pointer-events-none absolute left-1 top-1 z-10 h-7 w-7"
+            accent={colors.accent}
+            primary={colors.primaryContainer}
+          />
+          <FloralCorner
+            className="pointer-events-none absolute right-1 top-1 z-10 h-7 w-7 -scale-x-100"
+            accent={colors.accent}
+            primary={colors.primaryContainer}
+          />
+          <FloralCorner
+            className="pointer-events-none absolute bottom-1 left-1 z-10 h-7 w-7 -scale-y-100"
+            accent={colors.accent}
+            primary={colors.primaryContainer}
+          />
+          <FloralCorner
+            className="pointer-events-none absolute bottom-1 right-1 z-10 h-7 w-7 -scale-100"
+            accent={colors.accent}
+            primary={colors.primaryContainer}
+          />
 
-          <div className="relative border border-[#D4AF37]/25 px-3 py-3">
-            <p className="mb-2 text-center font-[family-name:var(--font-rw-body)] text-xs tracking-wide text-[#705a4a]">
+          <div className="relative border border-accent/25 px-3 py-3">
+            <p className="mb-2 text-center font-theme-body text-xs tracking-wide text-muted">
               Scratch to Reveal Our Wedding Date ✨
             </p>
 
             <div
               ref={containerRef}
-              className="relative mx-auto h-14 w-full overflow-hidden rounded-lg border border-[#D4AF37]/30 bg-[#FAF5EB] shadow-inner"
+              className="relative mx-auto h-14 w-full overflow-hidden rounded-lg border border-accent/30 bg-surface shadow-inner"
             >
               <CelebrationBurst active={showCelebration && !reducedMotion} />
 
@@ -389,15 +417,14 @@ export function ScratchRevealCard({
                     }}
                     transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
                     style={{
-                      background:
-                        "radial-gradient(circle, rgba(212,175,55,0.35) 0%, transparent 70%)",
+                      background: `radial-gradient(circle, ${hexToRgba(colors.accent, 0.35)} 0%, transparent 70%)`,
                     }}
                     aria-hidden="true"
                   />
                 )}
 
                 <motion.p
-                  className="relative z-10 text-center font-[family-name:var(--font-rw-headline)] text-lg leading-none text-[#7A1F2B] sm:text-xl"
+                  className="relative z-10 text-center font-theme-headline text-lg leading-none text-primary sm:text-xl"
                   style={{ fontWeight: 600 }}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={
@@ -423,7 +450,7 @@ export function ScratchRevealCard({
               {goldDust.map((p) => (
                 <span
                   key={p.id}
-                  className="scratch-gold-particle pointer-events-none absolute z-30 rounded-full bg-[#D4AF37]"
+                  className="scratch-gold-particle pointer-events-none absolute z-30 rounded-full bg-accent"
                   style={{
                     left: p.x,
                     top: p.y,
@@ -452,17 +479,9 @@ export function ScratchRevealCard({
 
             {!isRevealed && (
               <div className="mt-2">
-                {/* <div className="mb-1 flex items-center justify-between">
-                  <span className="font-[family-name:var(--font-rw-label)] text-[10px] uppercase tracking-widest text-[#705a4a]">
-                    Reveal progress
-                  </span>
-                  <span className="font-[family-name:var(--font-rw-label)] text-[10px] text-[#7A1F2B]">
-                    {Math.round(progress * 100)}%
-                  </span>
-                </div> */}
-                <div className="h-1.5 overflow-hidden rounded-full bg-[#D4AF37]/15">
+                <div className="h-1.5 overflow-hidden rounded-full bg-accent/15">
                   <motion.div
-                    className="h-full rounded-full bg-gradient-to-r from-[#C9A962] via-[#D4AF37] to-[#E8C872]"
+                    className="h-full rounded-full bg-gradient-to-r from-[var(--theme-accent-mid)] via-accent to-[var(--theme-accent-light)]"
                     animate={{ width: `${Math.min(progress * 100, 100)}%` }}
                     transition={{ duration: 0.25 }}
                   />

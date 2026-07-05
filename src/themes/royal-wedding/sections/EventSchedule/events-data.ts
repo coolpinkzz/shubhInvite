@@ -1,4 +1,5 @@
 import { Flower2, Heart, Music, Sparkles } from "lucide-react";
+
 import type { WeddingEvent } from "./types";
 
 export const weddingEvents: WeddingEvent[] = [
@@ -12,7 +13,7 @@ export const weddingEvents: WeddingEvent[] = [
     description:
       "Join us as we celebrate the vibrant Haldi ceremony filled with love, laughter, and blessings.",
     icon: Flower2,
-    color: "#D4AF37",
+    accent: "accent",
   },
   {
     id: "sangeet",
@@ -24,7 +25,7 @@ export const weddingEvents: WeddingEvent[] = [
     description:
       "An evening of music, dance, and unforgettable memories with our loved ones.",
     icon: Music,
-    color: "#7A1F2B",
+    accent: "primary",
   },
   {
     id: "wedding",
@@ -36,7 +37,7 @@ export const weddingEvents: WeddingEvent[] = [
     description:
       "Witness the sacred wedding rituals as we begin our forever together.",
     icon: Heart,
-    color: "#7A1F2B",
+    accent: "primary",
   },
   {
     id: "reception",
@@ -48,6 +49,6 @@ export const weddingEvents: WeddingEvent[] = [
     description:
       "Celebrate our new journey together with dinner, music, and joyful moments.",
     icon: Sparkles,
-    color: "#D4AF37",
+    accent: "accent",
   },
 ];

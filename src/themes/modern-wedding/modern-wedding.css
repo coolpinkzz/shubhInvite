@@ -1,0 +1,9 @@
+@import "../shared/styles/theme-base.css";
+
+/* Modern Wedding — minimal overrides; reuses shared section components */
+
+.modern-wedding .mughal-arch,
+.modern-wedding .garland-swing,
+.modern-wedding .event-schedule-pattern {
+  display: none;
+}

@@ -1,11 +1,9 @@
-import type { Metadata } from "next";
 import {
   EB_Garamond,
   Great_Vibes,
   Montserrat,
   Playfair_Display,
 } from "next/font/google";
-import "@/themes/royal-wedding/royal-wedding.css";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -33,21 +31,9 @@ const montserrat = Montserrat({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Templates",
-  description: "Wedding invitation templates",
-};
-
-export default function TemplatesLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <div
-      className={`${playfair.variable} ${ebGaramond.variable} ${greatVibes.variable} ${montserrat.variable}`}
-    >
-      {children}
-    </div>
-  );
-}
+export const royalWeddingFontClassName = [
+  playfair.variable,
+  ebGaramond.variable,
+  greatVibes.variable,
+  montserrat.variable,
+].join(" ");

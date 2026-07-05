@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+
+import { useTheme } from "@/hooks/useTheme";
 import {
   createBurstParticle,
   createShowerParticle,
@@ -26,6 +28,15 @@ export function FlowerShower({
   duration = TOTAL_DURATION,
   onComplete,
 }: FlowerShowerProps) {
+  const { tokens } = useTheme();
+  const accentRef = useRef({
+    spark: tokens.colors.accent,
+    glow: tokens.colors.accentLight,
+  });
+  accentRef.current = {
+    spark: tokens.colors.accent,
+    glow: tokens.colors.accentLight,
+  };
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef(
     [] as ReturnType<typeof createBurstParticle>[],
@@ -88,7 +99,7 @@ export function FlowerShower({
           now,
           Math.sin(now / 600) * 0.8 + 0.4,
         );
-        if (alive) drawFlowerParticle(ctx, particle);
+        if (alive) drawFlowerParticle(ctx, particle, accentRef.current);
         return alive;
       });
 

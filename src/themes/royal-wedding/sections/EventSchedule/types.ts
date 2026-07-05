@@ -1,5 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 
+import type { EventAccentVariant } from "@/themes/shared/utils/event-accent";
+
+export type { EventAccentVariant };
+
 export interface WeddingEvent {
   id: string;
   title: string;
@@ -9,5 +13,5 @@ export interface WeddingEvent {
   address: string;
   description: string;
   icon: LucideIcon;
-  color: string;
+  accent: EventAccentVariant;
 }

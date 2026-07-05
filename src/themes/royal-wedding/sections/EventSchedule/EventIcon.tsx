@@ -2,7 +2,9 @@
 
 import { motion } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
+
 import { cn } from "@/lib/utils";
+import { hexToRgba } from "@/themes/shared/utils/color";
 
 interface EventIconProps {
   icon: LucideIcon;
@@ -15,7 +17,7 @@ export function EventIcon({ icon: Icon, color, className }: EventIconProps) {
     <motion.div
       className={cn(
         "relative flex size-14 shrink-0 items-center justify-center rounded-full",
-        "border border-[#D4AF37]/40 bg-[#F7D9C4]/60 shadow-[0_4px_20px_rgba(122,31,43,0.08)]",
+        "border border-accent/40 bg-theme-secondary-container/60 shadow-[var(--theme-shadow-card)]",
         className,
       )}
       animate={{ y: [0, -4, 0] }}
@@ -28,7 +30,7 @@ export function EventIcon({ icon: Icon, color, className }: EventIconProps) {
       <div
         className="absolute inset-0 rounded-full opacity-30"
         style={{
-          background: `radial-gradient(circle at 30% 30%, ${color}33, transparent 70%)`,
+          background: `radial-gradient(circle at 30% 30%, ${hexToRgba(color, 0.2)}, transparent 70%)`,
         }}
         aria-hidden="true"
       />

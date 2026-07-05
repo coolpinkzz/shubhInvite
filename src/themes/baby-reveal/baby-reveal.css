@@ -1,0 +1,44 @@
+@import "../shared/styles/theme-base.css";
+
+.baby-reveal {
+  --font-theme-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-theme-body: var(--font-nunito), "Nunito", system-ui, sans-serif;
+}
+
+.baby-reveal .font-theme-display {
+  font-family: var(--font-theme-display);
+}
+
+.baby-reveal .font-theme-body {
+  font-family: var(--font-theme-body);
+}
+
+.baby-reveal .mughal-arch,
+.baby-reveal .event-schedule-pattern {
+  display: none;
+}
+
+@keyframes baby-petal-fall {
+  0% {
+    transform: translateY(-8vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.7;
+  }
+  92% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(108vh) translateX(60px) rotate(540deg);
+    opacity: 0;
+  }
+}
+
+.baby-reveal .baby-reveal-petal {
+  position: absolute;
+  border-radius: 150% 0 150% 0;
+  pointer-events: none;
+  z-index: 5;
+  filter: blur(0.2px);
+}

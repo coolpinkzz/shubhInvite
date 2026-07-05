@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 
 interface LotusMotifProps {
@@ -31,7 +32,7 @@ function LotusSvg({ className }: { className?: string }) {
       height="32"
       viewBox="0 0 32 32"
       fill="none"
-      className={cn("text-[#D4AF37]", className)}
+      className={cn("text-accent", className)}
     >
       <ellipse cx="16" cy="20" rx="4" ry="8" fill="currentColor" opacity="0.6" />
       <ellipse
@@ -70,7 +71,13 @@ function LotusSvg({ className }: { className?: string }) {
         opacity="0.4"
         transform="rotate(90 16 20)"
       />
-      <circle cx="16" cy="20" r="3" fill="#7A1F2B" opacity="0.5" />
+      <circle
+        cx="16"
+        cy="20"
+        r="3"
+        className="fill-primary"
+        opacity="0.5"
+      />
     </svg>
   );
 }

@@ -1,5 +1,10 @@
 import type { CelebrationOrigin, FlowerKind, FlowerParticleState } from "./types";
 
+export interface FlowerAccent {
+  spark: string;
+  glow: string;
+}
+
 const KIND_POOL: FlowerKind[] = [
   "rose",
   "rose",
@@ -100,9 +105,12 @@ export function updateFlowerParticle(
   return particle.opacity > 0.02;
 }
 
+/* Rose, marigold, jasmine, and leaf use natural flower colors that stay
+   constant across themes; only the gold spark follows the theme accent. */
 export function drawFlowerParticle(
   ctx: CanvasRenderingContext2D,
   particle: FlowerParticleState,
+  accent: FlowerAccent,
 ) {
   ctx.save();
   ctx.translate(particle.x, particle.y);
@@ -123,7 +131,7 @@ export function drawFlowerParticle(
       drawLeaf(ctx, particle.size);
       break;
     case "gold":
-      drawGoldSpark(ctx, particle.size);
+      drawGoldSpark(ctx, particle.size, accent);
       break;
   }
 
@@ -181,11 +189,15 @@ function drawLeaf(ctx: CanvasRenderingContext2D, size: number) {
   ctx.stroke();
 }
 
-function drawGoldSpark(ctx: CanvasRenderingContext2D, size: number) {
+function drawGoldSpark(
+  ctx: CanvasRenderingContext2D,
+  size: number,
+  accent: FlowerAccent,
+) {
   ctx.beginPath();
   ctx.arc(0, 0, size * 0.2, 0, Math.PI * 2);
-  ctx.fillStyle = "#D4AF37";
+  ctx.fillStyle = accent.spark;
   ctx.fill();
-  ctx.shadowColor = "#F0E6C8";
+  ctx.shadowColor = accent.glow;
   ctx.shadowBlur = size * 0.4;
 }

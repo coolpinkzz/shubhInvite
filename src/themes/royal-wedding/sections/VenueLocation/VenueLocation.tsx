@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import {
+  ThemeSection,
+  ThemeSectionContent,
+} from "@/themes/shared/components";
 import { EmbeddedMap } from "./EmbeddedMap";
-import { FloralDivider } from "./FloralDivider";
 import { FloatingPetals } from "./FloatingPetals";
 import { LotusMotif } from "./LotusMotif";
 import { SectionHeader } from "./SectionHeader";
@@ -19,46 +20,20 @@ export function VenueLocation({
   time,
   embedUrl,
   googleMapsUrl,
-  title,
-  subtitle,
+  title = "Find Your Way",
+  subtitle = "We can't wait to welcome you. Here's where the celebrations begin.",
   className,
 }: VenueLocationProps) {
   return (
-    <section
+    <ThemeSection
       id="venue"
-      aria-labelledby="venue-location-title"
-      className={cn(
-        "relative overflow-hidden bg-[#FAF5EB] px-5 pt-16 sm:px-6",
-        className,
-      )}
+      className={className ?? "pt-16"}
+      srTitle={title}
+      bottomGlow
     >
-      <div
-        className="event-schedule-pattern pointer-events-none absolute inset-0 opacity-[0.04]"
-        aria-hidden="true"
-      />
-
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 opacity-[0.06]"
-        aria-hidden="true"
-        style={{
-          background:
-            "radial-gradient(ellipse at center bottom, #D4AF37 0%, transparent 70%)",
-        }}
-      />
-
       <FloatingPetals />
 
-      <div className="pointer-events-none absolute left-0 top-0 h-24 w-full opacity-15">
-        <div className="mughal-arch h-full w-full border-b-[16px] border-[#7A1F2B]/20" />
-      </div>
-
-      <motion.div
-        className="relative mx-auto w-full max-w-[430px]"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "-80px" }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      >
+      <ThemeSectionContent>
         <SectionHeader title={title} subtitle={subtitle} />
 
         <EmbeddedMap
@@ -84,11 +59,7 @@ export function VenueLocation({
         />
 
         <LotusMotif />
-      </motion.div>
-
-      <span id="venue-location-title" className="sr-only">
-        {title ?? "Find Your Way"}
-      </span>
-    </section>
+      </ThemeSectionContent>
+    </ThemeSection>
   );
 }

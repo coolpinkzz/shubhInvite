@@ -1,6 +1,10 @@
 "use client";
 
 import { motion } from "framer-motion";
+
+import { useTheme } from "@/hooks/useTheme";
+import { ThemeCard } from "@/themes/shared/components";
+import { resolveEventAccent } from "@/themes/shared/utils/event-accent";
 import { cn } from "@/lib/utils";
 import { EventDetails } from "./EventDetails";
 import { EventIcon } from "./EventIcon";
@@ -31,6 +35,8 @@ const cardVariants = {
 };
 
 export function EventCard({ event, index, className }: EventCardProps) {
+  const { tokens } = useTheme();
+  const accentColor = resolveEventAccent(tokens.colors, event.accent);
   const Icon = event.icon;
 
   return (
@@ -43,38 +49,31 @@ export function EventCard({ event, index, className }: EventCardProps) {
       whileTap={{ scale: 0.985, y: -2 }}
       className={cn("group relative", className)}
     >
-      <div
-        className={cn(
-          "relative overflow-hidden rounded-2xl border border-[#D4AF37]/25 bg-[#FAF5EB]",
-          "p-5 shadow-[0_8px_32px_rgba(122,31,43,0.08)]",
-          "transition-shadow duration-300",
-          "before:absolute before:inset-x-5 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#D4AF37] before:to-transparent",
-          "after:pointer-events-none after:absolute after:inset-2 after:rounded-xl after:border after:border-[#7A1F2B]/8",
-          "group-active:shadow-[0_16px_48px_rgba(212,175,55,0.18)]",
-        )}
-      >
+      <ThemeCard radius="2xl" interactive>
         <div
           className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full opacity-[0.06]"
-          style={{ background: `radial-gradient(circle, ${event.color}, transparent 70%)` }}
+          style={{
+            background: `radial-gradient(circle, ${accentColor}, transparent 70%)`,
+          }}
           aria-hidden="true"
         />
 
         <div className="relative flex items-start gap-4">
-          <EventIcon icon={Icon} color={event.color} />
+          <EventIcon icon={Icon} color={accentColor} />
           <div className="min-w-0 flex-1 pt-1">
-            <h3 className="font-[family-name:var(--font-rw-headline)] text-xl font-medium leading-tight text-[#7A1F2B]">
+            <h3 className="font-theme-headline text-xl font-medium leading-tight text-primary">
               {event.title}
             </h3>
-            <p className="mt-3 font-[family-name:var(--font-rw-body)] text-[15px] leading-relaxed text-[var(--rw-on-surface-variant)]">
+            <p className="mt-3 font-theme-body text-[15px] leading-relaxed text-theme-subtle">
               {event.description}
             </p>
           </div>
         </div>
 
-        <div className="relative mt-5 border-t border-[#D4AF37]/15 pt-5">
+        <div className="relative mt-5 border-t border-accent/15 pt-5">
           <EventDetails event={event} />
         </div>
-      </div>
+      </ThemeCard>
     </motion.article>
   );
 }

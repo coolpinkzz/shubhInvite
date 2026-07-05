@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-const PETAL_COLORS = ["#ffb3b5", "#ffdada", "#7a1f2b"] as const;
+import { useTheme } from "@/hooks/useTheme";
+
 const PETAL_COUNT = 15;
 
 interface Petal {
@@ -15,7 +16,11 @@ interface Petal {
   color: string;
 }
 
-function createPetal(id: number, viewportWidth: number): Petal {
+function createPetal(
+  id: number,
+  viewportWidth: number,
+  colors: readonly string[],
+): Petal {
   return {
     id,
     size: Math.random() * 10 + 8,
@@ -23,19 +28,22 @@ function createPetal(id: number, viewportWidth: number): Petal {
     duration: Math.random() * 5 + 5,
     delay: Math.random() * 5,
     opacity: Math.random() * 0.5 + 0.3,
-    color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)],
+    color: colors[Math.floor(Math.random() * colors.length)] ?? colors[0],
   };
 }
 
 export function PetalRain() {
+  const { tokens } = useTheme();
   const [petals, setPetals] = useState<Petal[]>([]);
 
   useEffect(() => {
     const width = window.innerWidth;
     setPetals(
-      Array.from({ length: PETAL_COUNT }, (_, i) => createPetal(i, width)),
+      Array.from({ length: PETAL_COUNT }, (_, index) =>
+        createPetal(index, width, tokens.colors.petal),
+      ),
     );
-  }, []);
+  }, [tokens.colors.petal]);
 
   return (
     <div

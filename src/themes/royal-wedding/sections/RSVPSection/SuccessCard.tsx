@@ -8,6 +8,7 @@ import {
   SparkleEffect,
 } from "@/themes/royal-wedding/components/celebration";
 import type { CelebrationOrigin } from "@/themes/royal-wedding/components/celebration";
+import { ThemeCard } from "@/themes/shared/components";
 import { cn } from "@/lib/utils";
 
 interface SuccessCardProps {
@@ -39,7 +40,7 @@ function FloatingHearts() {
       {hearts.map((heart) => (
         <motion.div
           key={heart.id}
-          className="absolute text-[#D4AF37]/40"
+          className="absolute text-accent/40"
           style={{ left: `${heart.x}%`, bottom: "10%" }}
           initial={{ opacity: 0, y: 0, scale: 0.5 }}
           animate={{
@@ -81,14 +82,12 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div
-          className={cn(
-            "relative overflow-hidden rounded-3xl border border-[#D4AF37]/30 bg-[#FAF5EB]",
-            "px-6 py-10 text-center",
-            "shadow-[0_12px_48px_rgba(122,31,43,0.1)]",
-            "before:absolute before:inset-x-6 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#D4AF37] before:to-transparent",
-            "after:pointer-events-none after:absolute after:inset-3 after:rounded-2xl after:border after:border-[#7A1F2B]/8",
-          )}
+        <ThemeCard
+          padding="loose"
+          borderClassName="border-accent/30 text-center"
+          topInsetClassName="before:inset-x-6"
+          innerInsetClassName="after:inset-3"
+          className="relative"
         >
           <SparkleEffect active count={14} />
           <FloatingHearts />
@@ -105,7 +104,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           </motion.div>
 
           <motion.h3
-            className="relative z-10 mt-4 font-[family-name:var(--font-rw-display)] text-4xl text-[#7A1F2B]"
+            className="relative z-10 mt-4 font-theme-display text-4xl text-primary"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
@@ -114,7 +113,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           </motion.h3>
 
           <motion.p
-            className="relative z-10 mx-auto mt-4 max-w-xs font-[family-name:var(--font-rw-body)] text-base italic leading-relaxed text-[var(--rw-secondary)]"
+            className="relative z-10 mx-auto mt-4 max-w-xs font-theme-body text-base italic leading-relaxed text-muted"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -123,7 +122,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           </motion.p>
 
           <motion.p
-            className="relative z-10 mx-auto mt-2 max-w-xs font-[family-name:var(--font-rw-body)] text-[15px] leading-relaxed text-[var(--rw-on-surface-variant)]"
+            className="relative z-10 mx-auto mt-2 max-w-xs font-theme-body text-[15px] leading-relaxed text-theme-subtle"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
@@ -136,9 +135,9 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
             onClick={onBack}
             whileTap={{ scale: 0.97 }}
             className={cn(
-              "relative z-10 mt-8 w-full rounded-full border-2 border-[#7A1F2B] px-6 py-4",
-              "font-[family-name:var(--font-rw-label)] text-xs font-semibold uppercase tracking-[0.12em] text-[#7A1F2B]",
-              "transition-colors hover:bg-[#7A1F2B]/5",
+              "relative z-10 mt-8 w-full rounded-full border-2 border-primary px-6 py-4",
+              "font-theme-label text-xs font-semibold uppercase tracking-[0.12em] text-primary",
+              "transition-colors hover:bg-primary/5",
             )}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
@@ -146,7 +145,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           >
             Back to Invitation
           </motion.button>
-        </div>
+        </ThemeCard>
       </motion.article>
     </>
   );

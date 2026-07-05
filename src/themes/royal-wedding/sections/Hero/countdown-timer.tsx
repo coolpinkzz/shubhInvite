@@ -54,16 +54,16 @@ export function CountdownTimer({ targetDate }: CountdownTimerProps) {
       {units.map(({ key, label }) => (
         <div
           key={key}
-          className="flex flex-col items-center rounded-lg border border-[var(--rw-outline-variant)]/30 bg-[var(--rw-surface-container-low)] p-2"
+          className="flex flex-col items-center rounded-lg border border-theme-outline-variant/30 bg-theme-surface-low p-2"
         >
           <span
-            className="font-[family-name:var(--font-rw-headline)] text-2xl text-[var(--rw-primary-container)]"
+            className="font-theme-headline text-2xl text-theme-primary-container"
             style={{ fontWeight: 600 }}
           >
             {timeLeft[key]}
           </span>
           <span
-            className="font-[family-name:var(--font-rw-label)] text-[10px] uppercase tracking-tighter text-[var(--rw-secondary)]"
+            className="font-theme-label text-[10px] uppercase tracking-tighter text-muted"
             style={{ fontWeight: 600, letterSpacing: "0.05em" }}
           >
             {label}

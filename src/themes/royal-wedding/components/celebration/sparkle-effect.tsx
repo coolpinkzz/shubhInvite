@@ -39,7 +39,7 @@ export const SparkleEffect = memo(function SparkleEffect({
       {sparkles.map((sparkle) => (
         <motion.span
           key={sparkle.id}
-          className="absolute text-[#D4AF37]"
+          className="absolute text-accent"
           style={{
             left: `${sparkle.x}%`,
             top: `${sparkle.y}%`,

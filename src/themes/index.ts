@@ -1,0 +1,27 @@
+import type { ThemeDefinition, ThemeId } from "@/types/theme";
+
+import { babyRevealTheme } from "./baby-reveal";
+import { modernWeddingTheme } from "./modern-wedding";
+import { royalWeddingTheme } from "./royal-wedding";
+
+export const themes = {
+  "baby-reveal": babyRevealTheme,
+  "royal-wedding": royalWeddingTheme,
+  "modern-wedding": modernWeddingTheme,
+} as const satisfies Record<string, ThemeDefinition>;
+
+export type RegisteredThemeId = keyof typeof themes;
+
+export const themeList = Object.values(themes);
+
+export function getTheme(slug: ThemeId): ThemeDefinition | undefined {
+  return themes[slug as RegisteredThemeId];
+}
+
+export function isRegisteredTheme(slug: string): slug is RegisteredThemeId {
+  return slug in themes;
+}
+
+export { babyRevealTheme, babyRevealTokens } from "./baby-reveal";
+export { royalWeddingTheme, royalWeddingTokens } from "./royal-wedding";
+export { modernWeddingTheme, modernWeddingTokens } from "./modern-wedding";

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 
 interface EmbeddedMapProps {
@@ -25,8 +26,7 @@ export function EmbeddedMap({
       <div
         className={cn(
           "relative aspect-video w-full overflow-hidden rounded-3xl",
-          "border-2 border-[#D4AF37]/60",
-          "shadow-[0_12px_40px_rgba(122,31,43,0.12)]",
+          "border-2 border-accent/60 shadow-[var(--theme-shadow-card)]",
         )}
       >
         <iframe

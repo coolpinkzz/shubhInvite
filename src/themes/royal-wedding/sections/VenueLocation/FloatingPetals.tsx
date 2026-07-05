@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 
-const PETAL_COLORS = ["#ffb3b5", "#ffdada", "#D4AF37", "#F7D9C4"] as const;
+import { useTheme } from "@/hooks/useTheme";
+
 const PETAL_COUNT = 6;
 
 interface Petal {
@@ -15,7 +16,11 @@ interface Petal {
   color: string;
 }
 
-function createPetal(id: number, containerWidth: number): Petal {
+function createPetal(
+  id: number,
+  containerWidth: number,
+  colors: readonly string[],
+): Petal {
   return {
     id,
     size: Math.random() * 8 + 6,
@@ -23,18 +28,21 @@ function createPetal(id: number, containerWidth: number): Petal {
     duration: Math.random() * 8 + 12,
     delay: Math.random() * 6,
     opacity: Math.random() * 0.3 + 0.15,
-    color: PETAL_COLORS[Math.floor(Math.random() * PETAL_COLORS.length)],
+    color: colors[Math.floor(Math.random() * colors.length)] ?? colors[0],
   };
 }
 
 export function FloatingPetals() {
+  const { tokens } = useTheme();
   const [petals, setPetals] = useState<Petal[]>([]);
 
   useEffect(() => {
     setPetals(
-      Array.from({ length: PETAL_COUNT }, (_, i) => createPetal(i, 430)),
+      Array.from({ length: PETAL_COUNT }, (_, index) =>
+        createPetal(index, 430, tokens.colors.petal),
+      ),
     );
-  }, []);
+  }, [tokens.colors.petal]);
 
   return (
     <div

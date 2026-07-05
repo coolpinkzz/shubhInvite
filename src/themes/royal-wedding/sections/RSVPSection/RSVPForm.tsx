@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { ThemeCard } from "@/themes/shared/components";
 import { cn } from "@/lib/utils";
 import { AttendanceSelector } from "./AttendanceSelector";
 import { defaultRSVPEvents } from "./events-data";
@@ -63,17 +64,7 @@ export function RSVPForm({
   });
 
   return (
-    <form
-      onSubmit={handleFormSubmit}
-      noValidate
-      className={cn(
-        "relative overflow-hidden rounded-3xl border border-[#D4AF37]/25 bg-[#FAF5EB]",
-        "p-5 shadow-[0_8px_32px_rgba(122,31,43,0.08)]",
-        "before:absolute before:inset-x-5 before:top-0 before:h-[2px] before:bg-gradient-to-r before:from-transparent before:via-[#D4AF37] before:to-transparent",
-        "after:pointer-events-none after:absolute after:inset-2 after:rounded-2xl after:border after:border-[#7A1F2B]/8",
-        className,
-      )}
-    >
+    <ThemeCard as="form" onSubmit={handleFormSubmit} noValidate className={className}>
       <div className="relative space-y-5">
         <RSVPInput
           label="Guest Name"
@@ -151,6 +142,6 @@ export function RSVPForm({
 
         <SubmitButton state={submitState} />
       </div>
-    </form>
+    </ThemeCard>
   );
 }

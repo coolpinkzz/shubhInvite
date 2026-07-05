@@ -2,6 +2,12 @@
 
 import { motion } from "framer-motion";
 import { Heart, HeartCrack } from "lucide-react";
+
+import {
+  ThemeFormError,
+  ThemeFormLegend,
+  themeSelectorOptionClass,
+} from "@/themes/shared/components";
 import { cn } from "@/lib/utils";
 
 interface AttendanceSelectorProps {
@@ -32,9 +38,7 @@ export function AttendanceSelector({
 }: AttendanceSelectorProps) {
   return (
     <fieldset className="space-y-3">
-      <legend className="mb-3 block font-[family-name:var(--font-rw-label)] text-[10px] font-semibold uppercase tracking-[0.14em] text-[#705a4a]">
-        Will You Attend?
-      </legend>
+      <ThemeFormLegend>Will You Attend?</ThemeFormLegend>
       <div className="grid grid-cols-1 gap-3">
         {OPTIONS.map((option) => {
           const isSelected = value === option.value;
@@ -48,24 +52,24 @@ export function AttendanceSelector({
               aria-checked={isSelected}
               whileTap={{ scale: 0.97 }}
               onClick={() => onChange(option.value)}
-              className={cn(
-                "relative flex items-center gap-4 rounded-2xl border px-5 py-4 text-left",
-                "transition-all duration-300",
-                isSelected
-                  ? "scale-[1.02] border-[#D4AF37] bg-[#F7D9C4]/50 shadow-[0_6px_24px_rgba(212,175,55,0.2)]"
-                  : "border-[#D4AF37]/20 bg-white/50 hover:border-[#D4AF37]/40",
+              className={themeSelectorOptionClass(
+                isSelected,
+                cn(
+                  "flex items-center gap-4 px-5 py-4 text-left",
+                  isSelected && "scale-[1.02]",
+                ),
               )}
             >
               <span className="text-xl" aria-hidden="true">
                 {option.emoji}
               </span>
-              <span className="flex-1 font-[family-name:var(--font-rw-headline)] text-lg text-[#7A1F2B]">
+              <span className="flex-1 font-theme-headline text-lg text-primary">
                 {option.label}
               </span>
               <Icon
                 className={cn(
                   "size-5 shrink-0 transition-colors",
-                  isSelected ? "text-[#D4AF37]" : "text-[#7A1F2B]/30",
+                  isSelected ? "text-accent" : "text-primary/30",
                 )}
                 strokeWidth={1.75}
                 aria-hidden="true"
@@ -74,11 +78,7 @@ export function AttendanceSelector({
           );
         })}
       </div>
-      {error ? (
-        <p role="alert" className="font-[family-name:var(--font-rw-body)] text-sm text-[#7A1F2B]">
-          {error}
-        </p>
-      ) : null}
+      {error ? <ThemeFormError>{error}</ThemeFormError> : null}
     </fieldset>
   );
 }

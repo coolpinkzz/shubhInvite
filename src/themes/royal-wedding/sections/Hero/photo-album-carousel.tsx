@@ -4,6 +4,8 @@ import Image from "next/image";
 import { AnimatePresence, motion, type PanInfo } from "framer-motion";
 import { useCallback, useEffect, useState } from "react";
 import { MaterialIcon } from "@/themes/royal-wedding/components/material-icon";
+import { hexToRgba } from "@/themes/shared/utils/color";
+import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 
 export interface AlbumPhoto {
@@ -16,6 +18,8 @@ interface PhotoAlbumCarouselProps {
   photos: readonly AlbumPhoto[];
   className?: string;
   autoPlayMs?: number;
+  overline?: string;
+  title?: string;
 }
 
 const SWIPE_THRESHOLD = 48;
@@ -24,7 +28,11 @@ export function PhotoAlbumCarousel({
   photos,
   className,
   autoPlayMs = 5000,
+  overline = "Our Memories",
+  title = "Photo Album",
 }: PhotoAlbumCarouselProps) {
+  const { tokens } = useTheme();
+  const { colors, shadows } = tokens;
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -85,24 +93,28 @@ export function PhotoAlbumCarousel({
 
   return (
     <div className={cn("relative w-full", className)}>
-      <p className="mb-4 text-center font-[family-name:var(--font-rw-label)] text-[10px] font-semibold uppercase tracking-[0.2em] text-[#D4AF37]">
-        Our Memories
+      <p className="mb-4 text-center font-theme-label text-[10px] font-semibold uppercase tracking-[0.2em] text-accent">
+        {overline}
       </p>
-      <h2 className="mb-6 text-center font-[family-name:var(--font-rw-display)] text-3xl text-[var(--rw-primary)]">
-        Photo Album
+      <h2 className="mb-6 text-center font-theme-display text-3xl text-theme-primary">
+        {title}
       </h2>
 
       <div className="relative mx-auto w-full max-w-sm">
         <div
           className={cn(
             "relative overflow-hidden rounded-2xl",
-            "border border-[#D4AF37]/40 p-1.5",
-            "shadow-[0_16px_48px_rgba(91,6,23,0.18)]",
-            "before:pointer-events-none before:absolute before:inset-2 before:z-10 before:rounded-xl before:border before:border-[#7A1F2B]/10",
+            "border border-accent/40 p-1.5",
+            "before:pointer-events-none before:absolute before:inset-2 before:z-10 before:rounded-xl before:border before:border-primary/10",
           )}
+          style={{ boxShadow: shadows.hero }}
         >
-          <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-[#FAF5EB]">
-            <AnimatePresence initial={false} custom={direction} mode="popLayout">
+          <div className="relative aspect-[4/5] overflow-hidden rounded-xl bg-surface">
+            <AnimatePresence
+              initial={false}
+              custom={direction}
+              mode="popLayout"
+            >
               <motion.div
                 key={activeIndex}
                 custom={direction}
@@ -126,9 +138,14 @@ export function PhotoAlbumCarousel({
                   priority={activeIndex === 0}
                   draggable={false}
                 />
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#5b0617]/50 via-transparent to-transparent" />
+                <div
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-t via-transparent to-transparent"
+                  style={{
+                    backgroundImage: `linear-gradient(to top, ${hexToRgba(colors.primary, 0.5)}, transparent)`,
+                  }}
+                />
                 {activePhoto.caption ? (
-                  <p className="absolute bottom-0 left-0 right-0 px-4 pb-4 text-center font-[family-name:var(--font-rw-body)] text-sm italic text-white/95">
+                  <p className="absolute bottom-0 left-0 right-0 px-4 pb-4 text-center font-theme-body text-sm italic text-white/95">
                     {activePhoto.caption}
                   </p>
                 ) : null}
@@ -141,7 +158,7 @@ export function PhotoAlbumCarousel({
           type="button"
           onClick={goPrev}
           aria-label="Previous photo"
-          className="absolute left-0 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#D4AF37]/30 bg-[var(--rw-surface)]/95 p-2 text-[var(--rw-primary)] shadow-lg backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
+          className="absolute left-0 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent/30 bg-surface/95 p-2 text-theme-primary shadow-lg backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
         >
           <MaterialIcon name="chevron_left" className="text-xl" />
         </button>
@@ -149,7 +166,7 @@ export function PhotoAlbumCarousel({
           type="button"
           onClick={goNext}
           aria-label="Next photo"
-          className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-1/2 rounded-full border border-[#D4AF37]/30 bg-[var(--rw-surface)]/95 p-2 text-[var(--rw-primary)] shadow-lg backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
+          className="absolute right-0 top-1/2 z-20 -translate-y-1/2 translate-x-1/2 rounded-full border border-accent/30 bg-surface/95 p-2 text-theme-primary shadow-lg backdrop-blur-sm transition-transform hover:scale-105 active:scale-95"
         >
           <MaterialIcon name="chevron_right" className="text-xl" />
         </button>
@@ -158,7 +175,7 @@ export function PhotoAlbumCarousel({
       <div className="mt-5 flex items-center justify-center gap-2">
         {photos.map((photo, index) => (
           <button
-            key={photo.src}
+            key={photo.src + index}
             type="button"
             onClick={() => goTo(index)}
             aria-label={`Go to photo ${index + 1}`}
@@ -166,14 +183,14 @@ export function PhotoAlbumCarousel({
             className={cn(
               "h-2 rounded-full transition-all duration-300",
               index === activeIndex
-                ? "w-6 bg-[#D4AF37]"
-                : "w-2 bg-[var(--rw-outline)]/40 hover:bg-[#D4AF37]/50",
+                ? "w-6 bg-accent"
+                : "w-2 bg-[var(--theme-outline)]/40 hover:bg-accent/50",
             )}
           />
         ))}
       </div>
 
-      <p className="mt-3 text-center font-[family-name:var(--font-rw-label)] text-[11px] font-medium tracking-wide text-[var(--rw-on-surface-variant)]">
+      <p className="mt-3 text-center font-theme-label text-[11px] font-medium tracking-wide text-theme-subtle">
         {activeIndex + 1} / {photos.length}
       </p>
     </div>
