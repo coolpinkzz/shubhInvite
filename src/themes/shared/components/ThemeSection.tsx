@@ -199,7 +199,10 @@ export function ThemeSectionContent({
 }: ThemeSectionContentProps) {
   return (
     <motion.div
-      className={cn("relative mx-auto w-full max-w-[430px]", className)}
+      className={cn(
+        "relative mx-auto w-full max-w-[430px] md:max-w-[720px] lg:max-w-[820px]",
+        className,
+      )}
       initial={initial}
       whileInView={whileInView}
       viewport={viewport}

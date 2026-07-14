@@ -2,14 +2,12 @@
 
 import { motion } from "framer-motion";
 
-import type { BabyGender } from "@/types/theme";
 import { cn } from "@/lib/utils";
 import { babyRevealDesignTokens } from "@/themes/baby-reveal/tokens";
 
 const { colors, radius, typography, animation } = babyRevealDesignTokens;
 
 interface CTAButtonsProps {
-  gender: BabyGender;
   primaryLabel: string;
   secondaryLabel: string;
   visible: boolean;
@@ -19,7 +17,6 @@ interface CTAButtonsProps {
 }
 
 export function CTAButtons({
-  gender,
   primaryLabel,
   secondaryLabel,
   visible,
@@ -29,20 +26,15 @@ export function CTAButtons({
 }: CTAButtonsProps) {
   if (!visible) return null;
 
-  const boyColors = babyRevealDesignTokens.colors.boy;
-  const girlColors = babyRevealDesignTokens.colors.girl;
-
-  const primaryGradient =
-    gender === "boy"
-      ? `linear-gradient(135deg, ${boyColors.navy} 0%, ${boyColors.skyBlue} 100%)`
-      : `linear-gradient(135deg, ${girlColors.roseGold} 0%, ${girlColors.blushPink} 100%)`;
+  const pastel = colors.pastel;
+  const primaryGradient = `linear-gradient(135deg, ${pastel.accent} 0%, ${pastel.pink} 50%, ${pastel.blue} 100%)`;
 
   return (
     <motion.div
       className={cn("flex w-full max-w-sm flex-col gap-3 sm:flex-row", className)}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.2, duration: 0.6, ease: animation.easing.luxury }}
+      transition={{ delay: 0.4, duration: 0.6, ease: animation.easing.luxury }}
     >
       <motion.button
         type="button"
@@ -65,9 +57,9 @@ export function CTAButtons({
         className="min-h-12 flex-1 border-2 px-6 py-3 font-medium tracking-wide transition-transform active:scale-[0.98]"
         style={{
           borderRadius: radius.button,
-          borderColor: colors.pastel.pink,
-          color: colors.pastel.text,
-          backgroundColor: `${colors.pastel.cream}CC`,
+          borderColor: pastel.pink,
+          color: pastel.text,
+          backgroundColor: `${pastel.cream}CC`,
           fontSize: typography.instruction,
         }}
         whileHover={{ scale: 1.02 }}

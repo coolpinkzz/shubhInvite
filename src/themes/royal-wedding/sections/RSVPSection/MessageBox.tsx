@@ -4,11 +4,10 @@ import { forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
 import {
-  ThemeFormError,
-  ThemeFormLabel,
-  themeFormControlClass,
-  themeFormLabelClass,
-} from "@/themes/shared/components";
+  rsvpControlClass,
+  rsvpErrorClass,
+  rsvpLabelClass,
+} from "./rsvp-form-styles";
 
 const MAX_LENGTH = 300;
 
@@ -34,13 +33,15 @@ export const MessageBox = forwardRef<HTMLTextAreaElement, MessageBoxProps>(
 
     return (
       <div className="space-y-2">
-        <ThemeFormLabel htmlFor="rsvp-message">{label}</ThemeFormLabel>
+        <label htmlFor="rsvp-message" className={rsvpLabelClass()}>
+          {label}
+        </label>
         <textarea
           ref={ref}
           id="rsvp-message"
           maxLength={MAX_LENGTH}
           rows={4}
-          className={themeFormControlClass({
+          className={rsvpControlClass({
             error,
             className: cn("resize-none leading-relaxed", className),
           })}
@@ -49,12 +50,18 @@ export const MessageBox = forwardRef<HTMLTextAreaElement, MessageBoxProps>(
           {...props}
         />
         <div className="flex items-center justify-between">
-          {error ? <ThemeFormError>{error}</ThemeFormError> : <span />}
+          {error ? (
+            <p role="alert" className={rsvpErrorClass()}>
+              {error}
+            </p>
+          ) : (
+            <span />
+          )}
           <p
             id="rsvp-message-counter"
             className={cn(
-              themeFormLabelClass("tracking-wide text-muted/70"),
-              charCount >= MAX_LENGTH && "text-primary",
+              rsvpLabelClass("tracking-wide text-[var(--theme-accent-light)]/70"),
+              charCount >= MAX_LENGTH && "text-[var(--theme-accent-light)]",
             )}
             aria-live="polite"
           >

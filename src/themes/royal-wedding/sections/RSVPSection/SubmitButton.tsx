@@ -40,7 +40,8 @@ export function SubmitButton({ state, disabled, className }: SubmitButtonProps) 
       className={cn(
         "relative flex w-full items-center justify-center gap-2.5 overflow-hidden rounded-full px-6 py-4",
         "bg-gradient-to-r from-accent via-[var(--theme-accent-light)] to-accent",
-        "font-theme-label text-xs font-semibold uppercase tracking-[0.14em] text-primary",
+        "font-theme-label text-xs font-semibold uppercase tracking-[0.14em] text-[var(--theme-primary)]",
+        "ring-1 ring-inset ring-white/25",
         "transition-shadow duration-300",
         "disabled:cursor-not-allowed disabled:opacity-80",
         className,
@@ -58,7 +59,10 @@ export function SubmitButton({ state, disabled, className }: SubmitButtonProps) 
       {isLoading ? (
         <Loader2 className="size-4 animate-spin" aria-hidden="true" />
       ) : (
-        <Heart className="size-4 fill-primary/20" aria-hidden="true" />
+        <Heart
+          className="size-4 fill-[var(--theme-primary)]/25 text-[var(--theme-primary)]"
+          aria-hidden="true"
+        />
       )}
       <span>{LABELS[state]}</span>
     </motion.button>

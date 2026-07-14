@@ -179,3 +179,26 @@
     animation: none !important;
   }
 }
+
+/* Illustrated event invitation card (e.g. Haldi) — data-driven canva-style layout */
+[data-theme] .theme-event-invitation-outer {
+  border-radius: 1rem;
+  padding: 0.75rem;
+  background-color: #1f4f46;
+  background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='24' cy='24' r='2'/%3E%3Cpath d='M24 16l2 4 4 1-3 3 1 4-4-2-4 2 1-4-3-3 4-1z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 48px 48px;
+  box-shadow: 0 20px 50px -16px rgba(31, 79, 70, 0.45);
+}
+
+[data-theme] .theme-event-invitation-card {
+  border: 1.5px solid #d9b25f;
+  border-radius: 50% 50% 1rem 1rem / 3.5rem 3.5rem 1rem 1rem;
+  background: linear-gradient(180deg, #fdf3d0 0%, #f8e8b8 55%, #f3dfaa 100%);
+  box-shadow: inset 0 2px 20px rgba(255, 255, 255, 0.35);
+}
+
+@media (min-width: 640px) {
+  [data-theme] .theme-event-invitation-card {
+    border-radius: 50% 50% 1.25rem 1.25rem / 4.5rem 4.5rem 1.25rem 1.25rem;
+  }
+}

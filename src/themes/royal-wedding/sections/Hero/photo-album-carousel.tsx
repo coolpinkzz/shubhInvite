@@ -100,7 +100,7 @@ export function PhotoAlbumCarousel({
         {title}
       </h2>
 
-      <div className="relative mx-auto w-full max-w-sm">
+      <div className="relative mx-auto w-full max-w-sm md:max-w-md lg:max-w-xl">
         <div
           className={cn(
             "relative overflow-hidden rounded-2xl",

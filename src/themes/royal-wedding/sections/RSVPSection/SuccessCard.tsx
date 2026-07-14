@@ -10,6 +10,7 @@ import {
 import type { CelebrationOrigin } from "@/themes/royal-wedding/components/celebration";
 import { ThemeCard } from "@/themes/shared/components";
 import { cn } from "@/lib/utils";
+import { rsvpCardClassName } from "./rsvp-form-styles";
 
 interface SuccessCardProps {
   onBack: () => void;
@@ -84,10 +85,10 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
       >
         <ThemeCard
           padding="loose"
-          borderClassName="border-accent/30 text-center"
+          borderClassName="border-accent/55 text-center"
           topInsetClassName="before:inset-x-6"
           innerInsetClassName="after:inset-3"
-          className="relative"
+          className={cn("relative", rsvpCardClassName)}
         >
           <SparkleEffect active count={14} />
           <FloatingHearts />
@@ -104,7 +105,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           </motion.div>
 
           <motion.h3
-            className="relative z-10 mt-4 font-theme-display text-4xl text-primary"
+            className="relative z-10 mt-4 font-theme-display text-4xl text-[var(--theme-accent-light)]"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
@@ -113,7 +114,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           </motion.h3>
 
           <motion.p
-            className="relative z-10 mx-auto mt-4 max-w-xs font-theme-body text-base italic leading-relaxed text-muted"
+            className="relative z-10 mx-auto mt-4 max-w-xs font-theme-body text-base italic leading-relaxed text-[var(--theme-primary-foreground)]/85"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
@@ -122,7 +123,7 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
           </motion.p>
 
           <motion.p
-            className="relative z-10 mx-auto mt-2 max-w-xs font-theme-body text-[15px] leading-relaxed text-theme-subtle"
+            className="relative z-10 mx-auto mt-2 max-w-xs font-theme-body text-[15px] leading-relaxed text-[var(--theme-primary-foreground)]/65"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
@@ -135,9 +136,9 @@ export function SuccessCard({ onBack, className }: SuccessCardProps) {
             onClick={onBack}
             whileTap={{ scale: 0.97 }}
             className={cn(
-              "relative z-10 mt-8 w-full rounded-full border-2 border-primary px-6 py-4",
-              "font-theme-label text-xs font-semibold uppercase tracking-[0.12em] text-primary",
-              "transition-colors hover:bg-primary/5",
+              "relative z-10 mt-8 w-full rounded-full border-2 border-accent px-6 py-4",
+              "font-theme-label text-xs font-semibold uppercase tracking-[0.12em] text-[var(--theme-accent-light)]",
+              "transition-colors hover:bg-accent/15",
             )}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}

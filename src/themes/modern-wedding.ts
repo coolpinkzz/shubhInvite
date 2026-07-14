@@ -2,6 +2,7 @@ import type { ThemeDefinition, ThemeTokens } from "@/types/theme";
 
 import { modernWeddingConfig } from "./modern-wedding/config";
 import { modernWeddingFontClassName } from "./modern-wedding/fonts";
+import { modernWeddingMusic } from "./modern-wedding/music";
 import { ModernWeddingTemplate } from "./modern-wedding/template";
 
 /**
@@ -67,6 +68,7 @@ export const modernWeddingTheme = {
     "Contemporary minimalist invitation with cool neutrals and sage accents.",
   tokens: modernWeddingTokens,
   config: modernWeddingConfig,
+  music: modernWeddingMusic,
   fontClassName: modernWeddingFontClassName,
   Template: ModernWeddingTemplate,
 } satisfies ThemeDefinition;

@@ -21,7 +21,7 @@ export async function generateMetadata({
   if (!theme) return {};
 
   const description = isBabyRevealConfig(theme.config)
-    ? `Baby gender reveal for ${theme.config.parents.mother} & ${theme.config.parents.father}`
+    ? `Baby name reveal for ${theme.config.parents.mother} & ${theme.config.parents.father}`
     : `Wedding invitation for ${theme.config.couple.bride} & ${theme.config.couple.groom}`;
 
   return {
@@ -43,6 +43,8 @@ export default async function TemplatePage({ params }: TemplatePageProps) {
         themeId={theme.id}
         tokens={theme.tokens}
         config={theme.config}
+        music={theme.music}
+        intro={theme.intro}
         className={`${theme.id} min-h-dvh`}
       >
         <Template />

@@ -42,7 +42,11 @@ export function RSVPSection({
   }, []);
 
   return (
-    <ThemeSection id="rsvp" className={className ?? "pb-16"} srTitle={title}>
+    <ThemeSection
+      id="rsvp"
+      className={className ?? "scroll-mt-24 pb-28"}
+      srTitle={title}
+    >
       <ThemeSectionContent
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}

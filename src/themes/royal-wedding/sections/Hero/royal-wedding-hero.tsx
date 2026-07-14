@@ -1,12 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import goldCornerBorder from "@/assests/gold-corner-border.png";
 import lordGanesha from "@/assests/lord_ganesha.svg";
 import brideGroom from "@/assests/bride-groom.png";
 import latkan from "@/assests/latkan.png";
 import { useTheme } from "@/hooks/useTheme";
+import { cn } from "@/lib/utils";
 import { isWeddingConfig } from "@/types/theme";
 import { MaterialIcon } from "@/themes/royal-wedding/components/material-icon";
 import { hexToRgba } from "@/themes/shared/utils/color";
@@ -16,19 +17,74 @@ import { PetalRain } from "./petal-rain";
 import { PhotoAlbumCarousel } from "./photo-album-carousel";
 import { ScratchRevealCard } from "./scratch-reveal-card";
 
+const NAV_ITEMS = [
+  { id: "home", icon: "looks", label: "Home" },
+  { id: "events", icon: "calendar_month", label: "Events" },
+  { id: "gallery", icon: "auto_awesome_mosaic", label: "Gallery" },
+  { id: "rsvp", icon: "mail", label: "RSVP" },
+] as const;
+
+type NavSectionId = (typeof NAV_ITEMS)[number]["id"];
+
+function scrollToSection(id: NavSectionId) {
+  if (id === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+
+  document.getElementById(id)?.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+}
+
 export function RoyalWeddingHero() {
   const { config, tokens } = useTheme();
   const { colors } = tokens;
+  const [isDateRevealed, setIsDateRevealed] = useState(false);
+  const [activeSection, setActiveSection] = useState<NavSectionId>("home");
+
+  const handleNavClick = useCallback((id: NavSectionId) => {
+    setActiveSection(id);
+    scrollToSection(id);
+  }, []);
+
+  useEffect(() => {
+    const sectionIds: NavSectionId[] = ["home", "gallery", "events", "rsvp"];
+
+    const observers = sectionIds.map((id) => {
+      const element = document.getElementById(id);
+      if (!element) return null;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry?.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-35% 0px -45% 0px", threshold: 0 },
+      );
+
+      observer.observe(element);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, []);
 
   if (!isWeddingConfig(config)) {
     throw new Error("RoyalWeddingHero requires a wedding theme configuration.");
   }
 
   const { couple, location, countdownTarget, photoAlbum, scratchCard } = config;
-  const [isDateRevealed, setIsDateRevealed] = useState(false);
 
   return (
-    <div className="relative overflow-x-hidden selection:bg-primary selection:text-[var(--theme-primary-container-foreground)]">
+    <div
+      id="home"
+      className="relative scroll-mt-4 overflow-x-hidden selection:bg-primary selection:text-[var(--theme-primary-container-foreground)]"
+    >
       <div
         className="event-schedule-pattern pointer-events-none absolute inset-0 opacity-[0.04]"
         aria-hidden="true"
@@ -114,12 +170,12 @@ export function RoyalWeddingHero() {
             <span className="leading-normal">{couple.groom}</span>
           </h1>
 
-          <div className="floating-couple relative mx-auto mb-8 h-80 w-full max-w-md sm:h-96">
+          <div className="floating-couple relative mx-auto mb-8 h-80 w-full max-w-md sm:h-96 md:max-w-xl md:h-[28rem] lg:max-w-2xl">
             <Image
               src={brideGroom}
               alt="Traditional Indian bride and groom illustration"
               fill
-              sizes="(max-width: 640px) 90vw, 448px"
+              sizes="(max-width: 640px) 90vw, (max-width: 768px) 448px, 672px"
               className="object-contain"
               style={{
                 filter: `drop-shadow(0 16px 40px ${hexToRgba(colors.primary, 0.25)})`,
@@ -150,49 +206,46 @@ export function RoyalWeddingHero() {
             </div>
           </div>
 
-          <div className="relative z-40 mx-auto w-full max-w-md px-2">
+          <div
+            id="gallery"
+            className="relative z-40 mx-auto w-full max-w-md scroll-mt-24 px-2 md:max-w-xl lg:max-w-2xl"
+          >
             <PhotoAlbumCarousel photos={photoAlbum} />
           </div>
         </div>
       </main>
 
       <nav
+        aria-label="Invitation sections"
         className="fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-[32px] border-t border-theme-outline/10 bg-surface/90 px-4 pb-4 pt-2 backdrop-blur-xl"
         style={{ boxShadow: `0 -10px 30px ${hexToRgba(colors.primary, 0.08)}` }}
       >
-        <button
-          type="button"
-          className="flex flex-col items-center justify-center rounded-full bg-theme-secondary-container px-4 py-1 text-theme-primary transition-all active:scale-95"
-        >
-          <MaterialIcon name="looks" />
-          <span
-            className="font-theme-label text-xs"
-            style={{ fontWeight: 600 }}
-          >
-            Home
-          </span>
-        </button>
-        {(
-          [
-            ["calendar_month", "Events"],
-            ["auto_awesome_mosaic", "Gallery"],
-            ["mail", "RSVP"],
-          ] as const
-        ).map(([icon, label]) => (
-          <button
-            key={label}
-            type="button"
-            className="flex flex-col items-center justify-center text-theme-subtle transition-colors hover:text-theme-primary active:scale-95"
-          >
-            <MaterialIcon name={icon} />
-            <span
-              className="font-theme-label text-xs"
-              style={{ fontWeight: 600 }}
+        {NAV_ITEMS.map(({ id, icon, label }) => {
+          const isActive = activeSection === id;
+
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => handleNavClick(id)}
+              aria-current={isActive ? "page" : undefined}
+              className={cn(
+                "flex flex-col items-center justify-center transition-all active:scale-95",
+                isActive
+                  ? "rounded-full bg-theme-secondary-container px-4 py-1 text-theme-primary"
+                  : "text-theme-subtle hover:text-theme-primary",
+              )}
             >
-              {label}
-            </span>
-          </button>
-        ))}
+              <MaterialIcon name={icon} />
+              <span
+                className="font-theme-label text-xs"
+                style={{ fontWeight: 600 }}
+              >
+                {label}
+              </span>
+            </button>
+          );
+        })}
       </nav>
     </div>
   );

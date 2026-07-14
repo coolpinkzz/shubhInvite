@@ -10,7 +10,14 @@ import { VenueLocationSection } from "./sections/VenueLocation";
 import "./baby-reveal.css";
 
 export function BabyRevealTemplate() {
-  const { gender, parents, copy, countdownTarget, photoAlbum } = babyRevealConfig;
+  const {
+    babyName,
+    parents,
+    copy,
+    scratchCard,
+    countdownTarget,
+    photoAlbum,
+  } = babyRevealConfig;
 
   const scrollToPhotoAlbum = () => {
     document.getElementById("photo-album")?.scrollIntoView({
@@ -21,12 +28,12 @@ export function BabyRevealTemplate() {
   return (
     <>
       <BabyRevealHero
-        gender={gender}
+        babyName={babyName}
+        scratchCard={scratchCard}
         parents={parents}
         parentsOverline={copy.parentsOverline}
         title={copy.title}
         subtitle={copy.subtitle}
-        instruction={copy.instruction}
         revealMessage={copy.revealMessage}
         countdownTarget={countdownTarget}
         ctaPrimary={copy.ctaPrimary}

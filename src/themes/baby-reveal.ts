@@ -2,6 +2,7 @@ import type { ThemeDefinition, ThemeTokens } from "@/types/theme";
 
 import { babyRevealConfig } from "./baby-reveal/config";
 import { babyRevealFontClassName } from "./baby-reveal/fonts";
+import { babyRevealMusic } from "./baby-reveal/music";
 import { BabyRevealTemplate } from "./baby-reveal/template";
 
 /**
@@ -62,11 +63,12 @@ export const babyRevealTokens = {
 
 export const babyRevealTheme = {
   id: "baby-reveal",
-  name: "Baby Gender Reveal",
+  name: "Baby Name Reveal",
   description:
-    "Premium balloon pop gender reveal with cinematic celebration animations.",
+    "Premium baby name reveal with a scratch card experience and pastel celebration.",
   tokens: babyRevealTokens,
   config: babyRevealConfig,
+  music: babyRevealMusic,
   fontClassName: babyRevealFontClassName,
   Template: BabyRevealTemplate,
 } satisfies ThemeDefinition;

@@ -340,7 +340,7 @@ export function ScratchRevealCard({
 
       <motion.div
         ref={cardRef}
-        className="relative mx-auto mb-8 w-full max-w-sm"
+        className="relative mx-auto mb-8 w-full max-w-sm md:max-w-md lg:max-w-lg"
         animate={
           isRevealed
             ? {

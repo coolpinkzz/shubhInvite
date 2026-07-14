@@ -4,11 +4,7 @@ import { ChevronDown } from "lucide-react";
 import { forwardRef } from "react";
 
 import { cn } from "@/lib/utils";
-import {
-  ThemeFormError,
-  ThemeFormLabel,
-  themeFormControlClass,
-} from "@/themes/shared/components";
+import { rsvpControlClass, rsvpErrorClass, rsvpLabelClass } from "./rsvp-form-styles";
 
 const GUEST_OPTIONS = [
   { value: 1, label: "1" },
@@ -32,12 +28,14 @@ export const GuestCounter = forwardRef<HTMLSelectElement, GuestCounterProps>(
   ) {
     return (
       <div className="space-y-2">
-        <ThemeFormLabel htmlFor="rsvp-guests">{label}</ThemeFormLabel>
+        <label htmlFor="rsvp-guests" className={rsvpLabelClass()}>
+          {label}
+        </label>
         <div className="relative">
           <select
             ref={ref}
             id="rsvp-guests"
-            className={themeFormControlClass({
+            className={rsvpControlClass({
               error,
               className: cn("appearance-none pr-10", className),
             })}
@@ -53,12 +51,14 @@ export const GuestCounter = forwardRef<HTMLSelectElement, GuestCounterProps>(
             ))}
           </select>
           <ChevronDown
-            className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-primary/60"
+            className="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-primary/70"
             aria-hidden="true"
           />
         </div>
         {error ? (
-          <ThemeFormError id="rsvp-guests-error">{error}</ThemeFormError>
+          <p id="rsvp-guests-error" role="alert" className={rsvpErrorClass()}>
+            {error}
+          </p>
         ) : null}
       </div>
     );

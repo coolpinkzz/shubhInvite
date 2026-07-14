@@ -11,10 +11,25 @@ export interface ThemeDetailRowProps {
   value: string;
   className?: string;
   floatingIcon?: boolean;
+  /** Use on dark maroon / accent surfaces */
+  tone?: "default" | "onDark";
 }
 
-const iconClassName =
-  "mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full bg-theme-secondary-container/50 text-primary";
+const iconToneClass = {
+  default: "bg-theme-secondary-container/50 text-primary",
+  onDark:
+    "bg-accent/20 text-[var(--theme-accent-light)] ring-1 ring-accent/35",
+} as const;
+
+const labelToneClass = {
+  default: "text-muted",
+  onDark: "text-[var(--theme-accent-light)]/85",
+} as const;
+
+const valueToneClass = {
+  default: "text-foreground",
+  onDark: "text-[var(--theme-primary-foreground)]",
+} as const;
 
 export function ThemeDetailRow({
   icon,
@@ -22,7 +37,13 @@ export function ThemeDetailRow({
   value,
   className,
   floatingIcon = false,
+  tone = "default",
 }: ThemeDetailRowProps) {
+  const iconWrapperClass = cn(
+    "mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-full",
+    iconToneClass[tone],
+  );
+
   const iconWrapper = floatingIcon ? (
     <motion.div
       animate={{ y: [0, -3, 0] }}
@@ -31,13 +52,13 @@ export function ThemeDetailRow({
         repeat: Infinity,
         ease: "easeInOut",
       }}
-      className={iconClassName}
+      className={iconWrapperClass}
       aria-hidden="true"
     >
       {icon}
     </motion.div>
   ) : (
-    <div className={iconClassName} aria-hidden="true">
+    <div className={iconWrapperClass} aria-hidden="true">
       {icon}
     </div>
   );
@@ -46,10 +67,20 @@ export function ThemeDetailRow({
     <div className={cn("flex items-start gap-3", className)}>
       {iconWrapper}
       <div className="min-w-0 flex-1">
-        <p className="font-theme-label text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+        <p
+          className={cn(
+            "font-theme-label text-[10px] font-semibold uppercase tracking-[0.14em]",
+            labelToneClass[tone],
+          )}
+        >
           {label}
         </p>
-        <p className="whitespace-pre-line font-theme-body text-[15px] leading-snug text-foreground">
+        <p
+          className={cn(
+            "whitespace-pre-line font-theme-body text-[15px] leading-snug",
+            valueToneClass[tone],
+          )}
+        >
           {value}
         </p>
       </div>

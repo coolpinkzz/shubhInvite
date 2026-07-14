@@ -12,6 +12,7 @@ import { FloralDivider } from "./FloralDivider";
 import { GuestCounter } from "./GuestCounter";
 import { MessageBox } from "./MessageBox";
 import { RSVPInput } from "./RSVPInput";
+import { rsvpCardClassName } from "./rsvp-form-styles";
 import { rsvpSchema } from "./schema";
 import { SubmitButton } from "./SubmitButton";
 import type { RSVPFormData, RSVPEventOption } from "./types";
@@ -64,8 +65,14 @@ export function RSVPForm({
   });
 
   return (
-    <ThemeCard as="form" onSubmit={handleFormSubmit} noValidate className={className}>
-      <div className="relative space-y-5">
+    <ThemeCard
+      as="form"
+      onSubmit={handleFormSubmit}
+      noValidate
+      borderClassName="border-accent/55"
+      className={cn(rsvpCardClassName, className)}
+    >
+      <div className="relative z-10 space-y-5">
         <RSVPInput
           label="Guest Name"
           placeholder="Enter your full name"

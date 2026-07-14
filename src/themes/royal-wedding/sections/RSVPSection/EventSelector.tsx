@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
-import {
-  ThemeFormError,
-  ThemeFormLegend,
-  themeSelectorOptionClass,
-} from "@/themes/shared/components";
 import { cn } from "@/lib/utils";
 import type { RSVPEventOption } from "./types";
+import {
+  rsvpErrorClass,
+  rsvpLabelClass,
+  rsvpSelectorOptionClass,
+} from "./rsvp-form-styles";
 
 interface EventSelectorProps {
   events: RSVPEventOption[];
@@ -37,7 +37,9 @@ export function EventSelector({
 
   return (
     <fieldset className="space-y-3" disabled={disabled}>
-      <ThemeFormLegend>Which Events Will You Attend?</ThemeFormLegend>
+      <legend className={cn("mb-3", rsvpLabelClass())}>
+        Which Events Will You Attend?
+      </legend>
       <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
         {events.map((event) => {
           const isSelected = value.includes(event.id);
@@ -50,7 +52,7 @@ export function EventSelector({
               aria-checked={isSelected}
               whileTap={{ scale: 0.97 }}
               onClick={() => toggleEvent(event.id)}
-              className={themeSelectorOptionClass(
+              className={rsvpSelectorOptionClass(
                 isSelected,
                 cn(
                   "flex items-center gap-3 px-4 py-3.5 text-left",
@@ -61,16 +63,16 @@ export function EventSelector({
               <span className="text-xl" aria-hidden="true">
                 {event.emoji}
               </span>
-              <span className="flex-1 font-theme-body text-[15px] text-primary">
+              <span className="flex-1 font-theme-body text-[15px] text-[var(--theme-primary-foreground)]">
                 {event.label}
               </span>
               {isSelected ? (
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent text-primary">
+                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-accent text-[var(--theme-primary)]">
                   <Check className="size-3" strokeWidth={3} aria-hidden="true" />
                 </span>
               ) : (
                 <span
-                  className="size-5 shrink-0 rounded-full border border-accent/40"
+                  className="size-5 shrink-0 rounded-full border border-accent/50"
                   aria-hidden="true"
                 />
               )}
@@ -78,7 +80,11 @@ export function EventSelector({
           );
         })}
       </div>
-      {error ? <ThemeFormError>{error}</ThemeFormError> : null}
+      {error ? (
+        <p role="alert" className={rsvpErrorClass()}>
+          {error}
+        </p>
+      ) : null}
     </fieldset>
   );
 }

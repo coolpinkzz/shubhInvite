@@ -2,6 +2,8 @@ import type { ThemeDefinition, ThemeTokens } from "@/types/theme";
 
 import { royalWeddingConfig } from "./royal-wedding/config";
 import { royalWeddingFontClassName } from "./royal-wedding/fonts";
+import { royalWeddingIntro } from "./royal-wedding/intro";
+import { royalWeddingMusic } from "./royal-wedding/music";
 import { RoyalWeddingTemplate } from "./royal-wedding/template";
 
 /**
@@ -67,6 +69,8 @@ export const royalWeddingTheme = {
     "Traditional Indian wedding invitation with royal maroon, gold, and ivory elegance.",
   tokens: royalWeddingTokens,
   config: royalWeddingConfig,
+  music: royalWeddingMusic,
+  intro: royalWeddingIntro,
   fontClassName: royalWeddingFontClassName,
   Template: RoyalWeddingTemplate,
 } satisfies ThemeDefinition;

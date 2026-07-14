@@ -1,32 +1,28 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
-import type { BabyGender } from "@/types/theme";
 import { cn } from "@/lib/utils";
-import { useReducedMotion } from "@/themes/baby-reveal/hooks/useReducedMotion";
-import { useRevealSound } from "@/themes/baby-reveal/hooks/useRevealSound";
-import { useRevealState } from "@/themes/baby-reveal/hooks/useRevealState";
 import { babyRevealDesignTokens } from "@/themes/baby-reveal/tokens";
 
 import { BackgroundIcons } from "./BackgroundIcons";
 import { BackgroundTransition } from "./BackgroundTransition";
-import { BalloonParticles } from "./BalloonParticles";
-import { Celebration } from "./Celebration";
+import { BabyNameScratchCard } from "./BabyNameScratchCard";
 import { CountdownBadge } from "./CountdownBadge";
 import { CTAButtons } from "./CTAButtons";
 import { FloralPetals } from "./FloralPetals";
-import { FloatingBalloon } from "./FloatingBalloon";
-import { HeroFooterIllustration } from "./HeroFooterIllustration";
 import { HeroIllustration } from "./HeroIllustration";
 import { ParentsNames } from "./ParentsNames";
-import { RevealCard } from "./RevealCard";
 
 const { colors, spacing, typography, animation } = babyRevealDesignTokens;
 
 export interface BabyRevealProps {
-  gender: BabyGender;
+  babyName: string;
+  scratchCard?: {
+    hint?: string;
+    revealThreshold?: number;
+  };
   parents?: {
     mother: string;
     father: string;
@@ -34,7 +30,6 @@ export interface BabyRevealProps {
   parentsOverline?: string;
   title?: string;
   subtitle?: string;
-  instruction?: string;
   revealMessage?: string;
   countdownTarget?: string;
   ctaPrimary?: string;
@@ -46,12 +41,12 @@ export interface BabyRevealProps {
 }
 
 export function BabyRevealHero({
-  gender,
+  babyName,
+  scratchCard,
   parents,
   parentsOverline,
   title = "One Little Secret...",
-  subtitle = "Our greatest adventure is about to begin.",
-  instruction = "Tap the balloon to reveal",
+  subtitle = "Our greatest blessing has finally arrived.",
   revealMessage = "Our hearts are overflowing with joy.",
   countdownTarget,
   ctaPrimary = "View Invitation",
@@ -61,35 +56,12 @@ export function BabyRevealHero({
   onSecondaryClick,
   className,
 }: BabyRevealProps) {
-  const reducedMotion = useReducedMotion();
-  const { play } = useRevealSound({ enabled: false });
+  const [isNameRevealed, setIsNameRevealed] = useState(false);
 
-  const {
-    phase,
-    isInteracting,
-    isRevealed,
-    showBalloon,
-    showRevealCard,
-    startReveal,
-  } = useRevealState({ onReveal, reducedMotion });
-
-  const handleTap = () => {
-    if (isInteracting) return;
-    play("inflate");
-    startReveal();
+  const handleRevealed = () => {
+    setIsNameRevealed(true);
+    onReveal?.();
   };
-
-  useEffect(() => {
-    if (phase === "pop") {
-      play("pop");
-    }
-    if (phase === "celebrate") {
-      play("cheer");
-    }
-  }, [phase, play]);
-
-  const showIdleIllustration = !isInteracting && phase === "idle";
-  const showActiveCelebration = phase === "celebrate";
 
   return (
     <section
@@ -98,17 +70,14 @@ export function BabyRevealHero({
         className,
       )}
       style={{ padding: spacing.heroPadding }}
-      aria-label="Baby gender reveal"
+      aria-label="Baby name reveal"
     >
-      <BackgroundTransition gender={gender} revealed={isRevealed} />
+      <BackgroundTransition revealed={isNameRevealed} />
       <BackgroundIcons className="pointer-events-none absolute inset-0" />
       <FloralPetals
-        enhanced={showActiveCelebration}
+        enhanced={isNameRevealed}
         className="pointer-events-none absolute inset-0 overflow-hidden"
       />
-
-      <BalloonParticles active={phase === "pop"} />
-      <Celebration active={showActiveCelebration} gender={gender} />
 
       <div
         className="relative z-10 flex w-full max-w-md flex-col items-center"
@@ -152,53 +121,46 @@ export function BabyRevealHero({
           />
         ) : null}
 
-        {countdownTarget && !isRevealed && (
-          <CountdownBadge targetDate={countdownTarget} />
-        )}
+        {!isNameRevealed ? <HeroIllustration visible /> : null}
 
-        {showIdleIllustration ? <HeroIllustration visible /> : null}
+        <BabyNameScratchCard
+          babyName={babyName}
+          hint={scratchCard?.hint}
+          revealThreshold={scratchCard?.revealThreshold}
+          onRevealed={handleRevealed}
+        />
 
-        {showBalloon ? (
-          <div className="relative flex min-h-[180px] items-center justify-center">
-            <FloatingBalloon
-              phase={phase}
-              onTap={handleTap}
-              disabled={isInteracting}
-            />
-          </div>
-        ) : null}
-
-        {!isRevealed && (
-          <motion.p
-            className="text-center font-medium tracking-widest uppercase"
-            style={{
-              fontSize: typography.instruction,
-              color: colors.pastel.accent,
-              letterSpacing: "0.15em",
-            }}
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+        {isNameRevealed ? (
+          <motion.div
+            className="flex w-full flex-col items-center text-center"
+            style={{ gap: spacing.sectionGap }}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: animation.easing.luxury }}
           >
-            {instruction}
-          </motion.p>
-        )}
+            <p
+              className="font-theme-body"
+              style={{
+                fontSize: typography.body,
+                color: colors.pastel.textMuted,
+              }}
+            >
+              {revealMessage}
+            </p>
 
-        <RevealCard
-          gender={gender}
-          message={revealMessage}
-          visible={showRevealCard}
-        />
+            {countdownTarget ? (
+              <CountdownBadge targetDate={countdownTarget} />
+            ) : null}
 
-        <CTAButtons
-          gender={gender}
-          primaryLabel={ctaPrimary}
-          secondaryLabel={ctaSecondary}
-          visible={isRevealed}
-          onPrimaryClick={onPrimaryClick}
-          onSecondaryClick={onSecondaryClick}
-        />
-
-        {/* <HeroFooterIllustration className="mt-2" /> */}
+            <CTAButtons
+              primaryLabel={ctaPrimary}
+              secondaryLabel={ctaSecondary}
+              visible
+              onPrimaryClick={onPrimaryClick}
+              onSecondaryClick={onSecondaryClick}
+            />
+          </motion.div>
+        ) : null}
       </div>
     </section>
   );

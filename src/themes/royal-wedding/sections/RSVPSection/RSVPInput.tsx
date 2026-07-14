@@ -2,12 +2,7 @@
 
 import { forwardRef } from "react";
 
-import { cn } from "@/lib/utils";
-import {
-  ThemeFormError,
-  ThemeFormLabel,
-  themeFormControlClass,
-} from "@/themes/shared/components";
+import { rsvpControlClass, rsvpErrorClass, rsvpLabelClass } from "./rsvp-form-styles";
 
 interface RSVPInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -20,17 +15,21 @@ export const RSVPInput = forwardRef<HTMLInputElement, RSVPInputProps>(
 
     return (
       <div className="space-y-2">
-        <ThemeFormLabel htmlFor={inputId}>{label}</ThemeFormLabel>
+        <label htmlFor={inputId} className={rsvpLabelClass()}>
+          {label}
+        </label>
         <input
           ref={ref}
           id={inputId}
-          className={themeFormControlClass({ error, className })}
+          className={rsvpControlClass({ error, className })}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? `${inputId}-error` : undefined}
           {...props}
         />
         {error ? (
-          <ThemeFormError id={`${inputId}-error`}>{error}</ThemeFormError>
+          <p id={`${inputId}-error`} role="alert" className={rsvpErrorClass()}>
+            {error}
+          </p>
         ) : null}
       </div>
     );

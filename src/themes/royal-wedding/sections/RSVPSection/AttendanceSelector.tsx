@@ -3,12 +3,12 @@
 import { motion } from "framer-motion";
 import { Heart, HeartCrack } from "lucide-react";
 
-import {
-  ThemeFormError,
-  ThemeFormLegend,
-  themeSelectorOptionClass,
-} from "@/themes/shared/components";
 import { cn } from "@/lib/utils";
+import {
+  rsvpErrorClass,
+  rsvpLabelClass,
+  rsvpSelectorOptionClass,
+} from "./rsvp-form-styles";
 
 interface AttendanceSelectorProps {
   value: boolean | null;
@@ -38,7 +38,7 @@ export function AttendanceSelector({
 }: AttendanceSelectorProps) {
   return (
     <fieldset className="space-y-3">
-      <ThemeFormLegend>Will You Attend?</ThemeFormLegend>
+      <legend className={cn("mb-3", rsvpLabelClass())}>Will You Attend?</legend>
       <div className="grid grid-cols-1 gap-3">
         {OPTIONS.map((option) => {
           const isSelected = value === option.value;
@@ -52,7 +52,7 @@ export function AttendanceSelector({
               aria-checked={isSelected}
               whileTap={{ scale: 0.97 }}
               onClick={() => onChange(option.value)}
-              className={themeSelectorOptionClass(
+              className={rsvpSelectorOptionClass(
                 isSelected,
                 cn(
                   "flex items-center gap-4 px-5 py-4 text-left",
@@ -63,13 +63,15 @@ export function AttendanceSelector({
               <span className="text-xl" aria-hidden="true">
                 {option.emoji}
               </span>
-              <span className="flex-1 font-theme-headline text-lg text-primary">
+              <span className="flex-1 font-theme-headline text-lg text-[var(--theme-primary-foreground)]">
                 {option.label}
               </span>
               <Icon
                 className={cn(
                   "size-5 shrink-0 transition-colors",
-                  isSelected ? "text-accent" : "text-primary/30",
+                  isSelected
+                    ? "text-accent"
+                    : "text-[var(--theme-primary-foreground)]/35",
                 )}
                 strokeWidth={1.75}
                 aria-hidden="true"
@@ -78,7 +80,11 @@ export function AttendanceSelector({
           );
         })}
       </div>
-      {error ? <ThemeFormError>{error}</ThemeFormError> : null}
+      {error ? (
+        <p role="alert" className={rsvpErrorClass()}>
+          {error}
+        </p>
+      ) : null}
     </fieldset>
   );
 }

@@ -98,15 +98,18 @@ export interface BabyRevealContentConfig {
     mother: string;
     father: string;
   };
+  babyName: string;
   revealDate: string;
   countdownTarget?: string;
   location: string;
   brand: string;
-  gender: BabyGender;
+  scratchCard: {
+    hint: string;
+    revealThreshold: number;
+  };
   copy: {
     title: string;
     subtitle: string;
-    instruction: string;
     revealMessage: string;
     ctaPrimary: string;
     ctaSecondary: string;
@@ -126,7 +129,7 @@ export type AnyThemeContentConfig =
 export function isBabyRevealConfig(
   config: AnyThemeContentConfig,
 ): config is BabyRevealContentConfig {
-  return "gender" in config && "parents" in config;
+  return "babyName" in config && "parents" in config;
 }
 
 export function isWeddingConfig(
@@ -135,12 +138,36 @@ export function isWeddingConfig(
   return "couple" in config;
 }
 
+export interface ThemeMusicConfig {
+  /** Public URL or path to the background track (e.g. /themes/royal-wedding/music/background.mp3). */
+  src: string;
+  /** Accessible label for the music toggle control. */
+  title?: string;
+  /** Playback volume from 0 to 1. Defaults to 0.35. */
+  volume?: number;
+  /** Whether the track should loop. Defaults to true. */
+  loop?: boolean;
+  /** Whether music should autoplay on load. Defaults to true. */
+  autoplay?: boolean;
+}
+
+export interface ThemeIntroConfig {
+  /** URL or bundled path to the intro video (e.g. envelope opening animation). */
+  src: string;
+  /** Skip the intro when the user prefers reduced motion. Defaults to true. */
+  skipOnReducedMotion?: boolean;
+}
+
 export interface ThemeDefinition {
   id: string;
   name: string;
   description: string;
   tokens: ThemeTokens;
   config: AnyThemeContentConfig;
+  /** Optional ambient background music for the invitation experience. */
+  music?: ThemeMusicConfig;
+  /** Optional cinematic intro played before the invitation content. */
+  intro?: ThemeIntroConfig;
   /** Combined next/font variable class names for this theme's fonts. */
   fontClassName: string;
   /** Full page composition rendered by the dynamic template route. */

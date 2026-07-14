@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  ThemeSection,
-  ThemeSectionContent,
-} from "@/themes/shared/components";
+import { ThemeSection, ThemeSectionContent } from "@/themes/shared/components";
 import {
   PhotoAlbumCarousel,
   type AlbumPhoto,
@@ -27,18 +24,14 @@ export function PhotoAlbumSection({
   return (
     <ThemeSection
       id="photo-album"
-      className={className ?? "py-16"}
+      className={className ?? "py-8"}
       srTitle={title}
       bottomGlow
     >
       <FloralPetals className="pointer-events-none absolute inset-0 overflow-hidden opacity-60" />
 
       <ThemeSectionContent>
-        <PhotoAlbumCarousel
-          photos={photos}
-          overline={overline}
-          title={title}
-        />
+        <PhotoAlbumCarousel photos={photos} overline={overline} title={title} />
       </ThemeSectionContent>
     </ThemeSection>
   );

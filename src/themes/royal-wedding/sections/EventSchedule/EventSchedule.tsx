@@ -7,6 +7,7 @@ import {
   ThemeSectionHeader,
 } from "@/themes/shared/components";
 import { EventCard } from "./EventCard";
+import { EventInvitationCard } from "./EventInvitationCard";
 import { weddingEvents } from "./events-data";
 import type { WeddingEvent } from "./types";
 
@@ -24,7 +25,11 @@ export function EventSchedule({
   className,
 }: EventScheduleProps) {
   return (
-    <ThemeSection id="events" className={className ?? "py-16"} srTitle={title}>
+    <ThemeSection
+      id="events"
+      className={className ?? "scroll-mt-24 py-16"}
+      srTitle={title}
+    >
       <ThemeSectionContent>
         <ThemeSectionHeader
           overline="Our Celebrations"
@@ -32,12 +37,16 @@ export function EventSchedule({
           subtitle={subtitle}
         />
 
-        <div className="mt-10 space-y-2">
+        <div className="mt-10 space-y-8">
           {events.map((event, index) => (
             <div key={event.id}>
-              <EventCard event={event} index={index} />
+              {event.cardVariant === "invitation" ? (
+                <EventInvitationCard event={event} index={index} />
+              ) : (
+                <EventCard event={event} index={index} />
+              )}
               {index < events.length - 1 ? (
-                <ThemeFloralDivider size="sm" />
+                <ThemeFloralDivider size="sm" className="mt-8" />
               ) : null}
             </div>
           ))}

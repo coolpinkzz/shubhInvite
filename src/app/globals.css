@@ -288,6 +288,18 @@
     color: var(--theme-text-subtle);
   }
 
+  .text-theme-accent {
+    color: var(--theme-accent);
+  }
+
+  .text-theme-accent-light {
+    color: var(--theme-accent-light);
+  }
+
+  .text-theme-on-primary {
+    color: var(--theme-primary-foreground);
+  }
+
   .bg-theme-surface-low {
     background-color: var(--theme-surface-low);
   }

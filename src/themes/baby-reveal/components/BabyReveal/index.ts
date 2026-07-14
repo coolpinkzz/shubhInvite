@@ -1,4 +1,5 @@
 export { BabyRevealHero, type BabyRevealProps } from "./BabyRevealHero";
+export { BabyNameScratchCard } from "./BabyNameScratchCard";
 export { ParentsNames } from "./ParentsNames";
 export { HeroIllustration } from "./HeroIllustration";
 export { HeroFooterIllustration } from "./HeroFooterIllustration";

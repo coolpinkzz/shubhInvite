@@ -54,6 +54,7 @@ export function tokensToCssVars(tokens: ThemeTokens): CssVarMap {
     "--color-primary": colors.primaryContainer,
     "--color-primary-foreground": colors.primaryForeground,
     "--color-accent": colors.accent,
+    "--color-accent-light": colors.accentLight,
     "--color-background": colors.background,
     "--color-foreground": colors.text,
     "--color-muted": colors.textMuted,
