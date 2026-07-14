@@ -134,6 +134,7 @@ export function ThemeProvider({
         {!introComplete && intro ? (
           <EnvelopeIntro
             src={intro.src}
+            emblemSrc={intro.emblemSrc}
             onStart={handleIntroStart}
             onComplete={handleIntroComplete}
           />

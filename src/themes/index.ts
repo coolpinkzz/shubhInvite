@@ -1,12 +1,14 @@
 import type { ThemeDefinition, ThemeId } from "@/types/theme";
 
 import { babyRevealTheme } from "./baby-reveal";
+import { birthdayCelebrationTheme } from "./birthday-celebration";
 import { modernWeddingTheme } from "./modern-wedding";
 import { royalMaroonFloralTheme } from "./royal-maroon-floral";
 import { royalWeddingTheme } from "./royal-wedding";
 
 export const themes = {
   "baby-reveal": babyRevealTheme,
+  "birthday-celebration": birthdayCelebrationTheme,
   "royal-wedding": royalWeddingTheme,
   "modern-wedding": modernWeddingTheme,
   "royal-maroon-floral": royalMaroonFloralTheme,
@@ -25,6 +27,10 @@ export function isRegisteredTheme(slug: string): slug is RegisteredThemeId {
 }
 
 export { babyRevealTheme, babyRevealTokens } from "./baby-reveal";
+export {
+  birthdayCelebrationTheme,
+  birthdayCelebrationTokens,
+} from "./birthday-celebration";
 export { royalWeddingTheme, royalWeddingTokens } from "./royal-wedding";
 export { modernWeddingTheme, modernWeddingTokens } from "./modern-wedding";
 export {

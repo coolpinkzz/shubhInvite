@@ -36,10 +36,7 @@ export function RevealCard({
 
   return (
     <motion.div
-      className={cn(
-        "relative mx-auto w-full max-w-sm text-center",
-        className,
-      )}
+      className={cn("relative mx-auto w-full max-w-2xs text-center", className)}
       style={{
         padding: spacing.cardPadding,
         borderRadius: radius.card,
@@ -100,7 +97,11 @@ export function RevealCard({
         }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6, duration: 0.5, ease: animation.easing.luxury }}
+        transition={{
+          delay: 0.6,
+          duration: 0.5,
+          ease: animation.easing.luxury,
+        }}
       >
         {getRevealText(gender)}
       </motion.h2>

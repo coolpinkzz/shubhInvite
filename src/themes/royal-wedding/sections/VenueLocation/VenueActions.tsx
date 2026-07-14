@@ -48,7 +48,7 @@ export function VenueActions({
         className={cn(
           "flex w-full items-center justify-center gap-2.5 rounded-full",
           "bg-accent px-6 py-4",
-          "font-theme-label text-xs font-semibold uppercase tracking-[0.12em] text-primary",
+          "font-theme-label text-xs font-semibold uppercase tracking-[0.12em] text-white",
           "transition-shadow duration-300",
         )}
         style={{ boxShadow: shadows.button }}

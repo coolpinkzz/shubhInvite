@@ -122,14 +122,56 @@ export interface BabyRevealContentConfig {
   }[];
 }
 
+export interface BirthdayContentConfig {
+  id: string;
+  name: string;
+  celebrant: {
+    firstName: string;
+    fullName: string;
+  };
+  age: number;
+  parents: {
+    mother: string;
+    father: string;
+  };
+  date: string;
+  countdownTarget?: string;
+  location: string;
+  brand: string;
+  ageReveal: {
+    hint: string;
+    revealThreshold: number;
+  };
+  copy: {
+    title: string;
+    subtitle: string;
+    revealMessage: string;
+    ctaPrimary: string;
+    ctaSecondary: string;
+    footerMessage: string;
+  };
+  photoAlbum: readonly {
+    src: string;
+    alt: string;
+    caption: string;
+  }[];
+}
+
 export type AnyThemeContentConfig =
   | WeddingThemeContentConfig
-  | BabyRevealContentConfig;
+  | BabyRevealContentConfig
+  | BirthdayContentConfig;
 
 export function isBabyRevealConfig(
   config: AnyThemeContentConfig,
 ): config is BabyRevealContentConfig {
   return "babyName" in config && "parents" in config;
+}
+
+export function isBirthdayConfig(
+  config: AnyThemeContentConfig,
+): config is BirthdayContentConfig {
+  return "age" in config && "celebrant" in config;
 }
 
 export function isWeddingConfig(
@@ -152,8 +194,13 @@ export interface ThemeMusicConfig {
 }
 
 export interface ThemeIntroConfig {
-  /** URL or bundled path to the intro video (e.g. envelope opening animation). */
-  src: string;
+  /**
+   * Optional intro video (e.g. envelope opening).
+   * When omitted, tap immediately starts music and reveals the invitation.
+   */
+  src?: string;
+  /** Optional emblem/mark shown on the tap overlay (e.g. theme logo). */
+  emblemSrc?: string;
   /** Skip the intro when the user prefers reduced motion. Defaults to true. */
   skipOnReducedMotion?: boolean;
 }

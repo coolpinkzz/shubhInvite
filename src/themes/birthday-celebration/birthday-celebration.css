@@ -1,0 +1,210 @@
+@import "../shared/styles/theme-base.css";
+
+.birthday-celebration {
+  --font-theme-display: var(--font-bangers), "Bangers", Impact, sans-serif;
+  --font-theme-body: var(--font-exo-2), "Exo 2", system-ui, sans-serif;
+  --web-gold: #f5c542;
+}
+
+.birthday-celebration .font-theme-display {
+  font-family: var(--font-theme-display);
+  letter-spacing: 0.04em;
+}
+
+.birthday-celebration .font-theme-body,
+.birthday-celebration .font-theme-label {
+  font-family: var(--font-theme-body);
+}
+
+.birthday-celebration .mughal-arch,
+.birthday-celebration .event-schedule-pattern {
+  display: none;
+}
+
+/* Hide wedding latkan garlands — comic theme uses web dividers instead */
+.birthday-celebration header .garland-swing {
+  display: none;
+}
+
+/* Soften wedding floral star under section titles */
+.birthday-celebration header svg path[d^="M12 0L14.5"] {
+  display: none;
+}
+
+/* Comic map panel: drop soft wedding rounding inside shared EmbeddedMap */
+.birthday-celebration #venue .rounded-3xl {
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+}
+
+/* Subtle web-grid overlay for comic atmosphere */
+.birthday-celebration .comic-web-grid {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.07' stroke-width='0.8'%3E%3Ccircle cx='60' cy='60' r='18'/%3E%3Ccircle cx='60' cy='60' r='36'/%3E%3Ccircle cx='60' cy='60' r='54'/%3E%3Cpath d='M60 6v108M6 60h108M22 22l76 76M98 22L22 98'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 120px 120px;
+}
+
+.birthday-celebration .comic-web-divider {
+  display: block;
+  width: 100%;
+  max-width: 12rem;
+  height: 1px;
+  margin-inline: auto;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #e0112b 20%,
+    #1b4fd8 50%,
+    #e0112b 80%,
+    transparent 100%
+  );
+  position: relative;
+}
+
+.birthday-celebration .comic-web-divider::before,
+.birthday-celebration .comic-web-divider::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: #e0112b;
+  transform: translateY(-50%);
+}
+
+.birthday-celebration .comic-web-divider::before {
+  left: 18%;
+}
+
+.birthday-celebration .comic-web-divider::after {
+  right: 18%;
+  background: #1b4fd8;
+}
+
+.birthday-celebration .comic-panel {
+  border: 3px solid #0b1220;
+  box-shadow: 4px 4px 0 #1b4fd8;
+  background: #fff;
+}
+
+.birthday-celebration .comic-caption-bar {
+  background: #0b1220;
+  color: #f4f1ec;
+  font-family: var(--font-theme-body);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.75rem;
+}
+
+.birthday-celebration .comic-cta-primary {
+  transform: skewX(-4deg);
+}
+
+.birthday-celebration .comic-cta-primary > span {
+  display: inline-block;
+  transform: skewX(4deg);
+}
+
+@keyframes birthday-confetti-fall {
+  0% {
+    transform: translateY(-10vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(110vh) translateX(40px) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+@keyframes birthday-balloon-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+  50% {
+    transform: translateY(-14px) rotate(3deg);
+  }
+}
+
+@keyframes birthday-glow-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+@keyframes comic-web-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@keyframes comic-city-twinkle {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+.birthday-celebration .birthday-confetti {
+  position: absolute;
+  pointer-events: none;
+  z-index: 5;
+  animation-name: birthday-confetti-fall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.birthday-celebration .birthday-balloon {
+  animation: birthday-balloon-float 4.5s ease-in-out infinite;
+}
+
+.birthday-celebration .birthday-hero-glow {
+  animation: birthday-glow-pulse 5s ease-in-out infinite;
+}
+
+.birthday-celebration .comic-web-burst-line {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2px;
+  height: 40%;
+  transform-origin: center bottom;
+  background: linear-gradient(to top, var(--web-gold), transparent);
+  animation: comic-web-burst 0.7s ease-out forwards;
+}
+
+.birthday-celebration .comic-city-light {
+  animation: comic-city-twinkle 2.8s ease-in-out infinite;
+}
+
+.birthday-celebration .event-swing-in {
+  transform-origin: top center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .birthday-celebration .birthday-confetti,
+  .birthday-celebration .birthday-balloon,
+  .birthday-celebration .birthday-hero-glow,
+  .birthday-celebration .comic-web-burst-line,
+  .birthday-celebration .comic-city-light {
+    animation: none;
+  }
+}
