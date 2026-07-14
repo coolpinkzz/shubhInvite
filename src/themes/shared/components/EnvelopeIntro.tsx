@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 export interface EnvelopeIntroProps {
   src: string;
   onComplete: () => void;
-  /** Fired when the intro video actually starts playing. */
+  /** Fired when the user taps and playback begins (also used to unlock music). */
   onStart?: () => void;
   className?: string;
 }
@@ -21,7 +21,7 @@ export function EnvelopeIntro({
 }: EnvelopeIntroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasStartedRef = useRef(false);
-  const [needsInteraction, setNeedsInteraction] = useState(false);
+  const [awaitingTap, setAwaitingTap] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
 
   const finishIntro = useCallback(() => {
@@ -35,19 +35,21 @@ export function EnvelopeIntro({
     onStart?.();
   }, [onStart]);
 
-  const attemptPlayback = useCallback(async () => {
+  const openInvitation = useCallback(async () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || hasStartedRef.current) return;
+
+    setAwaitingTap(false);
+    notifyStart();
 
     try {
       video.muted = true;
       await video.play();
-      setNeedsInteraction(false);
-      notifyStart();
     } catch {
-      setNeedsInteraction(true);
+      // If playback still fails, skip straight into the invitation.
+      finishIntro();
     }
-  }, [notifyStart]);
+  }, [finishIntro, notifyStart]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -56,10 +58,6 @@ export function EnvelopeIntro({
       document.body.style.overflow = "";
     };
   }, []);
-
-  useEffect(() => {
-    void attemptPlayback();
-  }, [attemptPlayback]);
 
   return (
     <AnimatePresence>
@@ -82,25 +80,53 @@ export function EnvelopeIntro({
             muted
             preload="auto"
             onEnded={finishIntro}
-            onClick={needsInteraction ? () => void attemptPlayback() : undefined}
           />
 
-          {needsInteraction ? (
+          {awaitingTap ? (
             <button
               type="button"
-              onClick={() => void attemptPlayback()}
+              onClick={() => void openInvitation()}
               className={cn(
-                "absolute inset-0 flex flex-col items-center justify-center gap-3",
-                "bg-black/35 text-white backdrop-blur-[2px]",
-                "font-theme-body text-lg tracking-wide",
-                "transition-opacity hover:bg-black/45",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80",
+                "absolute inset-0 flex flex-col items-center justify-center gap-4",
+                "bg-gradient-to-b from-black/55 via-black/40 to-black/60",
+                "text-white backdrop-blur-[1px]",
+                "transition-colors hover:from-black/60 hover:via-black/45 hover:to-black/65",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--theme-accent,#D4AF37)] focus-visible:ring-offset-2 focus-visible:ring-offset-black",
               )}
             >
-              <span className="text-sm uppercase tracking-[0.3em] text-white/80">
+              <motion.span
+                className="font-theme-label text-[11px] uppercase tracking-[0.35em] text-white/75"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              >
                 You&apos;re invited
-              </span>
-              <span className="font-theme-headline text-2xl">Tap to open</span>
+              </motion.span>
+
+              <motion.span
+                className="font-theme-headline text-3xl tracking-wide text-white sm:text-4xl"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.65,
+                  delay: 0.08,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+              >
+                Tap to open
+              </motion.span>
+
+              <motion.span
+                className="mt-2 h-px w-16 bg-gradient-to-r from-transparent via-[var(--theme-accent,#D4AF37)] to-transparent"
+                initial={{ opacity: 0, scaleX: 0.6 }}
+                animate={{ opacity: 1, scaleX: 1 }}
+                transition={{
+                  duration: 0.7,
+                  delay: 0.16,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
+                aria-hidden="true"
+              />
             </button>
           ) : null}
         </motion.div>
