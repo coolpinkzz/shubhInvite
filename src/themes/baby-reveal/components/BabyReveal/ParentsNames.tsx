@@ -25,10 +25,10 @@ export function ParentsNames({
       className={cn("text-center", className)}
       initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.45, duration: 0.6, ease: animation.easing.luxury }}
+      transition={{ delay: 0.35, duration: 0.6, ease: animation.easing.luxury }}
     >
       <p
-        className="font-theme-body font-medium tracking-[0.2em] uppercase"
+        className="font-theme-body font-medium tracking-[0.22em] uppercase"
         style={{
           fontSize: typography.instruction,
           color: colors.pastel.accent,
@@ -37,26 +37,15 @@ export function ParentsNames({
         {overline}
       </p>
 
-      <div className="mt-2 flex flex-col gap-1">
-        <p
-          className="font-theme-display font-light tracking-tight"
-          style={{
-            fontSize: typography.title,
-            color: colors.pastel.text,
-          }}
-        >
-          {mother}
-        </p>
-        <p
-          className="font-theme-display font-light tracking-tight"
-          style={{
-            fontSize: typography.title,
-            color: colors.pastel.text,
-          }}
-        >
-          {father}
-        </p>
-      </div>
+      <p
+        className="mt-2 font-theme-display font-light tracking-tight"
+        style={{
+          fontSize: typography.title,
+          color: colors.pastel.text,
+        }}
+      >
+        {father} & {mother}
+      </p>
     </motion.div>
   );
 }

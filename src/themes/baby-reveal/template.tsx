@@ -12,6 +12,7 @@ import "./baby-reveal.css";
 export function BabyRevealTemplate() {
   const {
     babyName,
+    brand,
     parents,
     copy,
     scratchCard,
@@ -29,9 +30,11 @@ export function BabyRevealTemplate() {
     <>
       <BabyRevealHero
         babyName={babyName}
+        brand={brand}
         scratchCard={scratchCard}
         parents={parents}
         parentsOverline={copy.parentsOverline}
+        inviteLine={copy.inviteLine}
         title={copy.title}
         subtitle={copy.subtitle}
         revealMessage={copy.revealMessage}

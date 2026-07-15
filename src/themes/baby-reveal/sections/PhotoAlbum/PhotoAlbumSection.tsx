@@ -18,7 +18,7 @@ interface PhotoAlbumSectionProps {
 export function PhotoAlbumSection({
   photos,
   overline = "Our Journey",
-  title = "Mom & Dad",
+  title = "Our Journey",
   className,
 }: PhotoAlbumSectionProps) {
   return (

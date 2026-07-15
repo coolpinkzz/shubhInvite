@@ -1,6 +1,7 @@
 export { BabyRevealHero, type BabyRevealProps } from "./BabyRevealHero";
 export { BabyNameScratchCard } from "./BabyNameScratchCard";
 export { ParentsNames } from "./ParentsNames";
+export { GaneshaEmblem } from "./GaneshaEmblem";
 export { HeroIllustration } from "./HeroIllustration";
 export { HeroFooterIllustration } from "./HeroFooterIllustration";
 export { BackgroundIcons } from "./BackgroundIcons";

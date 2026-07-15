@@ -12,6 +12,7 @@ import { BabyNameScratchCard } from "./BabyNameScratchCard";
 import { CountdownBadge } from "./CountdownBadge";
 import { CTAButtons } from "./CTAButtons";
 import { FloralPetals } from "./FloralPetals";
+import { GaneshaEmblem } from "./GaneshaEmblem";
 import { HeroIllustration } from "./HeroIllustration";
 import { ParentsNames } from "./ParentsNames";
 
@@ -19,6 +20,7 @@ const { colors, spacing, typography, animation } = babyRevealDesignTokens;
 
 export interface BabyRevealProps {
   babyName: string;
+  brand?: string;
   scratchCard?: {
     hint?: string;
     revealThreshold?: number;
@@ -28,6 +30,7 @@ export interface BabyRevealProps {
     father: string;
   };
   parentsOverline?: string;
+  inviteLine?: string;
   title?: string;
   subtitle?: string;
   revealMessage?: string;
@@ -42,12 +45,14 @@ export interface BabyRevealProps {
 
 export function BabyRevealHero({
   babyName,
+  brand = "Kuan Puja",
   scratchCard,
   parents,
   parentsOverline,
-  title = "One Little Secret...",
-  subtitle = "Our greatest blessing has finally arrived.",
-  revealMessage = "Our hearts are overflowing with joy.",
+  inviteLine = "With the blessings of elders and family, we invite you to grace the",
+  title = "Naming Ceremony",
+  subtitle = "of our beloved son",
+  revealMessage = "Your presence and blessings will add to the joy of this special day.",
   countdownTarget,
   ctaPrimary = "View Invitation",
   ctaSecondary = "Celebrate With Us",
@@ -70,7 +75,7 @@ export function BabyRevealHero({
         className,
       )}
       style={{ padding: spacing.heroPadding }}
-      aria-label="Baby name reveal"
+      aria-label="Naming ceremony invitation"
     >
       <BackgroundTransition revealed={isNameRevealed} />
       <BackgroundIcons className="pointer-events-none absolute inset-0" />
@@ -83,14 +88,50 @@ export function BabyRevealHero({
         className="relative z-10 flex w-full max-w-md flex-col items-center"
         style={{ gap: spacing.sectionGap }}
       >
+        <GaneshaEmblem />
+
+        <motion.p
+          className="font-theme-body font-medium tracking-[0.28em] uppercase"
+          style={{
+            fontSize: typography.brand,
+            color: colors.pastel.blueDeep,
+          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          {brand}
+        </motion.p>
+
+        {parents ? (
+          <ParentsNames
+            mother={parents.mother}
+            father={parents.father}
+            overline={parentsOverline}
+          />
+        ) : null}
+
         <motion.header
           className="text-center"
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: animation.easing.luxury }}
+          transition={{ delay: 0.25, duration: 0.7, ease: animation.easing.luxury }}
         >
+          <motion.p
+            className="mx-auto max-w-sm font-theme-body leading-relaxed"
+            style={{
+              fontSize: typography.body,
+              color: colors.pastel.textMuted,
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3, duration: 0.55 }}
+          >
+            {inviteLine}
+          </motion.p>
+
           <motion.h1
-            className="font-theme-display font-light tracking-tight"
+            className="mt-3 font-theme-display font-light tracking-tight"
             style={{
               fontSize: typography.title,
               color: colors.pastel.text,
@@ -107,19 +148,11 @@ export function BabyRevealHero({
             }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
           >
             {subtitle}
           </motion.p>
         </motion.header>
-
-        {parents ? (
-          <ParentsNames
-            mother={parents.mother}
-            father={parents.father}
-            overline={parentsOverline}
-          />
-        ) : null}
 
         {!isNameRevealed ? <HeroIllustration visible /> : null}
 

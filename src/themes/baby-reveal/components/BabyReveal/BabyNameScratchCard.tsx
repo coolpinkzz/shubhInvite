@@ -158,7 +158,7 @@ function triggerCelebrationHaptic() {
 
 export function BabyNameScratchCard({
   babyName,
-  hint = "Scratch to Reveal Our Baby's Name ✨",
+  hint = "Scratch to Reveal the Name",
   revealThreshold = 0.55,
   onRevealed,
 }: BabyNameScratchCardProps) {
@@ -468,7 +468,7 @@ export function BabyNameScratchCard({
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
                 onPointerLeave={handlePointerUp}
-                aria-label="Scratch to reveal baby's name"
+                aria-label="Scratch to reveal the name"
                 role="img"
               />
             </div>

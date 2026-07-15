@@ -3,11 +3,10 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import boyOrGirlIllustration from "@/assests/boyorgirl.png";
 import { cn } from "@/lib/utils";
 import { babyRevealDesignTokens } from "@/themes/baby-reveal/tokens";
 
-const { spacing, shadows, animation } = babyRevealDesignTokens;
+const { spacing, animation } = babyRevealDesignTokens;
 
 interface HeroIllustrationProps {
   visible: boolean;
@@ -30,16 +29,13 @@ export function HeroIllustration({ visible, className }: HeroIllustrationProps) 
       }
       transition={{ duration: 0.7, ease: animation.easing.luxury }}
     >
-      <div
-        className="relative h-full w-full overflow-hidden rounded-2xl"
-        style={{ boxShadow: shadows.illustration }}
-      >
+      <div className="relative h-full w-full">
         <Image
-          src={boyOrGirlIllustration}
-          alt="Expectant couple at a gender reveal celebration"
+          src="/themes/baby-reveal/boynamingceremony.png"
+          alt="Baby boy in a festive cradle for the naming ceremony"
           fill
-          className="object-cover object-center"
-          sizes="(max-width: 430px) 65vw, 320px"
+          className="object-contain object-center mix-blend-screen"
+          sizes="(max-width: 430px) 70vw, 340px"
           priority
         />
       </div>

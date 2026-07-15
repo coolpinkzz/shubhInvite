@@ -6,47 +6,47 @@ import { babyRevealMusic } from "./baby-reveal/music";
 import { BabyRevealTemplate } from "./baby-reveal/template";
 
 /**
- * Baby Gender Reveal design tokens.
- * Pastel blue & pink palette inspired by the reveal illustration.
+ * Naming Ceremony (Kuan Puja) design tokens.
+ * Soft sky-blue & cream palette inspired by the boy naming illustration.
  */
 export const babyRevealTokens = {
   colors: {
-    primary: "#4A4540",
-    primaryForeground: "#FFF9F7",
-    primaryContainer: "#E8887A",
-    primaryContainerForeground: "#FFF9F7",
+    primary: "#3D4A56",
+    primaryForeground: "#F7FBFE",
+    primaryContainer: "#7BB8E0",
+    primaryContainerForeground: "#F7FBFE",
     secondary: "#A8D4F0",
-    secondaryForeground: "#4A4540",
-    secondaryContainer: "#FCE8EE",
-    accent: "#F4B8C8",
-    accentLight: "#FAD4DE",
-    accentMid: "#E8A0B0",
-    accentDark: "#D4889A",
-    background: "#FDF0EE",
-    surface: "#FFF9F7",
-    surfaceLow: "#FCE8EE",
-    text: "#4A4540",
-    textMuted: "#8A7F78",
-    textSubtle: "#A89E96",
-    border: "#FAD4DE",
-    borderSubtle: "rgba(244, 184, 200, 0.25)",
-    outline: "#F4B8C8",
-    outlineVariant: "#FCE8EE",
-    petal: ["#FAD4DE", "#C5E4F7", "#F4B8C8", "#A8D4F0", "#E8887A"],
-    eventAccent: ["#A8D4F0", "#F4B8C8"],
+    secondaryForeground: "#3D4A56",
+    secondaryContainer: "#E8F4FC",
+    accent: "#8EC8E8",
+    accentLight: "#C5E4F7",
+    accentMid: "#7BB8E0",
+    accentDark: "#5B8FB9",
+    background: "#F0F7FC",
+    surface: "#F7FBFE",
+    surfaceLow: "#E8F4FC",
+    text: "#3D4A56",
+    textMuted: "#7A8794",
+    textSubtle: "#9AA6B2",
+    border: "#C5E4F7",
+    borderSubtle: "rgba(123, 184, 224, 0.28)",
+    outline: "#A8D4F0",
+    outlineVariant: "#E8F4FC",
+    petal: ["#C5E4F7", "#E8F4FC", "#A8D4F0", "#D4E8F5", "#F7FBFE", "#7BB8E0"],
+    eventAccent: ["#7BB8E0", "#A8D4F0"],
   },
   gradients: {
-    hero: "linear-gradient(165deg, #FDF0EE 0%, #FCE8EE 40%, #E8F4FC 100%)",
+    hero: "linear-gradient(165deg, #F7FBFE 0%, #E8F4FC 40%, #D4E8F5 100%)",
     button:
-      "linear-gradient(135deg, #E8887A 0%, #F4B8C8 50%, #A8D4F0 100%)",
-    card: "linear-gradient(180deg, rgba(255, 249, 247, 0.95) 0%, rgba(252, 232, 238, 0.9) 100%)",
+      "linear-gradient(135deg, #7BB8E0 0%, #A8D4F0 50%, #C5E4F7 100%)",
+    card: "linear-gradient(180deg, rgba(247, 251, 254, 0.96) 0%, rgba(232, 244, 252, 0.92) 100%)",
     cardTopLine:
-      "linear-gradient(90deg, transparent 0%, #F4B8C8 50%, transparent 100%)",
+      "linear-gradient(90deg, transparent 0%, #A8D4F0 50%, transparent 100%)",
   },
   shadows: {
-    card: "0 20px 50px -14px rgba(232, 136, 122, 0.18)",
-    hero: "0 16px 48px -10px rgba(244, 184, 200, 0.25)",
-    button: "0 4px 20px -4px rgba(168, 212, 240, 0.4)",
+    card: "0 20px 50px -14px rgba(91, 143, 185, 0.16)",
+    hero: "0 16px 48px -10px rgba(123, 184, 224, 0.22)",
+    button: "0 4px 20px -4px rgba(123, 184, 224, 0.4)",
   },
   radius: {
     card: "1.5rem",
@@ -63,9 +63,9 @@ export const babyRevealTokens = {
 
 export const babyRevealTheme = {
   id: "baby-reveal",
-  name: "Baby Name Reveal",
+  name: "Naming Ceremony",
   description:
-    "Premium baby name reveal with a scratch card experience and pastel celebration.",
+    "Simple modern Kuan Puja / Namkaran invite with a scratch-to-reveal name card.",
   tokens: babyRevealTokens,
   config: babyRevealConfig,
   music: babyRevealMusic,

@@ -108,6 +108,7 @@ export interface BabyRevealContentConfig {
     revealThreshold: number;
   };
   copy: {
+    inviteLine?: string;
     title: string;
     subtitle: string;
     revealMessage: string;
