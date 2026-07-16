@@ -18,6 +18,8 @@ const STAR_POSITIONS = [
   { top: "10%", right: "12%", size: 7, delay: 1.5 },
   { top: "28%", right: "8%", size: 4, delay: 0.8 },
   { top: "6%", left: "45%", size: 5, delay: 2 },
+  { bottom: "18%", left: "18%", size: 5, delay: 1.2 },
+  { bottom: "12%", right: "22%", size: 4, delay: 0.6 },
 ] as const;
 
 export function FloatingStars({ count = 6, className }: FloatingStarsProps) {
@@ -30,7 +32,8 @@ export function FloatingStars({ count = 6, className }: FloatingStarsProps) {
           key={index}
           className="absolute"
           style={{
-            top: star.top,
+            top: "top" in star ? star.top : undefined,
+            bottom: "bottom" in star ? star.bottom : undefined,
             left: "left" in star ? star.left : undefined,
             right: "right" in star ? star.right : undefined,
             width: star.size,

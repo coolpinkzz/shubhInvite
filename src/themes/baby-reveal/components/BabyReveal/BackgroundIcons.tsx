@@ -100,27 +100,64 @@ function LotusIcon({ color, size }: { color: string; size: number }) {
   );
 }
 
+function FlowerIcon({ color, size }: { color: string; size: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 28 28" fill="none" aria-hidden="true">
+      <ellipse cx="14" cy="9" rx="5" ry="8" fill={color} opacity={0.75} />
+      <ellipse
+        cx="9"
+        cy="13"
+        rx="5"
+        ry="8"
+        fill={color}
+        opacity={0.65}
+        transform="rotate(-72 14 14)"
+      />
+      <ellipse
+        cx="19"
+        cy="13"
+        rx="5"
+        ry="8"
+        fill={color}
+        opacity={0.65}
+        transform="rotate(72 14 14)"
+      />
+      <circle cx="14" cy="14" r="4" fill={color} opacity={0.85} />
+    </svg>
+  );
+}
+
 const ICONS = [
+  { type: "flower" as const, top: "14%", left: "12%", size: 20, color: colors.pastel.blueLight, delay: 0.35 },
   { type: "heart" as const, top: "8%", left: "5%", size: 26, color: colors.pastel.blue, delay: 0 },
   { type: "balloon" as const, top: "6%", left: "18%", size: 22, color: colors.pastel.blueLight, delay: 0.4 },
+  { type: "flower" as const, top: "9%", right: "14%", size: 18, color: colors.pastel.blueSoft, delay: 0.55 },
   { type: "sparkle" as const, top: "10%", right: "8%", size: 20, color: colors.pastel.blueDeep, delay: 0.2 },
   { type: "balloon" as const, top: "5%", right: "22%", size: 18, color: colors.pastel.blue, delay: 0.9 },
   { type: "heart" as const, top: "16%", right: "5%", size: 20, color: colors.pastel.blueLight, delay: 1.1 },
+  { type: "flower" as const, top: "22%", right: "16%", size: 16, color: colors.pastel.blue, delay: 1.25 },
   { type: "star" as const, top: "18%", left: "8%", size: 16, color: "#FFFFFF", delay: 0.6 },
   { type: "lotus" as const, top: "24%", left: "3%", size: 22, color: colors.pastel.blueDeep, delay: 0.7 },
+  { type: "flower" as const, top: "30%", left: "11%", size: 18, color: colors.pastel.blueLight, delay: 0.85 },
   { type: "cloud" as const, top: "28%", right: "6%", size: 24, color: colors.pastel.blueSoft, delay: 1.3 },
   { type: "balloon" as const, top: "34%", left: "6%", size: 20, color: colors.pastel.blueDeep, delay: 0.5 },
+  { type: "flower" as const, top: "42%", right: "5%", size: 22, color: colors.pastel.blueSoft, delay: 1.35 },
   { type: "heart" as const, top: "38%", right: "4%", size: 18, color: colors.pastel.blue, delay: 1.5 },
   { type: "sparkle" as const, top: "44%", left: "4%", size: 16, color: colors.pastel.blueLight, delay: 0.8 },
+  { type: "flower" as const, top: "50%", left: "7%", size: 14, color: colors.pastel.blue, delay: 1.45 },
   { type: "star" as const, top: "48%", right: "9%", size: 14, color: colors.pastel.blueDeep, delay: 1.7 },
   { type: "balloon" as const, top: "52%", left: "10%", size: 16, color: colors.pastel.blueLight, delay: 1.2 },
+  { type: "lotus" as const, top: "58%", right: "11%", size: 18, color: colors.pastel.blueDeep, delay: 1.55 },
   { type: "heart" as const, bottom: "28%", left: "5%", size: 22, color: colors.pastel.blue, delay: 0.3 },
+  { type: "flower" as const, bottom: "26%", left: "14%", size: 20, color: colors.pastel.blueLight, delay: 0.75 },
   { type: "cloud" as const, bottom: "24%", right: "8%", size: 26, color: "#FFFFFF", delay: 1 },
   { type: "balloon" as const, bottom: "18%", right: "4%", size: 24, color: colors.pastel.blueDeep, delay: 0.65 },
+  { type: "flower" as const, bottom: "20%", right: "14%", size: 18, color: colors.pastel.blueSoft, delay: 1.05 },
   { type: "sparkle" as const, bottom: "16%", left: "12%", size: 18, color: colors.pastel.blueLight, delay: 1.4 },
   { type: "heart" as const, bottom: "12%", right: "16%", size: 16, color: colors.pastel.blue, delay: 1.8 },
   { type: "star" as const, bottom: "10%", left: "24%", size: 14, color: "#FFFFFF", delay: 0.45 },
   { type: "lotus" as const, bottom: "20%", left: "3%", size: 20, color: colors.pastel.blueDeep, delay: 1.6 },
+  { type: "flower" as const, bottom: "14%", left: "20%", size: 16, color: colors.pastel.blue, delay: 1.65 },
   { type: "balloon" as const, bottom: "8%", right: "28%", size: 18, color: colors.pastel.blueLight, delay: 0.95 },
   { type: "heart" as const, top: "60%", right: "12%", size: 14, color: colors.pastel.blueLight, delay: 2 },
 ] as const;
@@ -146,7 +183,9 @@ export function BackgroundIcons({ className }: BackgroundIconsProps) {
                 ? [0, 14, 0]
                 : icon.type === "balloon"
                   ? [-3, 3, -3]
-                  : [0, 5, 0],
+                  : icon.type === "flower" || icon.type === "lotus"
+                    ? [-4, 4, -4]
+                    : [0, 5, 0],
           }}
           transition={{
             duration: 4.5 + index * 0.18,
@@ -165,6 +204,7 @@ export function BackgroundIcons({ className }: BackgroundIconsProps) {
           {icon.type === "star" && <StarIcon color={icon.color} size={icon.size} />}
           {icon.type === "cloud" && <CloudIcon color={icon.color} size={icon.size} />}
           {icon.type === "lotus" && <LotusIcon color={icon.color} size={icon.size} />}
+          {icon.type === "flower" && <FlowerIcon color={icon.color} size={icon.size} />}
         </motion.div>
       ))}
     </div>

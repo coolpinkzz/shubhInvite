@@ -9,12 +9,17 @@ import { babyRevealDesignTokens } from "@/themes/baby-reveal/tokens";
 import { BackgroundIcons } from "./BackgroundIcons";
 import { BackgroundTransition } from "./BackgroundTransition";
 import { BabyNameScratchCard } from "./BabyNameScratchCard";
+import { Clouds } from "./Clouds";
 import { CountdownBadge } from "./CountdownBadge";
 import { CTAButtons } from "./CTAButtons";
 import { FloralPetals } from "./FloralPetals";
+import { FloatingStars } from "./FloatingStars";
 import { GaneshaEmblem } from "./GaneshaEmblem";
+import { HeroFloralDecor } from "./HeroFloralDecor";
+import { HeroFlowerWreath } from "./HeroFlowerWreath";
 import { HeroIllustration } from "./HeroIllustration";
 import { ParentsNames } from "./ParentsNames";
+import { ThemeFloralDivider } from "@/themes/shared/components";
 
 const { colors, spacing, typography, animation } = babyRevealDesignTokens;
 
@@ -78,17 +83,23 @@ export function BabyRevealHero({
       aria-label="Naming ceremony invitation"
     >
       <BackgroundTransition revealed={isNameRevealed} />
-      <BackgroundIcons className="pointer-events-none absolute inset-0" />
+      <HeroFloralDecor className="z-[1]" />
+      <BackgroundIcons className="pointer-events-none absolute inset-0 z-[2]" />
+      <Clouds className="pointer-events-none absolute inset-0 z-[2]" />
+      <FloatingStars count={8} className="pointer-events-none absolute inset-0 z-[2]" />
       <FloralPetals
+        dense
         enhanced={isNameRevealed}
-        className="pointer-events-none absolute inset-0 overflow-hidden"
+        className="pointer-events-none absolute inset-0 z-[3] overflow-hidden"
       />
 
       <div
         className="relative z-10 flex w-full max-w-md flex-col items-center"
         style={{ gap: spacing.sectionGap }}
       >
-        <GaneshaEmblem />
+        <HeroFlowerWreath>
+          <GaneshaEmblem />
+        </HeroFlowerWreath>
 
         <motion.p
           className="font-theme-body font-medium tracking-[0.28em] uppercase"
@@ -139,6 +150,8 @@ export function BabyRevealHero({
           >
             {title}
           </motion.h1>
+
+          <ThemeFloralDivider size="sm" className="mx-auto mt-2 max-w-xs" />
 
           <motion.p
             className="mt-2 font-theme-body"

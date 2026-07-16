@@ -25,7 +25,7 @@ export function GaneshaEmblem({ className }: GaneshaEmblemProps) {
       transition={{ duration: 0.8, ease: animation.easing.luxury }}
     >
       <Image
-        src="/themes/baby-reveal/lordganesha.png"
+        src="/themes/baby-reveal/lordganeshBlue.png"
         alt=""
         fill
         className="object-contain object-center mix-blend-screen"
