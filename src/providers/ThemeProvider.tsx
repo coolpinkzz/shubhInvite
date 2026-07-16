@@ -20,6 +20,7 @@ import type {
   ThemeTokens,
 } from "@/types/theme";
 import { EnvelopeIntro } from "@/themes/shared/components/EnvelopeIntro";
+import { LottieIntro } from "@/themes/shared/components/LottieIntro";
 import {
   ThemeMusicControl,
   type ThemeMusicControlHandle,
@@ -132,12 +133,21 @@ export function ThemeProvider({
         </div>
 
         {!introComplete && intro ? (
-          <EnvelopeIntro
-            src={intro.src}
-            emblemSrc={intro.emblemSrc}
-            onStart={handleIntroStart}
-            onComplete={handleIntroComplete}
-          />
+          intro.lottieSrc ? (
+            <LottieIntro
+              src={intro.lottieSrc}
+              emblemSrc={intro.emblemSrc}
+              onStart={handleIntroStart}
+              onComplete={handleIntroComplete}
+            />
+          ) : (
+            <EnvelopeIntro
+              src={intro.src}
+              emblemSrc={intro.emblemSrc}
+              onStart={handleIntroStart}
+              onComplete={handleIntroComplete}
+            />
+          )
         ) : null}
 
         {music ? (

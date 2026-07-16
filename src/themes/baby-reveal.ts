@@ -2,6 +2,7 @@ import type { ThemeDefinition, ThemeTokens } from "@/types/theme";
 
 import { babyRevealConfig } from "./baby-reveal/config";
 import { babyRevealFontClassName } from "./baby-reveal/fonts";
+import { babyRevealIntro } from "./baby-reveal/intro";
 import { babyRevealMusic } from "./baby-reveal/music";
 import { BabyRevealTemplate } from "./baby-reveal/template";
 
@@ -69,6 +70,7 @@ export const babyRevealTheme = {
   tokens: babyRevealTokens,
   config: babyRevealConfig,
   music: babyRevealMusic,
+  intro: babyRevealIntro,
   fontClassName: babyRevealFontClassName,
   Template: BabyRevealTemplate,
 } satisfies ThemeDefinition;

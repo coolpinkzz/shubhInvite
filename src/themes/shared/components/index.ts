@@ -2,6 +2,8 @@ export type { EventAccentVariant } from "@/themes/shared/utils/event-accent";
 export { resolveEventAccent } from "@/themes/shared/utils/event-accent";
 export { EnvelopeIntro } from "./EnvelopeIntro";
 export type { EnvelopeIntroProps } from "./EnvelopeIntro";
+export { LottieIntro } from "./LottieIntro";
+export type { LottieIntroProps } from "./LottieIntro";
 export { ThemeMusicControl } from "./ThemeMusicControl";
 export type {
   ThemeMusicControlHandle,

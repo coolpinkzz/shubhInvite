@@ -197,9 +197,14 @@ export interface ThemeMusicConfig {
 export interface ThemeIntroConfig {
   /**
    * Optional intro video (e.g. envelope opening).
-   * When omitted, tap immediately starts music and reveals the invitation.
+   * When omitted (and no lottieSrc), tap immediately starts music and reveals the invitation.
    */
   src?: string;
+  /**
+   * Optional Lottie JSON path under /public (e.g. /themes/.../loading.json).
+   * Takes precedence over `src` when both are set.
+   */
+  lottieSrc?: string;
   /** Optional emblem/mark shown on the tap overlay (e.g. theme logo). */
   emblemSrc?: string;
   /** Skip the intro when the user prefers reduced motion. Defaults to true. */
