@@ -83,10 +83,13 @@ export function BabyRevealHero({
       aria-label="Naming ceremony invitation"
     >
       <BackgroundTransition revealed={isNameRevealed} />
-      <HeroFloralDecor className="z-[1]" />
+      <HeroFloralDecor />
       <BackgroundIcons className="pointer-events-none absolute inset-0 z-[2]" />
       <Clouds className="pointer-events-none absolute inset-0 z-[2]" />
-      <FloatingStars count={8} className="pointer-events-none absolute inset-0 z-[2]" />
+      <FloatingStars
+        count={8}
+        className="pointer-events-none absolute inset-0 z-[2]"
+      />
       <FloralPetals
         dense
         enhanced={isNameRevealed}
@@ -97,11 +100,11 @@ export function BabyRevealHero({
         className="relative z-10 flex w-full max-w-md flex-col items-center"
         style={{ gap: spacing.sectionGap }}
       >
-        <HeroFlowerWreath>
+        <HeroFlowerWreath className="mt-10 sm:mt-12">
           <GaneshaEmblem />
         </HeroFlowerWreath>
 
-        <motion.p
+        {/* <motion.p
           className="font-theme-body font-medium tracking-[0.28em] uppercase"
           style={{
             fontSize: typography.brand,
@@ -112,7 +115,7 @@ export function BabyRevealHero({
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           {brand}
-        </motion.p>
+        </motion.p> */}
 
         {parents ? (
           <ParentsNames
@@ -126,7 +129,11 @@ export function BabyRevealHero({
           className="text-center"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.7, ease: animation.easing.luxury }}
+          transition={{
+            delay: 0.25,
+            duration: 0.7,
+            ease: animation.easing.luxury,
+          }}
         >
           <motion.p
             className="mx-auto max-w-sm font-theme-body leading-relaxed"

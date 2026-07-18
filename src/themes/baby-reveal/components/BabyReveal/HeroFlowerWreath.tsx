@@ -30,11 +30,19 @@ const WREATH_FLOWERS = Array.from({ length: 10 }, (_, index) => {
   };
 });
 
-export function HeroFlowerWreath({ className, children }: HeroFlowerWreathProps) {
+export function HeroFlowerWreath({
+  className,
+  children,
+}: HeroFlowerWreathProps) {
   const reducedMotion = useReducedMotion();
 
   return (
-    <div className={cn("relative inline-flex items-center justify-center", className)}>
+    <div
+      className={cn(
+        "relative inline-flex items-center justify-center",
+        className,
+      )}
+    >
       <svg
         className="pointer-events-none absolute inset-0 h-full w-full"
         viewBox="0 0 100 100"
@@ -95,7 +103,11 @@ export function HeroFlowerWreath({ className, children }: HeroFlowerWreathProps)
               opacity={0.65}
               transform={`rotate(72)`}
             />
-            <circle r={flower.size * 0.22} fill={colors.pastel.blueDeep} opacity={0.7} />
+            <circle
+              r={flower.size * 0.22}
+              fill={colors.pastel.blueDeep}
+              opacity={0.7}
+            />
           </motion.g>
         ))}
       </svg>
