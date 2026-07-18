@@ -19,9 +19,7 @@ export function HeroFloralDecor({ className }: HeroFloralDecorProps) {
       aria-hidden="true"
       initial={{ opacity: 0 }}
       animate={
-        reducedMotion
-          ? { opacity: 1 }
-          : { opacity: 1, scale: [1, 1.012, 1] }
+        reducedMotion ? { opacity: 1 } : { opacity: 1, scale: [1, 1.012, 1] }
       }
       transition={
         reducedMotion
@@ -33,7 +31,7 @@ export function HeroFloralDecor({ className }: HeroFloralDecorProps) {
       }
     >
       <Image
-        src="/themes/baby-reveal/blueflowerBorder.png"
+        src="/themes/baby-reveal/bluebg.png"
         alt=""
         fill
         priority
