@@ -2,6 +2,7 @@ import type { ThemeDefinition, ThemeId } from "@/types/theme";
 
 import { babyRevealTheme } from "./baby-reveal";
 import { birthdayCelebrationTheme } from "./birthday-celebration";
+import { christiansWeddingTheme } from "./christians-wedding";
 import { modernWeddingTheme } from "./modern-wedding";
 import { royalMaroonFloralTheme } from "./royal-maroon-floral";
 import { royalWeddingTheme } from "./royal-wedding";
@@ -9,6 +10,7 @@ import { royalWeddingTheme } from "./royal-wedding";
 export const themes = {
   "baby-reveal": babyRevealTheme,
   "birthday-celebration": birthdayCelebrationTheme,
+  "christians-wedding": christiansWeddingTheme,
   "royal-wedding": royalWeddingTheme,
   "modern-wedding": modernWeddingTheme,
   "royal-maroon-floral": royalMaroonFloralTheme,
@@ -37,3 +39,7 @@ export {
   royalMaroonFloralTheme,
   royalMaroonFloralTokens,
 } from "./royal-maroon-floral";
+export {
+  christiansWeddingTheme,
+  christiansWeddingTokens,
+} from "./christians-wedding";

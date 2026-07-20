@@ -42,7 +42,11 @@ export function EventScheduleSection({
         <div className="mt-10 space-y-2">
           {events.map((event, index) => (
             <div key={event.id}>
-              <EventCard event={event} index={index} />
+              <EventCard
+                event={event}
+                index={index}
+                cardClassName="border-accent/40 bg-[linear-gradient(160deg,#D4E8F5_0%,#C5E4F7_42%,#A8D4F0_100%)] shadow-[0_14px_36px_-14px_rgba(91,143,185,0.32)]"
+              />
               {index < events.length - 1 ? (
                 <ThemeFloralDivider size="sm" />
               ) : null}

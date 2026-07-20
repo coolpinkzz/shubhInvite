@@ -1,0 +1,125 @@
+@import "../shared/styles/theme-base.css";
+
+/* Christians Wedding — soft watercolor invitation aesthetic */
+
+.christians-wedding {
+  --cw-bg: #fcf7f3;
+  --cw-primary: #2e2e2e;
+  --cw-secondary: #666666;
+  --cw-accent: #b88c6a;
+}
+
+.christians-wedding .font-theme-display {
+  font-family: var(--theme-font-display);
+}
+
+.christians-wedding .font-theme-headline,
+.christians-wedding .font-theme-label,
+.christians-wedding .font-theme-body {
+  font-family: var(--theme-font-body);
+}
+
+.christians-wedding .cw-date-value {
+  font-family: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  font-weight: 700;
+  font-synthesis: none;
+}
+
+/* Gallery, events, venue & RSVP — high-contrast readable content */
+.christians-wedding .cw-section-content {
+  --cw-content-text: #1a1a1a;
+}
+
+.christians-wedding .cw-section-content .text-muted,
+.christians-wedding .cw-section-content .text-theme-subtle,
+.christians-wedding .cw-section-content .text-foreground,
+.christians-wedding .cw-section-content .text-primary {
+  color: var(--cw-content-text);
+}
+
+.christians-wedding .cw-section-content .font-theme-body:not([class*="text-white"]),
+.christians-wedding .cw-section-content .font-theme-label:not([class*="text-white"]) {
+  color: var(--cw-content-text);
+  font-weight: 700;
+}
+
+.christians-wedding .cw-section-content header .font-theme-body {
+  font-style: normal;
+}
+
+.christians-wedding .cw-section-content .font-theme-display {
+  color: var(--cw-content-text);
+}
+
+.christians-wedding .cw-section-content input,
+.christians-wedding .cw-section-content textarea {
+  color: var(--cw-content-text);
+  font-weight: 700;
+}
+
+.christians-wedding .cw-section-content input::placeholder,
+.christians-wedding .cw-section-content textarea::placeholder {
+  color: #444444;
+  font-weight: 600;
+}
+
+.christians-wedding .cw-section-content .font-theme-label.text-accent {
+  color: #6b4f38;
+  font-weight: 800;
+}
+
+.christians-wedding .cw-section-content .cw-venue-details .font-theme-body,
+.christians-wedding .cw-section-content .cw-venue-details .font-theme-label {
+  color: var(--cw-content-text);
+  font-weight: 700;
+}
+
+.christians-wedding .cw-section-content [class*="text-white"] {
+  font-weight: inherit;
+}
+
+.christians-wedding .cw-paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+@keyframes cw-petal-fall {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate3d(var(--cw-sway, 12px), 25vh, 0) rotate(90deg);
+  }
+  50% {
+    transform: translate3d(calc(var(--cw-sway, 12px) * -1), 55vh, 0) rotate(180deg);
+  }
+  75% {
+    transform: translate3d(var(--cw-sway, 12px), 80vh, 0) rotate(270deg);
+  }
+  100% {
+    transform: translate3d(0, 110vh, 0) rotate(360deg);
+  }
+}
+
+.christians-wedding .cw-petal {
+  will-change: transform;
+}
+
+/* Organic watercolor backdrop wash — soft irregular edges */
+.christians-wedding .cw-wash-blob {
+  filter: blur(2px);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+}
+
+/* Heart scratch cards — SVG mask scales with the element */
+.christians-wedding .cw-heart-scratch {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 92 C22 68 4 48 4 30 C4 16 16 6 30 6 C38 6 45 10 50 18 C55 10 62 6 70 6 C84 6 96 16 96 30 C96 48 78 68 50 92 Z'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='black' d='M50 92 C22 68 4 48 4 30 C4 16 16 6 30 6 C38 6 45 10 50 18 C55 10 62 6 70 6 C84 6 96 16 96 30 C96 48 78 68 50 92 Z'/%3E%3C/svg%3E");
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}

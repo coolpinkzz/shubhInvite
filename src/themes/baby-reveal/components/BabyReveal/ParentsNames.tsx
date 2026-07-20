@@ -44,7 +44,7 @@ export function ParentsNames({
           color: colors.pastel.text,
         }}
       >
-        {father} & {mother}
+        {mother} & {father}
       </p>
     </motion.div>
   );

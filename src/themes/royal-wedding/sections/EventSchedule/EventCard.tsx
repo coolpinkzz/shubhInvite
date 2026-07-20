@@ -14,6 +14,7 @@ interface EventCardProps {
   event: WeddingEvent;
   index: number;
   className?: string;
+  cardClassName?: string;
 }
 
 const cardVariants = {
@@ -34,7 +35,7 @@ const cardVariants = {
   }),
 };
 
-export function EventCard({ event, index, className }: EventCardProps) {
+export function EventCard({ event, index, className, cardClassName }: EventCardProps) {
   const { tokens } = useTheme();
   const accentColor = resolveEventAccent(tokens.colors, event.accent);
   const Icon = event.icon;
@@ -49,7 +50,7 @@ export function EventCard({ event, index, className }: EventCardProps) {
       whileTap={{ scale: 0.985, y: -2 }}
       className={cn("group relative", className)}
     >
-      <ThemeCard radius="2xl" interactive>
+      <ThemeCard radius="2xl" interactive className={cardClassName}>
         <div
           className="pointer-events-none absolute -right-8 -top-8 size-32 rounded-full opacity-[0.06]"
           style={{

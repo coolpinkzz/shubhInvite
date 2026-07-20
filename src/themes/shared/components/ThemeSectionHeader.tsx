@@ -11,6 +11,8 @@ export interface ThemeSectionHeaderProps {
   subtitle?: string;
   titleId?: string;
   className?: string;
+  /** Indian hanging latkan ornaments. Disable for non-Indian themes. */
+  showGarland?: boolean;
 }
 
 export function ThemeSectionHeader({
@@ -19,44 +21,47 @@ export function ThemeSectionHeader({
   subtitle,
   titleId,
   className,
+  showGarland = true,
 }: ThemeSectionHeaderProps) {
   return (
     <header className={cn("relative text-center", className)}>
-      <div className="pointer-events-none absolute -top-2 left-0 right-0 flex justify-between px-2">
-        <motion.div
-          className="garland-swing"
-          initial={{ opacity: 0, y: -12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <Image
-            src={latkan}
-            alt=""
-            width={32}
-            height={96}
-            className="h-16 w-auto object-contain opacity-80"
-            aria-hidden="true"
-          />
-        </motion.div>
-        <motion.div
-          className="garland-swing"
-          style={{ animationDelay: "-2s" }}
-          initial={{ opacity: 0, y: -12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <Image
-            src={latkan}
-            alt=""
-            width={32}
-            height={96}
-            className="h-16 w-auto object-contain opacity-80"
-            aria-hidden="true"
-          />
-        </motion.div>
-      </div>
+      {showGarland ? (
+        <div className="pointer-events-none absolute -top-2 left-0 right-0 flex justify-between px-2">
+          <motion.div
+            className="garland-swing"
+            initial={{ opacity: 0, y: -12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <Image
+              src={latkan}
+              alt=""
+              width={32}
+              height={96}
+              className="h-16 w-auto object-contain opacity-80"
+              aria-hidden="true"
+            />
+          </motion.div>
+          <motion.div
+            className="garland-swing"
+            style={{ animationDelay: "-2s" }}
+            initial={{ opacity: 0, y: -12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <Image
+              src={latkan}
+              alt=""
+              width={32}
+              height={96}
+              className="h-16 w-auto object-contain opacity-80"
+              aria-hidden="true"
+            />
+          </motion.div>
+        </div>
+      ) : null}
 
       <motion.p
         className="mb-2 font-theme-label text-[10px] font-semibold uppercase tracking-[0.2em] text-accent"
