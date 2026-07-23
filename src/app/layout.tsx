@@ -24,10 +24,11 @@ const pinyon = Pinyon_Script({
 
 export const metadata: Metadata = {
   title: {
-    default: "ShubhInvite",
+    default: "ShubhInvite — AI-Powered Digital Invitations",
     template: "%s | ShubhInvite",
   },
-  description: "Luxury digital wedding invitations",
+  description:
+    "Create beautiful digital invitations for weddings, birthdays, and every celebration in seconds with AI. No design experience required.",
 };
 
 export const viewport: Viewport = {

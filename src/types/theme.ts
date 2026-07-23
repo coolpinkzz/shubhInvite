@@ -201,6 +201,11 @@ export interface ThemeIntroConfig {
    */
   src?: string;
   /**
+   * Static poster (closed envelope) shown before playback.
+   * Critical on iOS Safari, which often leaves `<video>` black until play starts.
+   */
+  posterSrc?: string;
+  /**
    * Optional Lottie JSON path under /public (e.g. /themes/.../loading.json).
    * Takes precedence over `src` when both are set.
    */

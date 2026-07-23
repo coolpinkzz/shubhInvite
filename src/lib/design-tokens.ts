@@ -11,20 +11,20 @@ export const colors = {
     300: "#ebe3d5",
   },
   maroon: {
-    950: "#2a0a0a",
-    900: "#3d1212",
-    800: "#5c1a1a",
-    700: "#722f37",
-    600: "#8b3a42",
-    500: "#a64d56",
+    950: "#4a041c",
+    900: "#700830",
+    800: "#881040",
+    700: "#a01850",
+    600: "#b02060",
+    500: "#b82860",
   },
   gold: {
     200: "#f0e6c8",
     300: "#e8d5a3",
-    400: "#d4af37",
-    500: "#c9a962",
-    600: "#b8943f",
-    700: "#9a7b32",
+    400: "#c88838",
+    500: "#c08830",
+    600: "#b07828",
+    700: "#986018",
   },
   emerald: {
     900: "#0f2e24",
@@ -134,8 +134,8 @@ export const radius = {
 export const shadows = {
   soft: "0 2px 20px -4px rgb(26 26 26 / 0.06)",
   elevated: "0 8px 40px -8px rgb(26 26 26 / 0.1)",
-  luxury: "0 20px 60px -12px rgb(92 26 26 / 0.15)",
-  gold: "0 4px 24px -4px rgb(201 169 98 / 0.35)",
+  luxury: "0 20px 60px -12px rgb(136 16 64 / 0.15)",
+  gold: "0 4px 24px -4px rgb(192 136 48 / 0.35)",
 } as const;
 
 export const animation = {

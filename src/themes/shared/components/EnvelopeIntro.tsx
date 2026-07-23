@@ -9,6 +9,11 @@ import { cn } from "@/lib/utils";
 export interface EnvelopeIntroProps {
   /** When provided, plays after tap then reveals the invitation. */
   src?: string;
+  /**
+   * Closed-envelope still shown before tap.
+   * Needed on iOS Safari, which often keeps `<video>` black until playback.
+   */
+  posterSrc?: string;
   /** Optional brand/emblem mark on the tap overlay. */
   emblemSrc?: string;
   onComplete: () => void;
@@ -17,8 +22,15 @@ export interface EnvelopeIntroProps {
   className?: string;
 }
 
+/** Media fragment that nudges Safari to decode and paint the first frame. */
+function videoSrcWithFirstFrame(src: string) {
+  if (src.includes("#")) return src;
+  return `${src}#t=0.001`;
+}
+
 export function EnvelopeIntro({
   src,
+  posterSrc,
   emblemSrc,
   onComplete,
   onStart,
@@ -40,6 +52,33 @@ export function EnvelopeIntro({
     onStart?.();
   }, [onStart]);
 
+  // iOS Safari: force a tiny seek so a frame can paint if no poster is provided.
+  useEffect(() => {
+    if (!src || posterSrc) return;
+
+    const video = videoRef.current;
+    if (!video) return;
+
+    const paintFirstFrame = () => {
+      try {
+        if (video.readyState >= 1 && video.currentTime < 0.05) {
+          video.currentTime = 0.05;
+        }
+      } catch {
+        // Ignore seek errors on unsupported browsers.
+      }
+    };
+
+    video.addEventListener("loadedmetadata", paintFirstFrame);
+    video.addEventListener("loadeddata", paintFirstFrame);
+    video.load();
+
+    return () => {
+      video.removeEventListener("loadedmetadata", paintFirstFrame);
+      video.removeEventListener("loadeddata", paintFirstFrame);
+    };
+  }, [posterSrc, src]);
+
   const openInvitation = useCallback(async () => {
     if (hasStartedRef.current) return;
 
@@ -60,6 +99,7 @@ export function EnvelopeIntro({
 
     try {
       video.muted = true;
+      video.currentTime = 0;
       await video.play();
     } catch {
       finishIntro();
@@ -87,15 +127,32 @@ export function EnvelopeIntro({
           aria-hidden={!isVisible}
         >
           {src ? (
-            <video
-              ref={videoRef}
-              src={src}
-              className="h-full w-full object-cover"
-              playsInline
-              muted
-              preload="auto"
-              onEnded={finishIntro}
-            />
+            <>
+              <video
+                ref={videoRef}
+                src={videoSrcWithFirstFrame(src)}
+                poster={posterSrc}
+                className="absolute inset-0 h-full w-full object-cover"
+                playsInline
+                muted
+                preload="auto"
+                onEnded={finishIntro}
+              />
+              {/*
+                Keep a real <img> over the video while waiting.
+                iOS Safari often paints <video> as black until play(), and can ignore poster=.
+              */}
+              {posterSrc && awaitingTap ? (
+                // eslint-disable-next-line @next/next/no-img-element -- full-bleed poster; Next/Image not needed for static public asset
+                <img
+                  src={posterSrc}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover"
+                  aria-hidden="true"
+                  fetchPriority="high"
+                />
+              ) : null}
+            </>
           ) : (
             <div
               className="pointer-events-none absolute inset-0 comic-web-grid opacity-50"
@@ -110,7 +167,7 @@ export function EnvelopeIntro({
               className={cn(
                 "absolute inset-0 flex flex-col items-center justify-center gap-4 px-6",
                 src
-                  ? "bg-gradient-to-b from-black/55 via-black/40 to-black/60 backdrop-blur-[1px]"
+                  ? "bg-gradient-to-b from-black/40 via-black/25 to-black/45"
                   : "bg-gradient-to-b from-[#061018]/90 via-[#0B1220]/85 to-[#050A12]/95",
                 "text-white",
                 "transition-colors",

@@ -143,6 +143,7 @@ export function ThemeProvider({
           ) : (
             <EnvelopeIntro
               src={intro.src}
+              posterSrc={intro.posterSrc}
               emblemSrc={intro.emblemSrc}
               onStart={handleIntroStart}
               onComplete={handleIntroComplete}
