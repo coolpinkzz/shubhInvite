@@ -4,6 +4,7 @@ import { babyRevealTheme } from "./baby-reveal";
 import { birthdayCelebrationTheme } from "./birthday-celebration";
 import { christiansWeddingTheme } from "./christians-wedding";
 import { modernWeddingTheme } from "./modern-wedding";
+import { peacockTheme } from "./peacock";
 import { royalMaroonFloralTheme } from "./royal-maroon-floral";
 import { royalWeddingTheme } from "./royal-wedding";
 
@@ -11,6 +12,7 @@ export const themes = {
   "baby-reveal": babyRevealTheme,
   "birthday-celebration": birthdayCelebrationTheme,
   "christians-wedding": christiansWeddingTheme,
+  peacock: peacockTheme,
   "royal-wedding": royalWeddingTheme,
   "modern-wedding": modernWeddingTheme,
   "royal-maroon-floral": royalMaroonFloralTheme,
@@ -43,3 +45,4 @@ export {
   christiansWeddingTheme,
   christiansWeddingTokens,
 } from "./christians-wedding";
+export { peacockTheme, peacockTokens } from "./peacock";

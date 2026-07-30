@@ -1,0 +1,70 @@
+@import "../shared/styles/theme-base.css";
+
+/* Peacock Theme — royal ivory invitation aesthetic */
+
+.peacock {
+  --pk-bg: #fffdf8;
+  --pk-primary: #1e3a8a;
+  --pk-secondary: #0f766e;
+  --pk-accent: #d4af37;
+  --pk-text: #1e293b;
+}
+
+.peacock .font-theme-display {
+  font-family: var(--theme-font-display);
+}
+
+.peacock .font-theme-headline {
+  font-family: var(--font-cinzel), "Cinzel", Georgia, serif;
+}
+
+.peacock .font-theme-label,
+.peacock .font-theme-body {
+  font-family: var(--theme-font-body);
+}
+
+.peacock .pk-card-value {
+  font-family: var(--font-cinzel), "Cinzel", Georgia, serif;
+  font-weight: 600;
+  font-synthesis: none;
+}
+
+.peacock .pk-section-content {
+  --pk-content-text: #1e293b;
+}
+
+.peacock .pk-section-content .text-muted,
+.peacock .pk-section-content .text-theme-subtle,
+.peacock .pk-section-content .text-foreground,
+.peacock .pk-section-content .text-primary {
+  color: var(--pk-content-text);
+}
+
+.peacock .pk-section-content .font-theme-body:not([class*="text-white"]),
+.peacock .pk-section-content .font-theme-label:not([class*="text-white"]) {
+  color: var(--pk-content-text);
+}
+
+.peacock .pk-section-content .font-theme-display {
+  color: var(--pk-content-text);
+}
+
+.peacock .pk-section-content input,
+.peacock .pk-section-content textarea {
+  color: var(--pk-content-text);
+}
+
+.peacock .pk-section-content input::placeholder,
+.peacock .pk-section-content textarea::placeholder {
+  color: #64748b;
+}
+
+.peacock .pk-paper-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+.peacock .pk-peacock-blend {
+  filter: drop-shadow(0 12px 28px rgba(30, 58, 138, 0.12));
+}
