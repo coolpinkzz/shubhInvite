@@ -59,7 +59,7 @@ export function BabyRevealHero({
   subtitle = "of our beloved son",
   revealMessage = "Your presence and blessings will add to the joy of this special day.",
   countdownTarget,
-  ctaPrimary = "View Invitation",
+  ctaPrimary = "Get Direction",
   ctaSecondary = "Celebrate With Us",
   onReveal,
   onPrimaryClick,
@@ -136,7 +136,7 @@ export function BabyRevealHero({
           }}
         >
           <motion.p
-            className="mx-auto max-w-sm font-theme-body leading-relaxed"
+            className="mx-auto max-w-sm font-theme-body font-semibold leading-relaxed"
             style={{
               fontSize: typography.body,
               color: colors.pastel.textMuted,
@@ -149,7 +149,7 @@ export function BabyRevealHero({
           </motion.p>
 
           <motion.h1
-            className="mt-3 font-theme-display font-light tracking-tight"
+            className="mt-3 font-theme-display font-semibold tracking-tight"
             style={{
               fontSize: typography.title,
               color: colors.pastel.text,
@@ -161,7 +161,7 @@ export function BabyRevealHero({
           <ThemeFloralDivider size="sm" className="mx-auto mt-2 max-w-xs" />
 
           <motion.p
-            className="mt-2 font-theme-body"
+            className="mt-2 font-theme-body font-semibold"
             style={{
               fontSize: typography.subtitle,
               color: colors.pastel.textMuted,
@@ -192,7 +192,7 @@ export function BabyRevealHero({
             transition={{ duration: 0.6, ease: animation.easing.luxury }}
           >
             <p
-              className="font-theme-body"
+              className="font-theme-body font-semibold"
               style={{
                 fontSize: typography.body,
                 color: colors.pastel.textMuted,

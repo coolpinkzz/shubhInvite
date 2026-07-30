@@ -90,7 +90,7 @@ export function RevealCard({
       </motion.div>
 
       <motion.h2
-        className="font-theme-display font-light tracking-tight"
+        className="font-theme-display font-semibold tracking-tight"
         style={{
           fontSize: typography.reveal,
           color: revealColor,
@@ -107,7 +107,7 @@ export function RevealCard({
       </motion.h2>
 
       <motion.p
-        className="mt-3 font-theme-body"
+        className="mt-3 font-theme-body font-semibold"
         style={{
           fontSize: typography.body,
           color: colors.pastel.textMuted,

@@ -6,15 +6,14 @@ import {
   ThemeSectionContent,
   ThemeSectionHeader,
 } from "@/themes/shared/components";
-import { EventCard } from "@/themes/royal-wedding/sections/EventSchedule/EventCard";
-import type { WeddingEvent } from "@/themes/royal-wedding/sections/EventSchedule/types";
 
 import { FloralPetals } from "@/themes/baby-reveal/components/BabyReveal/FloralPetals";
 
+import { EventCard, type BabyRevealEvent } from "./EventCard";
 import { babyRevealEvents } from "./events-data";
 
 interface EventScheduleSectionProps {
-  events?: WeddingEvent[];
+  events?: BabyRevealEvent[];
   overline?: string;
   title?: string;
   subtitle?: string;
@@ -39,16 +38,12 @@ export function EventScheduleSection({
           subtitle={subtitle}
         />
 
-        <div className="mt-10 space-y-2">
+        <div className="mt-10 space-y-6">
           {events.map((event, index) => (
             <div key={event.id}>
-              <EventCard
-                event={event}
-                index={index}
-                cardClassName="border-accent/40 bg-[linear-gradient(160deg,#D4E8F5_0%,#C5E4F7_42%,#A8D4F0_100%)] shadow-[0_14px_36px_-14px_rgba(91,143,185,0.32)]"
-              />
+              <EventCard event={event} index={index} />
               {index < events.length - 1 ? (
-                <ThemeFloralDivider size="sm" />
+                <ThemeFloralDivider size="sm" className="mt-6" />
               ) : null}
             </div>
           ))}

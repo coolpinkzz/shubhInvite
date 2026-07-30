@@ -28,7 +28,7 @@ export function ParentsNames({
       transition={{ delay: 0.35, duration: 0.6, ease: animation.easing.luxury }}
     >
       <p
-        className="font-theme-body font-medium tracking-[0.22em] uppercase"
+        className="font-theme-body font-semibold tracking-[0.22em] uppercase"
         style={{
           fontSize: typography.instruction,
           color: colors.pastel.accent,
@@ -38,7 +38,7 @@ export function ParentsNames({
       </p>
 
       <p
-        className="mt-2 font-theme-display font-light tracking-tight"
+        className="mt-2 font-theme-display font-semibold tracking-tight"
         style={{
           fontSize: typography.title,
           color: colors.pastel.text,

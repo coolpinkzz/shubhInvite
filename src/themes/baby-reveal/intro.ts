@@ -1,8 +1,8 @@
 import type { ThemeIntroConfig } from "@/types/theme";
 
-/** Lottie splash — tap unlocks music, then plays the loading animation. */
+/** Envelope video intro — tap unlocks music, then plays the open animation. */
 export const babyRevealIntro = {
-  lottieSrc: "/themes/baby-reveal/babyLoading.json",
-  emblemSrc: "/themes/baby-reveal/lordganeshBlue.png",
+  src: "/themes/baby-reveal/intro.mp4",
+  posterSrc: "/themes/baby-reveal/intro-poster.jpg",
   skipOnReducedMotion: true,
 } satisfies ThemeIntroConfig;

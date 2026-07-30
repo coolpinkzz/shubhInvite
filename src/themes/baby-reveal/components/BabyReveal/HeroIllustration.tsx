@@ -20,8 +20,21 @@ const ORBITING_FLOWERS = [
 
 function MiniFlower({ size }: { size: number }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <ellipse cx="12" cy="7" rx="4" ry="6.5" fill={colors.pastel.blueLight} opacity={0.8} />
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden="true"
+    >
+      <ellipse
+        cx="12"
+        cy="7"
+        rx="4"
+        ry="6.5"
+        fill={colors.pastel.blueLight}
+        opacity={0.8}
+      />
       <ellipse
         cx="7.5"
         cy="11"
@@ -40,7 +53,13 @@ function MiniFlower({ size }: { size: number }) {
         opacity={0.7}
         transform="rotate(72 12 12)"
       />
-      <circle cx="12" cy="12" r="3" fill={colors.pastel.blueDeep} opacity={0.75} />
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        fill={colors.pastel.blueDeep}
+        opacity={0.75}
+      />
     </svg>
   );
 }
@@ -50,7 +69,10 @@ interface HeroIllustrationProps {
   className?: string;
 }
 
-export function HeroIllustration({ visible, className }: HeroIllustrationProps) {
+export function HeroIllustration({
+  visible,
+  className,
+}: HeroIllustrationProps) {
   const reducedMotion = useReducedMotion();
 
   return (
@@ -106,14 +128,30 @@ export function HeroIllustration({ visible, className }: HeroIllustrationProps) 
         aria-hidden="true"
       />
 
-      <div className="relative h-full w-full">
+      <div
+        className="absolute inset-[14%] overflow-hidden rounded-3xl border"
+        style={{
+          borderColor: `${colors.pastel.blueDeep}55`,
+          WebkitMaskImage:
+            "radial-gradient(ellipse 88% 88% at 50% 48%, #000 52%, transparent 78%)",
+          maskImage:
+            "radial-gradient(ellipse 88% 88% at 50% 48%, #000 52%, transparent 78%)",
+        }}
+      >
         <Image
-          src="/themes/baby-reveal/boynamingceremony.png"
+          src="/themes/baby-reveal/boynamingceremony1.jpeg"
           alt="Baby boy in a festive cradle for the naming ceremony"
           fill
-          className="object-contain object-center mix-blend-screen"
-          sizes="(max-width: 430px) 70vw, 340px"
+          className="object-cover object-center opacity-90 mix-blend-soft-light"
+          sizes="(max-width: 430px) 55vw, 280px"
           priority
+        />
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: `radial-gradient(ellipse at center, transparent 35%, ${colors.pastel.cream}88 100%)`,
+          }}
+          aria-hidden="true"
         />
       </div>
     </motion.div>

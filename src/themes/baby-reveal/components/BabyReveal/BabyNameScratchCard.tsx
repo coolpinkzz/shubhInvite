@@ -36,6 +36,40 @@ interface GoldDust {
 
 const BRUSH_RADIUS = 22;
 
+type RevealPhase = "scratch" | "revealed";
+
+/** Deterministic letter shuffle so SSR / client match; never equals the original. */
+function shuffleLetters(name: string): string {
+  const letters = name.replace(/\s+/g, "").toUpperCase().split("");
+  if (letters.length <= 1) return letters.join(" · ");
+
+  let seed = 0;
+  for (let i = 0; i < name.length; i++) {
+    seed = (seed * 31 + name.charCodeAt(i)) >>> 0;
+  }
+
+  const next = () => {
+    seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;
+    return seed / 0x100000000;
+  };
+
+  for (let i = letters.length - 1; i > 0; i--) {
+    const j = Math.floor(next() * (i + 1));
+    const tmp = letters[i];
+    letters[i] = letters[j];
+    letters[j] = tmp;
+  }
+
+  const original = name.replace(/\s+/g, "").toUpperCase();
+  if (letters.join("") === original) {
+    const first = letters.shift();
+    if (first) letters.push(first);
+  }
+
+  return letters.join(" · ");
+}
+
+
 function drawScratchLayer(
   ctx: CanvasRenderingContext2D,
   width: number,
@@ -158,12 +192,13 @@ function triggerCelebrationHaptic() {
 
 export function BabyNameScratchCard({
   babyName,
-  hint = "Scratch to Reveal the Name",
+  hint = "Scratch to unlock the letters",
   revealThreshold = 0.55,
   onRevealed,
 }: BabyNameScratchCardProps) {
   const { tokens } = useTheme();
   const { colors, shadows } = tokens;
+  const shuffledName = shuffleLetters(babyName);
 
   const cardRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -175,14 +210,15 @@ export function BabyNameScratchCard({
   const progressFrameRef = useRef(0);
 
   const [progress, setProgress] = useState(0);
-  const [isRevealed, setIsRevealed] = useState(false);
-  const [isRevealing, setIsRevealing] = useState(false);
+  const [phase, setPhase] = useState<RevealPhase>("scratch");
   const [isCelebrating, setIsCelebrating] = useState(false);
   const [showFlowers, setShowFlowers] = useState(false);
   const [burstOrigin, setBurstOrigin] = useState<CelebrationOrigin | null>(null);
   const [goldDust, setGoldDust] = useState<GoldDust[]>([]);
   const [reducedMotion, setReducedMotion] = useState(false);
 
+  const isRevealed = phase === "revealed";
+  const foilGone = isRevealed;
   const initCanvas = useCallback(() => {
     const container = containerRef.current;
     const canvas = canvasRef.current;
@@ -216,7 +252,7 @@ export function BabyNameScratchCard({
 
   useEffect(() => {
     if (reducedMotion) {
-      setIsRevealed(true);
+      setPhase("revealed");
       setProgress(1);
       return;
     }
@@ -257,21 +293,17 @@ export function BabyNameScratchCard({
   }, []);
 
   const triggerReveal = useCallback(() => {
-    if (isRevealed || isRevealing) return;
-    setIsRevealing(true);
+    if (phase !== "scratch") return;
+    setPhase("revealed");
+    setProgress(1);
     startCelebration();
-    window.setTimeout(() => {
-      setIsRevealed(true);
-      setIsRevealing(false);
-      setProgress(1);
-    }, 600);
-  }, [isRevealed, isRevealing, startCelebration]);
+  }, [phase, startCelebration]);
 
   const scratchAt = useCallback(
     (clientX: number, clientY: number) => {
       const canvas = canvasRef.current;
       const ctx = ctxRef.current;
-      if (!canvas || !ctx || isRevealed || isRevealing) return;
+      if (!canvas || !ctx || phase !== "scratch") return;
 
       const rect = canvas.getBoundingClientRect();
       const x = clientX - rect.left;
@@ -299,11 +331,11 @@ export function BabyNameScratchCard({
         if (next >= revealThreshold) triggerReveal();
       }
     },
-    [isRevealed, isRevealing, revealThreshold, spawnGoldDust, triggerReveal],
+    [phase, revealThreshold, spawnGoldDust, triggerReveal],
   );
 
   const handlePointerDown = (e: ReactPointerEvent<HTMLCanvasElement>) => {
-    if (isRevealed || isRevealing) return;
+    if (phase !== "scratch") return;
     isScratchingRef.current = true;
     lastPointRef.current = null;
     e.currentTarget.setPointerCapture(e.pointerId);
@@ -329,6 +361,7 @@ export function BabyNameScratchCard({
 
   const showCelebration = isCelebrating || isRevealed;
   const revealedShadow = `0 20px 50px -12px ${hexToRgba(colors.primaryContainer, 0.22)}, 0 0 40px -8px ${hexToRgba(colors.accent, 0.35)}`;
+  const statusHint = isRevealed ? "Can you guess the name?" : hint;
 
   return (
     <>
@@ -393,26 +426,30 @@ export function BabyNameScratchCard({
           />
 
           <div className="relative border border-accent/25 px-3 py-3">
-            <p className="mb-2 text-center font-theme-body text-xs tracking-wide text-muted">
-              {hint}
+            <p className="mb-2 text-center font-theme-body text-xs font-semibold tracking-wide text-muted">
+              {statusHint}
             </p>
 
             <div
               ref={containerRef}
-              className="relative mx-auto h-16 w-full overflow-hidden rounded-lg border border-accent/30 bg-surface shadow-inner"
+              className="relative mx-auto h-20 w-full overflow-hidden rounded-lg border border-accent/30 bg-surface shadow-inner"
             >
               <CelebrationBurst active={showCelebration && !reducedMotion} />
 
-              <div className="absolute inset-0 flex items-center justify-center px-3">
-                {(isRevealed || isRevealing) && (
+              <div className="absolute inset-0 flex flex-col items-center justify-center px-3">
+                {isRevealed && (
                   <motion.div
                     className="pointer-events-none absolute inset-2 rounded-md"
                     initial={{ opacity: 0, scale: 0.85 }}
                     animate={{
-                      opacity: [0, 0.6, 0.35],
-                      scale: [0.85, 1.15, 1],
+                      opacity: [0.2, 0.5, 0.3],
+                      scale: [0.85, 1.1, 1],
                     }}
-                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
                     style={{
                       background: `radial-gradient(circle, ${hexToRgba(colors.accent, 0.35)} 0%, transparent 70%)`,
                     }}
@@ -421,20 +458,21 @@ export function BabyNameScratchCard({
                 )}
 
                 <motion.p
-                  className="relative z-10 text-center font-theme-display text-xl leading-tight text-primary sm:text-2xl"
-                  initial={{ opacity: 0, scale: 0.9 }}
+                  className="relative z-10 text-center font-theme-display text-lg font-semibold tracking-[0.12em] text-primary sm:text-xl"
+                  initial={{ opacity: 0, scale: 0.92 }}
                   animate={
-                    isRevealed || isRevealing
-                      ? { opacity: 1, scale: [0.9, 1.05, 1] }
-                      : { opacity: 0, scale: 0.9 }
+                    isRevealed
+                      ? { opacity: 1, scale: [0.92, 1.06, 1] }
+                      : { opacity: 1, scale: 1 }
                   }
                   transition={{
                     duration: 0.75,
                     times: [0, 0.55, 1],
                     ease: [0.16, 1, 0.3, 1],
                   }}
+                  aria-live="polite"
                 >
-                  {babyName}
+                  {shuffledName}
                 </motion.p>
 
                 <SparkleEffect
@@ -460,20 +498,20 @@ export function BabyNameScratchCard({
               <canvas
                 ref={canvasRef}
                 className={`absolute inset-0 z-20 touch-none transition-opacity duration-700 ${
-                  isRevealed || isRevealing
-                    ? "pointer-events-none opacity-0"
+                  foilGone
+                    ? "pointer-events-none opacity-0 scratch-layer-fade"
                     : "cursor-crosshair opacity-100"
-                } ${isRevealing ? "scratch-layer-fade" : ""}`}
+                }`}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
                 onPointerLeave={handlePointerUp}
-                aria-label="Scratch to reveal the name"
+                aria-label="Scratch to unlock the shuffled letters"
                 role="img"
               />
             </div>
 
-            {!isRevealed && (
+            {phase === "scratch" && (
               <div className="mt-2">
                 <div className="h-1.5 overflow-hidden rounded-full bg-accent/15">
                   <motion.div
@@ -484,6 +522,17 @@ export function BabyNameScratchCard({
                 </div>
               </div>
             )}
+
+            {isRevealed ? (
+              <motion.p
+                className="mt-3 text-center font-theme-body text-[11px] font-semibold uppercase tracking-[0.2em] text-accent"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: [0.45, 1, 0.45] }}
+                transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+              >
+                Unscramble the letters…
+              </motion.p>
+            ) : null}
           </div>
         </div>
       </motion.div>

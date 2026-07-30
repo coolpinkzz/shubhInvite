@@ -3,6 +3,7 @@
 import { BabyRevealHero } from "./components/BabyReveal";
 import { babyRevealConfig } from "./config";
 import { EventScheduleSection } from "./sections/EventSchedule";
+import { BlessingFooter } from "./sections/Footer";
 import { PhotoAlbumSection } from "./sections/PhotoAlbum";
 import { RSVPSection } from "./sections/RSVPSection";
 import { VenueLocationSection } from "./sections/VenueLocation";
@@ -26,6 +27,12 @@ export function BabyRevealTemplate() {
     });
   };
 
+  const scrollToVenue = () => {
+    document.getElementById("venue")?.scrollIntoView({
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
       <BabyRevealHero
@@ -41,7 +48,7 @@ export function BabyRevealTemplate() {
         countdownTarget={countdownTarget}
         ctaPrimary={copy.ctaPrimary}
         ctaSecondary={copy.ctaSecondary}
-        onPrimaryClick={scrollToPhotoAlbum}
+        onPrimaryClick={scrollToVenue}
         onSecondaryClick={scrollToPhotoAlbum}
       />
 
@@ -49,9 +56,11 @@ export function BabyRevealTemplate() {
 
       <EventScheduleSection />
 
-      <VenueLocationSection />
+      {/* <VenueLocationSection /> */}
 
-      <RSVPSection />
+      {/* <RSVPSection /> */}
+
+      <BlessingFooter />
     </>
   );
 }

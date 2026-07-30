@@ -31,7 +31,12 @@ export function PhotoAlbumSection({
       <FloralPetals className="pointer-events-none absolute inset-0 overflow-hidden opacity-60" />
 
       <ThemeSectionContent>
-        <PhotoAlbumCarousel photos={photos} overline={overline} title={title} />
+        <PhotoAlbumCarousel
+          photos={photos}
+          overline={overline}
+          title={title}
+          autoPlayMs={0}
+        />
       </ThemeSectionContent>
     </ThemeSection>
   );

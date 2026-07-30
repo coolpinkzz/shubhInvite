@@ -5,13 +5,13 @@ export const babyRevealConfig = {
     mother: "Priya",
     father: "Vaibhav",
   },
-  babyName: "Viaan",
-  revealDate: "Wednesday, 12 Aug 2026",
-  countdownTarget: "August 12, 2026 11:00:00",
-  location: "The Garden Pavilion, Jaipur",
-  brand: "Kuan Puja",
+  babyName: "Vedansh",
+  revealDate: "August 12, 2026",
+  countdownTarget: "August 12, 2026",
+  location: "278, Shalimar Garden, Ext-1, Sahibabad, Ghaziabad, U.P-201005",
+  brand: "Naming Ceremony",
   scratchCard: {
-    hint: "Scratch to Reveal the Name",
+    hint: "Scratch to unlock the letters — can you guess?",
     revealThreshold: 0.55,
   },
   copy: {
@@ -21,23 +21,54 @@ export const babyRevealConfig = {
     subtitle: "of our beloved son",
     revealMessage:
       "Your presence and blessings will add to the joy of this special day.",
-    ctaPrimary: "View Invitation",
+    ctaPrimary: "Get Direction",
     ctaSecondary: "Celebrate With Us",
     parentsOverline: "Proud Parents",
   },
   photoAlbum: [
     {
-      src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80",
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.03%20(1).jpeg",
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },
     {
-      src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80",
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.03.jpeg",
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },
     {
-      src: "https://images.unsplash.com/photo-1511895426328-dc8714191300?w=800&q=80",
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04.jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04%20(2).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.05%20(1).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04%20(1).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.35.53%20(1).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.05.jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.35.53.jpeg",
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },
