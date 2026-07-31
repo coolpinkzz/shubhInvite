@@ -25,7 +25,7 @@ export function BlessingFooter({
   blessing = "Your presence and blessings mean the world to us. We look forward to celebrating this precious day with you.",
 }: BlessingFooterProps) {
   const reducedMotion = useReducedMotion();
-  const { parents, revealDate, brand } = babyRevealConfig;
+  const { parents, revealDate, brand, specialInvite } = babyRevealConfig;
 
   return (
     <footer
@@ -90,6 +90,21 @@ export function BlessingFooter({
         >
           {blessing}
         </p>
+
+        <div className="mt-8 w-full max-w-sm">
+          <p
+            className="font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.24em]"
+            style={{ color: colors.pastel.blueDeep }}
+          >
+            Special Invite
+          </p>
+          <p
+            className="mt-3 font-theme-body text-base font-semibold leading-relaxed sm:text-[1.05rem]"
+            style={{ color: colors.pastel.text }}
+          >
+            {specialInvite.join(" · ")}
+          </p>
+        </div>
 
         <p
           className="mt-8 font-theme-display text-3xl font-semibold leading-tight sm:text-4xl"
