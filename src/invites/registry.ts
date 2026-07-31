@@ -17,9 +17,9 @@ export interface InviteShareMeta {
 export const invites = {
   "priya-vibs": {
     themeId: "baby-reveal",
-    title: "You're invited to Vedansh's Naming Ceremony!",
+    title: "You're invited to Naming Ceremony!",
     description:
-      "Join Priya & Vaibhav as they celebrate the naming of their beloved son, Vedansh. View the invitation, event schedule, and venue details.",
+      "Join Priya & Vaibhav as they celebrate the naming of their beloved son. View the invitation, event schedule, and venue details.",
     image: "/themes/baby-reveal/boynamingceremony1.jpeg",
   },
 } as const satisfies Record<string, InviteShareMeta>;

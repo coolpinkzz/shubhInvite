@@ -9,7 +9,7 @@ const GOOGLE_MAPS_URL = `https://maps.app.goo.gl/dcJws7qSx14yS7iQ9?g_st=ic`;
 export const babyRevealEvents: BabyRevealEvent[] = [
   {
     id: "kuan-puja",
-    title: "Namkaran",
+    title: "Pooja & Hawan",
     date: "12 August 2026",
     time: "10:00 AM",
     venue: VENUE,
@@ -21,7 +21,7 @@ export const babyRevealEvents: BabyRevealEvent[] = [
   },
   {
     id: "dinner",
-    title: "Dinner",
+    title: "Naming Ceremony",
     date: "12 August 2026",
     time: "7:00 PM onwards",
     venue: "LA Deliche",

@@ -27,33 +27,7 @@ export const babyRevealConfig = {
   },
   photoAlbum: [
     {
-      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.03%20(1).jpeg",
-      alt: "Family celebration moments",
-      caption: "Cherished beginnings",
-    },
-    {
-      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.03.jpeg",
-      alt: "Family celebration moments",
-      caption: "Cherished beginnings",
-    },
-    {
-      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04.jpeg",
-      alt: "Family celebration moments",
-      caption: "Cherished beginnings",
-    },
-    {
       src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04%20(2).jpeg",
-      alt: "Family celebration moments",
-      caption: "Cherished beginnings",
-    },
-    {
-      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.05%20(1).jpeg",
-      alt: "Family celebration moments",
-      caption: "Cherished beginnings",
-    },
-
-    {
-      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04%20(1).jpeg",
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },
@@ -69,6 +43,32 @@ export const babyRevealConfig = {
     },
     {
       src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.35.53.jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.03%20(1).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.03.jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04.jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04%20(1).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.05%20(1).jpeg",
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },
