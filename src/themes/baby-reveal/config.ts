@@ -70,5 +70,15 @@ export const babyRevealConfig = {
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.04%20(2).jpeg",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.35.53%20(1).jpeg?updatedAt=1785426410323",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
   ],
 } as const;
