@@ -25,7 +25,10 @@ export const babyRevealConfig = {
     ctaSecondary: "Celebrate With Us",
     parentsOverline: "Proud Parents",
   },
-  specialInvite: ["Bade Bhaiya", "Dada", "Dadi", "Bade Papa & Mummy"],
+  specialInvite: [
+    "Viaan Bhaiya • Dada & Dadi",
+    "Bade Papa & Badi Mummy",
+  ],
   photoAlbum: [
     {
       src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.05.jpeg",

@@ -13,19 +13,17 @@ const { colors, animation } = babyRevealDesignTokens;
 
 interface BlessingFooterProps {
   className?: string;
-  overline?: string;
   title?: string;
   blessing?: string;
 }
 
 export function BlessingFooter({
   className,
-  overline = "With Gratitude",
   title = "Thank You",
-  blessing = "Your presence and blessings mean the world to us. We look forward to celebrate this precious day with you.",
+  blessing = "Thank you for being a part of our joyous celebration.\nYour love and presence will make this occasion truly unforgettable.",
 }: BlessingFooterProps) {
   const reducedMotion = useReducedMotion();
-  const { parents, revealDate, brand, specialInvite } = babyRevealConfig;
+  const { parents, specialInvite } = babyRevealConfig;
 
   return (
     <footer
@@ -68,15 +66,8 @@ export function BlessingFooter({
           />
         </div>
 
-        <p
-          className="font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.24em]"
-          style={{ color: colors.pastel.blueDeep }}
-        >
-          {overline}
-        </p>
-
         <h2
-          className="mt-3 font-theme-display text-5xl font-semibold leading-none sm:text-6xl"
+          className="font-theme-display text-5xl font-semibold leading-none sm:text-6xl"
           style={{ color: colors.pastel.text }}
         >
           {title}
@@ -85,29 +76,21 @@ export function BlessingFooter({
         <ThemeFloralDivider size="sm" className="mx-auto mt-5 max-w-[220px]" />
 
         <p
-          className="mt-5 max-w-sm font-theme-body text-base font-semibold leading-relaxed sm:text-[1.05rem]"
+          className="mt-5 max-w-sm whitespace-pre-line font-theme-body text-base font-semibold leading-relaxed sm:text-[1.05rem]"
           style={{ color: colors.pastel.text }}
         >
           {blessing}
         </p>
 
-        <div className="mt-8 w-full max-w-sm">
-          <p
-            className="font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.24em]"
-            style={{ color: colors.pastel.blueDeep }}
-          >
-            Special Invite
-          </p>
-          <p
-            className="mt-3 font-theme-body text-base font-semibold leading-relaxed sm:text-[1.05rem]"
-            style={{ color: colors.pastel.text }}
-          >
-            {specialInvite.join(" · ")}
-          </p>
-        </div>
+        <p
+          className="mt-8 font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.24em]"
+          style={{ color: colors.pastel.blueDeep }}
+        >
+          With Love
+        </p>
 
         <p
-          className="mt-8 font-theme-display text-3xl font-semibold leading-tight sm:text-4xl"
+          className="mt-3 font-theme-display text-3xl font-semibold leading-tight sm:text-4xl"
           style={{ color: colors.pastel.text }}
         >
           {parents.mother}{" "}
@@ -120,18 +103,35 @@ export function BlessingFooter({
           {parents.father}
         </p>
 
+        <div className="mt-8 w-full max-w-sm">
+          <p
+            className="font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.24em]"
+            style={{ color: colors.pastel.blueDeep }}
+          >
+            Together with our family
+          </p>
+          <div
+            className="mt-3 space-y-1 font-theme-body text-base font-semibold leading-relaxed sm:text-[1.05rem]"
+            style={{ color: colors.pastel.text }}
+          >
+            {specialInvite.map((line) => (
+              <p key={line}>{line}</p>
+            ))}
+          </div>
+        </div>
+
         <p
-          className="mt-3 font-theme-body text-sm font-bold uppercase tracking-[0.18em]"
+          className="mt-8 font-theme-body text-sm font-bold uppercase tracking-[0.18em]"
           style={{ color: colors.pastel.blueDeep }}
         >
-          for our little one
+          Celebrating Our Little One
         </p>
 
         <p
-          className="mt-5 font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.18em]"
+          className="mt-3 font-theme-label text-[0.7rem] font-bold uppercase tracking-[0.18em]"
           style={{ color: colors.pastel.textMuted }}
         >
-          {brand} · {revealDate}
+          12 August 2026
         </p>
       </motion.div>
     </footer>
