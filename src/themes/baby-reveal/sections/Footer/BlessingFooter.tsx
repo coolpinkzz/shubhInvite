@@ -22,7 +22,7 @@ export function BlessingFooter({
   className,
   overline = "With Gratitude",
   title = "Thank You",
-  blessing = "Your presence and blessings mean the world to us. We look forward to celebrating this precious day with you.",
+  blessing = "Your presence and blessings mean the world to us. We look forward to celebrate this precious day with you.",
 }: BlessingFooterProps) {
   const reducedMotion = useReducedMotion();
   const { parents, revealDate, brand, specialInvite } = babyRevealConfig;

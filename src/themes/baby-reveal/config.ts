@@ -25,13 +25,7 @@ export const babyRevealConfig = {
     ctaSecondary: "Celebrate With Us",
     parentsOverline: "Proud Parents",
   },
-  specialInvite: [
-    "Bade Bhaiya",
-    "Dada",
-    "Dadi",
-    "Bade Papa & Mummy",
-    "Papa & Mummy",
-  ],
+  specialInvite: ["Bade Bhaiya", "Dada", "Dadi", "Bade Papa & Mummy"],
   photoAlbum: [
     {
       src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.36.05.jpeg",
@@ -77,6 +71,11 @@ export const babyRevealConfig = {
     },
     {
       src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.35.53%20(1).jpeg?updatedAt=1785426410323",
+      alt: "Family celebration moments",
+      caption: "Cherished beginnings",
+    },
+    {
+      src: "https://ik.imagekit.io/slipnscore/shubhinvite/WhatsApp%20Image%202026-07-30%20at%2020.35.52.jpeg",
       alt: "Family celebration moments",
       caption: "Cherished beginnings",
     },

@@ -15,7 +15,7 @@ export const babyRevealEvents: BabyRevealEvent[] = [
     venue: VENUE,
     address: ADDRESS,
     description:
-      "Join us for the naming ceremony as we seek blessings for our little one.",
+      "We cordially invite you to join us as we seek divine blessings for our little one. Your gracious presence will make this auspicious occasion truly special",
     icon: Flower2,
     googleMapsUrl: GOOGLE_MAPS_URL,
   },
@@ -27,7 +27,7 @@ export const babyRevealEvents: BabyRevealEvent[] = [
     venue: "LA Deliche",
     address: "Ghaziabad, Uttar Pradesh",
     description:
-      "Stay for a warm meal and celebrate together with love and laughter.",
+      "Join us for an evening filled with love, laughter, joy, and cherished moments as we celebrate together over a delightful feast.",
     icon: UtensilsCrossed,
     googleMapsUrl: "https://maps.app.goo.gl/FhTpr7RqYN7yzbzD7",
   },
