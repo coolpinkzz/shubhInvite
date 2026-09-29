@@ -3,6 +3,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useCallback, useState } from "react";
 
+import { submitRsvp } from "@/features/rsvp/actions/submit-rsvp";
+import { useTheme } from "@/hooks/useTheme";
 import {
   ThemeSection,
   ThemeSectionContent,
@@ -14,26 +16,34 @@ import { RSVPForm } from "./RSVPForm";
 import { SuccessCard } from "./SuccessCard";
 import type { RSVPFormData, RSVPSectionProps } from "./types";
 
-async function defaultSubmitHandler(_data: RSVPFormData): Promise<void> {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-}
-
 export function RSVPSection({
   title = "Kindly RSVP",
   subtitle = "Your presence is the greatest gift to us. Please let us know if you'll be joining our celebration.",
   className,
   events = defaultRSVPEvents,
-  onSubmit = defaultSubmitHandler,
+  onSubmit,
 }: RSVPSectionProps) {
+  const { themeId } = useTheme();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formKey, setFormKey] = useState(0);
 
   const handleSubmit = useCallback(
     async (data: RSVPFormData) => {
-      await onSubmit(data);
+      if (onSubmit) {
+        await onSubmit(data);
+      } else {
+        const result = await submitRsvp({
+          invitationId: themeId,
+          response: data,
+          eventLabels: events
+            .filter((event) => data.events.includes(event.id))
+            .map((event) => event.label),
+        });
+        if (!result.ok) throw new Error(result.error);
+      }
       setIsSubmitted(true);
     },
-    [onSubmit],
+    [onSubmit, themeId, events],
   );
 
   const handleBack = useCallback(() => {

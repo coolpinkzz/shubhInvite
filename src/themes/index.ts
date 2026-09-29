@@ -7,6 +7,7 @@ import { modernWeddingTheme } from "./modern-wedding";
 import { peacockTheme } from "./peacock";
 import { royalMaroonFloralTheme } from "./royal-maroon-floral";
 import { royalWeddingTheme } from "./royal-wedding";
+import { royalWeddingSandalwoodTheme } from "./royal-wedding-sandalwood";
 
 export const themes = {
   "baby-reveal": babyRevealTheme,
@@ -14,6 +15,7 @@ export const themes = {
   "christians-wedding": christiansWeddingTheme,
   peacock: peacockTheme,
   "royal-wedding": royalWeddingTheme,
+  "royal-wedding-sandalwood": royalWeddingSandalwoodTheme,
   "modern-wedding": modernWeddingTheme,
   "royal-maroon-floral": royalMaroonFloralTheme,
 } as const satisfies Record<string, ThemeDefinition>;
@@ -36,6 +38,10 @@ export {
   birthdayCelebrationTokens,
 } from "./birthday-celebration";
 export { royalWeddingTheme, royalWeddingTokens } from "./royal-wedding";
+export {
+  royalWeddingSandalwoodTheme,
+  royalWeddingSandalwoodTokens,
+} from "./royal-wedding-sandalwood";
 export { modernWeddingTheme, modernWeddingTokens } from "./modern-wedding";
 export {
   royalMaroonFloralTheme,

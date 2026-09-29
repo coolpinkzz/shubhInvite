@@ -62,10 +62,10 @@
     opacity: 0;
   }
   10% {
-    opacity: 0.8;
+    opacity: var(--petal-peak-opacity, 0.8);
   }
   90% {
-    opacity: 0.4;
+    opacity: var(--petal-tail-opacity, 0.4);
   }
   100% {
     transform: translateY(110vh) translateX(100px) rotate(720deg);

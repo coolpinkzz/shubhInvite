@@ -7,6 +7,10 @@ export const royalWeddingConfig = {
   },
   date: "Friday, 25 Dec 2026",
   countdownTarget: "December 25, 2026 00:00:00",
+  calendar: {
+    startsAt: "2026-12-25T11:30:00+05:30",
+    durationMinutes: 240,
+  },
   location: "123 Anywhere St., Any City, ST 12345",
   brand: "Royal Union",
   scratchCard: {

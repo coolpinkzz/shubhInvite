@@ -13,8 +13,9 @@ import { MaterialIcon } from "@/themes/royal-wedding/components/material-icon";
 import { hexToRgba } from "@/themes/shared/utils/color";
 import { CountdownTimer } from "./countdown-timer";
 import { GlowShader } from "./glow-shader";
-import { PetalRain } from "./petal-rain";
+import { PetalRain, type PetalRainProps } from "./petal-rain";
 import { PhotoAlbumCarousel } from "./photo-album-carousel";
+import { SaveToCalendar } from "./save-to-calendar";
 import { ScratchRevealCard } from "./scratch-reveal-card";
 
 const NAV_ITEMS = [
@@ -38,7 +39,11 @@ function scrollToSection(id: NavSectionId) {
   });
 }
 
-export function RoyalWeddingHero() {
+export interface RoyalWeddingHeroProps {
+  petals?: PetalRainProps["options"];
+}
+
+export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
   const { config, tokens } = useTheme();
   const { colors } = tokens;
   const [isDateRevealed, setIsDateRevealed] = useState(false);
@@ -90,7 +95,7 @@ export function RoyalWeddingHero() {
         aria-hidden="true"
       />
 
-      <PetalRain />
+      <PetalRain options={petals} />
 
       <main className="relative flex min-h-screen flex-col items-center px-6">
         <div className="pointer-events-none absolute left-0 top-16 h-48 w-full opacity-20">
@@ -196,22 +201,12 @@ export function RoyalWeddingHero() {
             onRevealed={() => setIsDateRevealed(true)}
           />
 
-          {isDateRevealed && <CountdownTimer targetDate={countdownTarget} />}
-        </div>
-
-        <div className="relative mt-auto w-full min-h-[400px] pt-8">
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[500px] w-full overflow-hidden rounded-t-[100px]">
-            <div className="absolute inset-0 h-full w-full opacity-60">
-              <GlowShader />
-            </div>
-          </div>
-
-          <div
-            id="gallery"
-            className="relative z-40 mx-auto w-full max-w-md scroll-mt-24 px-2 md:max-w-xl lg:max-w-2xl"
-          >
-            <PhotoAlbumCarousel photos={photoAlbum} />
-          </div>
+          {isDateRevealed && (
+            <>
+              <CountdownTimer targetDate={countdownTarget} />
+              <SaveToCalendar config={config} />
+            </>
+          )}
         </div>
       </main>
 

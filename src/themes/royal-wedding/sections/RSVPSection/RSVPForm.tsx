@@ -12,7 +12,7 @@ import { FloralDivider } from "./FloralDivider";
 import { GuestCounter } from "./GuestCounter";
 import { MessageBox } from "./MessageBox";
 import { RSVPInput } from "./RSVPInput";
-import { rsvpCardClassName } from "./rsvp-form-styles";
+import { rsvpCardClassName, rsvpErrorClass } from "./rsvp-form-styles";
 import { rsvpSchema } from "./schema";
 import { SubmitButton } from "./SubmitButton";
 import type { RSVPFormData, RSVPEventOption } from "./types";
@@ -55,12 +55,20 @@ export function RSVPForm({
 
   const attending = watch("attending");
 
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
   const handleFormSubmit = handleSubmit(async (data) => {
     setSubmitState("loading");
+    setSubmitError(null);
     try {
       await onSubmit(data);
-    } catch {
+    } catch (error) {
       setSubmitState("idle");
+      setSubmitError(
+        error instanceof Error && error.message
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     }
   });
 
@@ -148,6 +156,12 @@ export function RSVPForm({
         />
 
         <SubmitButton state={submitState} />
+
+        {submitError ? (
+          <p role="alert" className={rsvpErrorClass("text-center")}>
+            {submitError}
+          </p>
+        ) : null}
       </div>
     </ThemeCard>
   );

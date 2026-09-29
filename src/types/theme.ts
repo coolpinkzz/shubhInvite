@@ -60,6 +60,12 @@ export interface ThemeTokens {
   fonts: ThemeFontTokens;
 }
 
+export interface CalendarEventConfig {
+  /** ISO 8601 with UTC offset so guests in any time zone get the right time, e.g. 2026-12-25T11:30:00+05:30 */
+  startsAt: string;
+  durationMinutes: number;
+}
+
 export interface WeddingThemeContentConfig {
   id: string;
   name: string;
@@ -69,6 +75,8 @@ export interface WeddingThemeContentConfig {
   };
   date: string;
   countdownTarget: string;
+  /** "Save to calendar" event. Without it, an all-day event on the `countdownTarget` date is used. */
+  calendar?: CalendarEventConfig;
   location: string;
   brand: string;
   scratchCard: {

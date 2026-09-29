@@ -13,17 +13,24 @@ import type { WeddingEvent } from "./types";
 
 interface EventScheduleProps {
   events?: WeddingEvent[];
+  /** Shows only these events. Serializable, so Server Components can pass it (events carry icon components). */
+  eventIds?: readonly string[];
   title?: string;
   subtitle?: string;
   className?: string;
 }
 
 export function EventSchedule({
-  events = weddingEvents,
+  events: allEvents = weddingEvents,
+  eventIds,
   title = "Wedding Festivities",
   subtitle = "We can't wait to celebrate every special moment with you.",
   className,
 }: EventScheduleProps) {
+  const events = eventIds
+    ? allEvents.filter((event) => eventIds.includes(event.id))
+    : allEvents;
+
   return (
     <ThemeSection
       id="events"

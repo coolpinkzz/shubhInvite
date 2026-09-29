@@ -23,6 +23,7 @@ export function VenueLocation({
   title = "Find Your Way",
   subtitle = "We can't wait to welcome you. Here's where the celebrations begin.",
   className,
+  petals,
 }: VenueLocationProps) {
   return (
     <ThemeSection
@@ -31,7 +32,7 @@ export function VenueLocation({
       srTitle={title}
       bottomGlow
     >
-      <FloatingPetals />
+      <FloatingPetals options={petals} />
 
       <ThemeSectionContent>
         <SectionHeader title={title} subtitle={subtitle} />
