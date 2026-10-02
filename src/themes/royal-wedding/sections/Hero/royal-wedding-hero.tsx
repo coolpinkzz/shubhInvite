@@ -25,6 +25,10 @@ const NAV_ITEMS = [
   { id: "rsvp", icon: "mail", label: "RSVP" },
 ] as const;
 
+const NAV_ITEMS_WITHOUT_GALLERY = NAV_ITEMS.filter(
+  (item) => item.id !== "gallery",
+);
+
 type NavSectionId = (typeof NAV_ITEMS)[number]["id"];
 
 function scrollToSection(id: NavSectionId) {
@@ -41,13 +45,18 @@ function scrollToSection(id: NavSectionId) {
 
 export interface RoyalWeddingHeroProps {
   petals?: PetalRainProps["options"];
+  showGalleryNav?: boolean;
 }
 
-export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
+export function RoyalWeddingHero({
+  petals,
+  showGalleryNav = true,
+}: RoyalWeddingHeroProps = {}) {
   const { config, tokens } = useTheme();
   const { colors } = tokens;
   const [isDateRevealed, setIsDateRevealed] = useState(false);
   const [activeSection, setActiveSection] = useState<NavSectionId>("home");
+  const navItems = showGalleryNav ? NAV_ITEMS : NAV_ITEMS_WITHOUT_GALLERY;
 
   const handleNavClick = useCallback((id: NavSectionId) => {
     setActiveSection(id);
@@ -55,7 +64,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
   }, []);
 
   useEffect(() => {
-    const sectionIds: NavSectionId[] = ["home", "gallery", "events", "rsvp"];
+    const sectionIds: NavSectionId[] = navItems.map((item) => item.id);
 
     const observers = sectionIds.map((id) => {
       const element = document.getElementById(id);
@@ -77,7 +86,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
     return () => {
       observers.forEach((observer) => observer?.disconnect());
     };
-  }, []);
+  }, [navItems]);
 
   if (!isWeddingConfig(config)) {
     throw new Error("RoyalWeddingHero requires a wedding theme configuration.");
@@ -111,6 +120,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
             alt=""
             width={160}
             height={160}
+            priority
             className="h-28 w-28 -scale-x-100 rotate-180 object-contain opacity-90 mix-blend-screen sm:h-36 sm:w-36"
             aria-hidden="true"
           />
@@ -122,6 +132,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
             alt=""
             width={160}
             height={160}
+            priority
             className="h-28 w-28 rotate-180 object-contain opacity-90 mix-blend-screen sm:h-36 sm:w-36"
             aria-hidden="true"
           />
@@ -133,6 +144,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
             alt=""
             width={48}
             height={160}
+            priority
             className="h-32 w-auto object-contain sm:h-40"
             aria-hidden="true"
           />
@@ -146,6 +158,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
             alt=""
             width={48}
             height={160}
+            priority
             className="h-32 w-auto object-contain sm:h-40"
             aria-hidden="true"
           />
@@ -180,6 +193,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
               src={brideGroom}
               alt="Traditional Indian bride and groom illustration"
               fill
+              priority
               sizes="(max-width: 640px) 90vw, (max-width: 768px) 448px, 672px"
               className="object-contain"
               style={{
@@ -215,7 +229,7 @@ export function RoyalWeddingHero({ petals }: RoyalWeddingHeroProps = {}) {
         className="fixed bottom-0 z-50 flex w-full items-center justify-around rounded-t-[32px] border-t border-theme-outline/10 bg-surface/90 px-4 pb-4 pt-2 backdrop-blur-xl"
         style={{ boxShadow: `0 -10px 30px ${hexToRgba(colors.primary, 0.08)}` }}
       >
-        {NAV_ITEMS.map(({ id, icon, label }) => {
+        {navItems.map(({ id, icon, label }) => {
           const isActive = activeSection === id;
 
           return (

@@ -127,7 +127,10 @@ export function ThemeProvider({
       >
         <div
           aria-hidden={!introComplete}
-          className={introComplete ? undefined : "pointer-events-none invisible"}
+          // Stay painted under the intro. `visibility: hidden` skips that
+          // paint, so the video fade reveals a blank page before the hero.
+          inert={!introComplete}
+          className={introComplete ? undefined : "pointer-events-none"}
         >
           {children}
         </div>

@@ -14,7 +14,7 @@ import "@/themes/royal-wedding/royal-wedding.css";
 export function RoyalWeddingSandalwoodTemplate() {
   return (
     <>
-      <RoyalWeddingHero petals={heroPetals} />
+      <RoyalWeddingHero petals={heroPetals} showGalleryNav={false} />
       <EventSchedule eventIds={SANDALWOOD_EVENT_IDS} />
       <VenueLocation {...defaultVenue} petals={venuePetals} />
       <RSVPSection events={sandalwoodRSVPEvents} />
