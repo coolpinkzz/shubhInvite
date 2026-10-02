@@ -8,6 +8,7 @@ import {
 
 import { SANDALWOOD_EVENT_IDS, sandalwoodRSVPEvents } from "./events";
 import { heroPetals, venuePetals } from "./petals";
+import { BlessingFooter } from "./sections/Footer";
 
 import "@/themes/royal-wedding/royal-wedding.css";
 
@@ -17,7 +18,11 @@ export function RoyalWeddingSandalwoodTemplate() {
       <RoyalWeddingHero petals={heroPetals} showGalleryNav={false} />
       <EventSchedule eventIds={SANDALWOOD_EVENT_IDS} />
       <VenueLocation {...defaultVenue} petals={venuePetals} />
-      <RSVPSection events={sandalwoodRSVPEvents} />
+      <RSVPSection
+        events={sandalwoodRSVPEvents}
+        className="scroll-mt-24 pb-8"
+      />
+      <BlessingFooter />
     </>
   );
 }

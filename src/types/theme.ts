@@ -79,6 +79,8 @@ export interface WeddingThemeContentConfig {
   calendar?: CalendarEventConfig;
   location: string;
   brand: string;
+  /** Wedding hashtag for the closing footer. A leading # is added when missing. */
+  hashtag?: string;
   scratchCard: {
     weddingDate: string;
     revealThreshold: number;

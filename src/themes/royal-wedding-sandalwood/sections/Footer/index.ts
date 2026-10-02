@@ -1,0 +1,1 @@
+export { BlessingFooter } from "./BlessingFooter";
