@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import goldCornerBorder from "@/assests/gold-corner-border.png";
 import lordGanesha from "@/assests/lord_ganesha.svg";
-import brideGroom from "@/assests/bride-groom.png";
+import brideGroom from "@/assests/bride-groom-2.png";
 import latkan from "@/assests/latkan.png";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -46,11 +46,14 @@ function scrollToSection(id: NavSectionId) {
 export interface RoyalWeddingHeroProps {
   petals?: PetalRainProps["options"];
   showGalleryNav?: boolean;
+  /** Overrides the couple name size when a full name needs to wrap. */
+  coupleClassName?: string;
 }
 
 export function RoyalWeddingHero({
   petals,
   showGalleryNav = true,
+  coupleClassName,
 }: RoyalWeddingHeroProps = {}) {
   const { config, tokens } = useTheme();
   const { colors } = tokens;
@@ -180,12 +183,20 @@ export function RoyalWeddingHero({
             you are invited to the wedding of
           </p>
 
-          <h1 className="mb-4 mt-3 flex flex-col items-center gap-0 font-theme-display text-[52px] leading-none text-theme-primary sm:text-[64px]">
-            <span className="leading-normal">{couple.bride}</span>
+          <h1 className="mb-4 mt-3 flex w-full max-w-lg flex-col items-center gap-0 font-theme-display text-[52px] leading-none text-theme-primary sm:text-[64px]">
+            <span
+              className={cn("text-balance leading-[1.08]", coupleClassName)}
+            >
+              {couple.bride}
+            </span>
             <span className="my-0.5 font-theme-body text-2xl leading-none text-muted sm:text-3xl">
               &amp;
             </span>
-            <span className="leading-normal">{couple.groom}</span>
+            <span
+              className={cn("text-balance leading-[1.08]", coupleClassName)}
+            >
+              {couple.groom}
+            </span>
           </h1>
 
           <div className="floating-couple relative mx-auto mb-8 h-80 w-full max-w-md sm:h-96 md:max-w-xl md:h-[28rem] lg:max-w-2xl">

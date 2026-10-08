@@ -22,6 +22,13 @@ export const invites = {
       "Join Priya & Vaibhav as they celebrate the naming of their beloved son. View the invitation, event schedule, and venue details.",
     image: "/themes/baby-reveal/boynamingceremony1.jpeg",
   },
+  "susri-manoranjan": {
+    themeId: "royal-wedding-sandalwood",
+    title: "You're invited to the wedding of Susri & Manoranjan!",
+    description:
+      "Join Susri Sangita Parija & Manoranjan Patnaik as they celebrate their wedding on Friday, 11 December 2026 at Casa Royal, Trisulia, Cuttack. View the invitation, event schedule, and venue details.",
+    image: "/themes/royal-wedding/intro/envelop-poster.jpg",
+  },
 } as const satisfies Record<string, InviteShareMeta>;
 
 export type InviteSlug = keyof typeof invites;

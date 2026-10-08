@@ -24,7 +24,7 @@ export function ThemeSectionHeader({
   showGarland = true,
 }: ThemeSectionHeaderProps) {
   return (
-    <header className={cn("relative text-center", className)}>
+    <header className={cn("relative text-center pt-10", className)}>
       {showGarland ? (
         <div className="pointer-events-none absolute -top-2 left-0 right-0 flex justify-between px-2">
           <motion.div

@@ -19,4 +19,8 @@ export interface WeddingEvent {
   cardVariant?: "invitation" | "default";
   /** Static canva artwork for invitation cards. */
   invitationImage?: StaticImageData;
+  /** Who is hosting, shown on the event card. */
+  hostedBy?: string;
+  /** Google Maps link for this celebration. */
+  mapsUrl?: string;
 }

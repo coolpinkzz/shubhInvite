@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { ExternalLink, MapPin } from "lucide-react";
 
 import { useTheme } from "@/hooks/useTheme";
 import { ThemeCard } from "@/themes/shared/components";
@@ -65,6 +66,11 @@ export function EventCard({ event, index, className, cardClassName }: EventCardP
             <h3 className="font-theme-headline text-xl font-medium leading-tight text-primary">
               {event.title}
             </h3>
+            {event.hostedBy ? (
+              <p className="mt-1.5 font-theme-label text-[10px] font-semibold uppercase tracking-[0.16em] text-accent">
+                {event.hostedBy}
+              </p>
+            ) : null}
             <p className="mt-3 font-theme-body text-[15px] leading-relaxed text-theme-subtle">
               {event.description}
             </p>
@@ -73,6 +79,22 @@ export function EventCard({ event, index, className, cardClassName }: EventCardP
 
         <div className="relative mt-5 border-t border-accent/15 pt-5">
           <EventDetails event={event} />
+          {event.mapsUrl ? (
+            <a
+              href={event.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex items-center gap-1.5 font-theme-label text-[11px] font-semibold uppercase tracking-[0.12em] text-accent"
+            >
+              <MapPin className="size-3.5" strokeWidth={2} aria-hidden="true" />
+              View on Google Maps
+              <ExternalLink
+                className="size-3 opacity-70"
+                strokeWidth={2}
+                aria-hidden="true"
+              />
+            </a>
+          ) : null}
         </div>
       </ThemeCard>
     </motion.article>
