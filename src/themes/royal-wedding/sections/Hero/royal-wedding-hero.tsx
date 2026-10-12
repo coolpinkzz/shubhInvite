@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import goldCornerBorder from "@/assests/gold-corner-border.png";
+import ivoryCreamBg from "@/assests/ivoryCreamBg.png";
 import lordGanesha from "@/assests/lord_ganesha.svg";
 import brideGroom from "@/assests/bride-groom-2.png";
 import latkan from "@/assests/latkan.png";
@@ -48,12 +49,15 @@ export interface RoyalWeddingHeroProps {
   showGalleryNav?: boolean;
   /** Overrides the couple name size when a full name needs to wrap. */
   coupleClassName?: string;
+  /** Whose name is written first. Defaults to the bride. */
+  nameOrder?: "bride" | "groom";
 }
 
 export function RoyalWeddingHero({
   petals,
   showGalleryNav = true,
   coupleClassName,
+  nameOrder = "bride",
 }: RoyalWeddingHeroProps = {}) {
   const { config, tokens } = useTheme();
   const { colors } = tokens;
@@ -96,16 +100,26 @@ export function RoyalWeddingHero({
   }
 
   const { couple, location, countdownTarget, photoAlbum, scratchCard } = config;
+  const [firstName, secondName] =
+    nameOrder === "groom"
+      ? [couple.groom, couple.bride]
+      : [couple.bride, couple.groom];
 
   return (
     <div
       id="home"
       className="relative scroll-mt-4 overflow-x-hidden selection:bg-primary selection:text-[var(--theme-primary-container-foreground)]"
     >
-      <div
-        className="event-schedule-pattern pointer-events-none absolute inset-0 opacity-[0.04]"
-        aria-hidden="true"
-      />
+      <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+        <Image
+          src={ivoryCreamBg}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
+      </div>
 
       <PetalRain options={petals} />
 
@@ -187,7 +201,7 @@ export function RoyalWeddingHero({
             <span
               className={cn("text-balance leading-[1.08]", coupleClassName)}
             >
-              {couple.bride}
+              {firstName}
             </span>
             <span className="my-0.5 font-theme-body text-2xl leading-none text-muted sm:text-3xl">
               &amp;
@@ -195,7 +209,7 @@ export function RoyalWeddingHero({
             <span
               className={cn("text-balance leading-[1.08]", coupleClassName)}
             >
-              {couple.groom}
+              {secondName}
             </span>
           </h1>
 

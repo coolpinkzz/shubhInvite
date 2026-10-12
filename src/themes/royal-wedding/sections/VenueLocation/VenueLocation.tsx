@@ -24,6 +24,7 @@ export function VenueLocation({
   subtitle = "We can't wait to welcome you. Here's where the celebrations begin.",
   className,
   petals,
+  showMap = true,
 }: VenueLocationProps) {
   return (
     <ThemeSection
@@ -37,11 +38,13 @@ export function VenueLocation({
       <ThemeSectionContent>
         <SectionHeader title={title} subtitle={subtitle} />
 
-        <EmbeddedMap
-          embedUrl={embedUrl}
-          title={`Map showing ${venueName}`}
-          className="mt-2"
-        />
+        {showMap ? (
+          <EmbeddedMap
+            embedUrl={embedUrl}
+            title={`Map showing ${venueName}`}
+            className="mt-2"
+          />
+        ) : null}
 
         <VenueCard
           venueName={venueName}
@@ -52,12 +55,14 @@ export function VenueLocation({
           className="mt-6"
         />
 
-        <VenueActions
-          googleMapsUrl={googleMapsUrl}
-          venueName={venueName}
-          address={address}
-          className="mt-6"
-        />
+        {showMap ? (
+          <VenueActions
+            googleMapsUrl={googleMapsUrl}
+            venueName={venueName}
+            address={address}
+            className="mt-6"
+          />
+        ) : null}
 
         <LotusMotif />
       </ThemeSectionContent>

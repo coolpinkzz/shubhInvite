@@ -1,5 +1,21 @@
 import type { ComponentType } from "react";
 
+/**
+ * Which shared invite link to show.
+ * `bride-wedding` is a second bride invitation that lists only the wedding.
+ */
+export const inviteSides = ["bride", "groom", "bride-wedding"] as const;
+export type InviteSide = (typeof inviteSides)[number];
+
+export function isInviteSide(value: string): value is InviteSide {
+  return (inviteSides as readonly string[]).includes(value);
+}
+
+export interface ThemeTemplateProps {
+  /** Limits celebrations and RSVP choices to one side. Omitted shows every event. */
+  side?: InviteSide;
+}
+
 export interface ThemeColorTokens {
   primary: string;
   primaryForeground: string;
@@ -239,7 +255,7 @@ export interface ThemeDefinition {
   /** Combined next/font variable class names for this theme's fonts. */
   fontClassName: string;
   /** Full page composition rendered by the dynamic template route. */
-  Template: ComponentType;
+  Template: ComponentType<ThemeTemplateProps>;
 }
 
 export type ThemeId = string;

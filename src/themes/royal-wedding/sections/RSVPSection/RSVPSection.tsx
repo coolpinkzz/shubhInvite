@@ -21,6 +21,7 @@ export function RSVPSection({
   subtitle = "Your presence is the greatest gift to us. Please let us know if you'll be joining our celebration.",
   className,
   events = defaultRSVPEvents,
+  guestsAfterAttendance = false,
   onSubmit,
 }: RSVPSectionProps) {
   const { themeId } = useTheme();
@@ -90,6 +91,7 @@ export function RSVPSection({
                 <RSVPForm
                   key={formKey}
                   events={events}
+                  guestsAfterAttendance={guestsAfterAttendance}
                   onSubmit={handleSubmit}
                 />
               </motion.div>

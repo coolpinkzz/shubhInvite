@@ -12,6 +12,8 @@ const EASE = [0.16, 1, 0.3, 1] as const;
 interface BlessingFooterProps {
   className?: string;
   blessing?: string;
+  /** Whose name is written first. Defaults to the bride. */
+  nameOrder?: "bride" | "groom";
 }
 
 function formatHashtag(tag: string) {
@@ -52,6 +54,7 @@ function CornerFlourish({ className }: { className?: string }) {
 export function BlessingFooter({
   className,
   blessing = "Your presence is the blessing we cherish most. We look forward to celebrating this day with you.",
+  nameOrder = "bride",
 }: BlessingFooterProps) {
   const reducedMotion = useReducedMotion();
   const { config } = useTheme();
@@ -60,7 +63,11 @@ export function BlessingFooter({
 
   const { couple, date, hashtag } = config;
   const weddingTag = hashtag ? formatHashtag(hashtag) : "";
-  const monogram = `${firstInitial(couple.bride)}${firstInitial(couple.groom)}`;
+  const [firstName, secondName] =
+    nameOrder === "groom"
+      ? [couple.groom, couple.bride]
+      : [couple.bride, couple.groom];
+  const monogram = `${firstInitial(firstName)}${firstInitial(secondName)}`;
 
   return (
     <footer
@@ -149,13 +156,13 @@ export function BlessingFooter({
               <CornerFlourish className="absolute bottom-2 right-2 -scale-x-100 -scale-y-100" />
 
               <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-[var(--theme-accent-light)]">
-                {couple.bride}
+                {firstName}
               </p>
               <p className="my-1 font-theme-body text-2xl italic leading-none text-[var(--theme-accent)]">
                 &amp;
               </p>
               <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-[var(--theme-accent-light)]">
-                {couple.groom}
+                {secondName}
               </p>
 
               <div

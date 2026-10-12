@@ -1,4 +1,15 @@
-import type { ThemeId } from "@/types/theme";
+import {
+  isInviteSide,
+  type InviteSide,
+  type ThemeId,
+} from "@/types/theme";
+
+export interface InviteSideShare {
+  /** Browser tab / share title for this side's link */
+  title: string;
+  /** WhatsApp / OG description for this side's link */
+  description: string;
+}
 
 export interface InviteShareMeta {
   themeId: ThemeId;
@@ -8,7 +19,15 @@ export interface InviteShareMeta {
   description: string;
   /** Absolute path under /public for OG image */
   image: string;
+  /**
+   * Side-specific share links. When set, /invite/<slug>/<side> shows only that side's events.
+   * `bride-wedding` is the bride's wedding card. The bare /invite/<slug> link still shows every event.
+   */
+  sides?: Partial<Record<InviteSide, InviteSideShare>>;
 }
+
+export { isInviteSide };
+export type { InviteSide };
 
 /**
  * Client invite slugs → theme + share preview.
@@ -28,6 +47,23 @@ export const invites = {
     description:
       "Join Susri Sangita Parija & Manoranjan Patnaik as they celebrate their wedding on Friday, 11 December 2026 at Casa Royal, Trisulia, Cuttack. View the invitation, event schedule, and venue details.",
     image: "/themes/royal-wedding/intro/envelop-poster.jpg",
+    sides: {
+      bride: {
+        title: "You're invited — Susri & Manoranjan",
+        description:
+          "Join the bride's family for Sangeet, Mehendi, Haldi, and the wedding. View the invitation and celebration details.",
+      },
+      groom: {
+        title: "You're invited — Manoranjan & Susri",
+        description:
+          "Join the groom's family for Haldi and the reception. View the invitation and celebration details.",
+      },
+      "bride-wedding": {
+        title: "You're invited to the wedding of Susri & Manoranjan!",
+        description:
+          "Join the bride's family for the wedding of Susri Sangita Parija & Manoranjan Patnaik on Friday, 11 December 2026 at Casa Royal, Trisulia, Cuttack.",
+      },
+    },
   },
 } as const satisfies Record<string, InviteShareMeta>;
 
@@ -38,6 +74,14 @@ export function getInvite(slug: string): InviteShareMeta | undefined {
     return invites[slug as InviteSlug];
   }
   return undefined;
+}
+
+export function getInviteSideShare(
+  invite: InviteShareMeta,
+  side: string,
+): InviteSideShare | undefined {
+  if (!isInviteSide(side)) return undefined;
+  return invite.sides?.[side];
 }
 
 export function listInviteSlugs(): InviteSlug[] {

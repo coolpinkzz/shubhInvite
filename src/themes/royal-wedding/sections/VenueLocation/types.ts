@@ -12,4 +12,6 @@ export interface VenueLocationProps {
   subtitle?: string;
   className?: string;
   petals?: Partial<PetalFallOptions>;
+  /** Embedded map and the map buttons under the venue card. */
+  showMap?: boolean;
 }

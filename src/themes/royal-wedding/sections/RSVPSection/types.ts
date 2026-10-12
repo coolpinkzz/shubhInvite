@@ -17,5 +17,7 @@ export interface RSVPSectionProps {
   subtitle?: string;
   className?: string;
   events?: RSVPEventOption[];
+  /** Places the guest count under "Will you attend?" instead of above it. */
+  guestsAfterAttendance?: boolean;
   onSubmit?: (data: RSVPFormData) => Promise<void>;
 }

@@ -1,15 +1,27 @@
 "use client";
 
 import { EventSchedule } from "@/themes/royal-wedding/sections/EventSchedule";
+import type { InviteSide } from "@/types/theme";
 
-import { sandalwoodEvents } from "../../events";
+import {
+  sandalwoodEventsForSide,
+  sideScheduleCopy,
+  fullScheduleCopy,
+} from "../../events";
 
-export function SandalwoodSchedule() {
+interface SandalwoodScheduleProps {
+  side?: InviteSide;
+}
+
+export function SandalwoodSchedule({ side }: SandalwoodScheduleProps) {
+  const events = sandalwoodEventsForSide(side);
+  const copy = side ? sideScheduleCopy[side] : fullScheduleCopy;
+
   return (
     <EventSchedule
-      events={sandalwoodEvents}
-      title="The Celebrations"
-      subtitle="From Patia to Cuttack and Brahmapur, every gathering has a place for you."
+      events={events}
+      title={copy.scheduleTitle}
+      subtitle={copy.scheduleSubtitle}
     />
   );
 }

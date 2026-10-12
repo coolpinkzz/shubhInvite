@@ -21,6 +21,7 @@ interface RSVPFormProps {
   events?: RSVPEventOption[];
   onSubmit: (data: RSVPFormData) => Promise<void>;
   className?: string;
+  guestsAfterAttendance?: boolean;
 }
 
 const defaultValues: RSVPFormData = {
@@ -35,6 +36,7 @@ export function RSVPForm({
   events = defaultRSVPEvents,
   onSubmit,
   className,
+  guestsAfterAttendance = false,
 }: RSVPFormProps) {
   const [submitState, setSubmitState] = useState<
     "idle" | "loading" | "success"
@@ -89,20 +91,22 @@ export function RSVPForm({
           {...register("name")}
         />
 
-        <Controller
-          name="guests"
-          control={control}
-          render={({ field }) => (
-            <GuestCounter
-              value={field.value}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
-              name={field.name}
-              ref={field.ref}
-              error={errors.guests?.message}
-            />
-          )}
-        />
+        {guestsAfterAttendance ? null : (
+          <Controller
+            name="guests"
+            control={control}
+            render={({ field }) => (
+              <GuestCounter
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                name={field.name}
+                ref={field.ref}
+                error={errors.guests?.message}
+              />
+            )}
+          />
+        )}
 
         <FloralDivider />
 
@@ -122,6 +126,23 @@ export function RSVPForm({
             />
           )}
         />
+
+        {guestsAfterAttendance ? (
+          <Controller
+            name="guests"
+            control={control}
+            render={({ field }) => (
+              <GuestCounter
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                name={field.name}
+                ref={field.ref}
+                error={errors.guests?.message}
+              />
+            )}
+          />
+        ) : null}
 
         {attending === true ? (
           <Controller

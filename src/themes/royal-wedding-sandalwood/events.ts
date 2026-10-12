@@ -1,13 +1,24 @@
 import { Flower2, Heart, Music, Palette, Sparkles } from "lucide-react";
 
+import susriHaldi from "@/assests/susriHaldi.png";
+import susriMehandi from "@/assests/susriMehandi.png";
+import susriSangeet from "@/assests/SusriSangeet.png";
+import susriWedding from "@/assests/susriWedding.png";
 import type { RSVPEventOption } from "@/themes/royal-wedding/sections/RSVPSection";
 import type { WeddingEvent } from "@/themes/royal-wedding/sections/EventSchedule";
+import type { InviteSide } from "@/types/theme";
 
 const NAGESWAR_MAPS = "https://maps.app.goo.gl/YPnzPzP2BxqakaREA?g_st=ic";
+const CASA_ROYAL_MAPS = "https://maps.app.goo.gl/CB1uLvrFRRtr4krQA?g_st=ic";
 
-export const sandalwoodEvents: WeddingEvent[] = [
+type SandalwoodEvent = WeddingEvent & { sides: readonly InviteSide[] };
+
+export const sandalwoodEvents: SandalwoodEvent[] = [
   {
     id: "sangeet",
+    sides: ["bride"],
+    cardVariant: "invitation",
+    invitationImage: susriSangeet,
     title: "Sangeet",
     hostedBy: "Hosted by the Bride",
     date: "Wednesday, 9 December 2026",
@@ -22,6 +33,9 @@ export const sandalwoodEvents: WeddingEvent[] = [
   },
   {
     id: "mehendi",
+    sides: ["bride"],
+    cardVariant: "invitation",
+    invitationImage: susriMehandi,
     title: "Mehendi",
     hostedBy: "Hosted by the Bride",
     date: "Thursday, 10 December 2026",
@@ -36,6 +50,7 @@ export const sandalwoodEvents: WeddingEvent[] = [
   },
   {
     id: "haldi-groom",
+    sides: ["groom"],
     title: "Haldi",
     hostedBy: "Hosted by the Groom",
     date: "Friday, 11 December 2026",
@@ -50,6 +65,9 @@ export const sandalwoodEvents: WeddingEvent[] = [
   },
   {
     id: "haldi-bride",
+    sides: ["bride"],
+    cardVariant: "invitation",
+    invitationImage: susriHaldi,
     title: "Haldi",
     hostedBy: "Hosted by the Bride",
     date: "Friday, 11 December 2026",
@@ -60,10 +78,13 @@ export const sandalwoodEvents: WeddingEvent[] = [
       "A morning of turmeric, blessings, and joy for the bride with the Parija family.",
     icon: Flower2,
     accent: "primary",
-    mapsUrl: "https://share.google/9aDcHuCXpp4E1xE0O",
+    mapsUrl: CASA_ROYAL_MAPS,
   },
   {
     id: "wedding",
+    sides: ["bride", "bride-wedding"],
+    cardVariant: "invitation",
+    invitationImage: susriWedding,
     title: "Wedding",
     hostedBy: "Hosted by Both Families",
     date: "Friday, 11 December 2026",
@@ -74,10 +95,11 @@ export const sandalwoodEvents: WeddingEvent[] = [
       "With the blessings of both families, Susri Sangita and Manoranjan begin their life together.",
     icon: Heart,
     accent: "primary",
-    mapsUrl: "https://maps.app.goo.gl/CB1uLvrFRRtr4krQA?g_st=ic",
+    mapsUrl: CASA_ROYAL_MAPS,
   },
   {
     id: "reception",
+    sides: ["groom"],
     title: "Reception",
     hostedBy: "Hosted by the Groom",
     date: "Sunday, 13 December 2026",
@@ -100,3 +122,70 @@ export const sandalwoodRSVPEvents: RSVPEventOption[] = [
   { id: "wedding", label: "Wedding", emoji: "❤️" },
   { id: "reception", label: "Reception", emoji: "✨" },
 ];
+
+export const fullScheduleCopy = {
+  scheduleTitle: "The Celebrations",
+  scheduleSubtitle:
+    "From Patia to Cuttack and Brahmapur, every gathering has a place for you.",
+  rsvpSubtitle:
+    "Your presence is the greatest gift. Let us know which celebrations you can join.",
+  showWeddingVenue: true,
+  venueSubtitle:
+    "Susri Sangita and Manoranjan will be married here. Directions for every other celebration are on the cards above.",
+} as const;
+
+export const sideScheduleCopy: Record<
+  InviteSide,
+  {
+    scheduleTitle: string;
+    scheduleSubtitle: string;
+    rsvpSubtitle: string;
+    showWeddingVenue: boolean;
+    venueSubtitle: string;
+  }
+> = {
+  bride: {
+    scheduleTitle: "The Celebrations",
+    scheduleSubtitle:
+      "Sangeet, Mehendi, Haldi, and the wedding, hosted by the bride's family.",
+    rsvpSubtitle:
+      "Your presence is the greatest gift. Let us know which celebrations you can join.",
+    showWeddingVenue: false,
+    venueSubtitle: "",
+  },
+  groom: {
+    scheduleTitle: "The Celebrations",
+    scheduleSubtitle: "Haldi and the reception, hosted by the groom's family.",
+    rsvpSubtitle:
+      "Your presence is the greatest gift. Let us know which celebrations you can join.",
+    showWeddingVenue: false,
+    venueSubtitle: "",
+  },
+  "bride-wedding": {
+    scheduleTitle: "The Wedding",
+    scheduleSubtitle:
+      "The wedding, from the bride's family. Susri Sangita and Manoranjan begin their life together.",
+    rsvpSubtitle:
+      "Your presence is the greatest gift. Let us know if you can join the wedding.",
+    showWeddingVenue: true,
+    venueSubtitle: "Susri Sangita and Manoranjan will be married here.",
+  },
+};
+
+export function sandalwoodCopyForSide(side?: InviteSide) {
+  return side ? sideScheduleCopy[side] : fullScheduleCopy;
+}
+
+/** Plain RSVP options only, so a Server Component can pass them to the form. */
+export function sandalwoodEventsForSide(side?: InviteSide) {
+  if (!side) return sandalwoodEvents;
+  return sandalwoodEvents.filter((event) => event.sides.includes(side));
+}
+
+export function sandalwoodRsvpEventsForSide(side?: InviteSide) {
+  const eventIds = new Set(
+    sandalwoodEventsForSide(side).map((event) => event.id),
+  );
+
+  return sandalwoodRSVPEvents.filter((event) => eventIds.has(event.id));
+}
