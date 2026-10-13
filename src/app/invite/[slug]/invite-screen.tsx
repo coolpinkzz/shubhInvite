@@ -60,8 +60,8 @@ export function inviteMetadata(slug: string, side?: string): Metadata {
       images: [
         {
           url: imageUrl,
-          width: 720,
-          height: 1280,
+          width: invite.imageWidth ?? 720,
+          height: invite.imageHeight ?? 1280,
           alt: title,
         },
       ],

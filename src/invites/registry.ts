@@ -19,6 +19,9 @@ export interface InviteShareMeta {
   description: string;
   /** Absolute path under /public for OG image */
   image: string;
+  /** Pixel size of `image`, sent as og:image width and height. */
+  imageWidth?: number;
+  imageHeight?: number;
   /**
    * Side-specific share links. When set, /invite/<slug>/<side> shows only that side's events.
    * `bride-wedding` is the bride's wedding card. The bare /invite/<slug> link still shows every event.
@@ -46,7 +49,9 @@ export const invites = {
     title: "You're invited to the wedding of Susri & Manoranjan!",
     description:
       "Join Susri Sangita Parija & Manoranjan Patnaik as they celebrate their wedding on Friday, 11 December 2026 at Casa Royal, Trisulia, Cuttack. View the invitation, event schedule, and venue details.",
-    image: "/themes/royal-wedding/intro/envelop-poster.jpg",
+    image: "/themes/royal-wedding/intro/envelop-share.jpg",
+    imageWidth: 1600,
+    imageHeight: 900,
     sides: {
       bride: {
         title: "You're invited — Susri & Manoranjan",
