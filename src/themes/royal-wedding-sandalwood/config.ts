@@ -16,7 +16,7 @@ export const royalWeddingSandalwoodConfig = {
   },
   location: "Casa Royal, Trisulia, Cuttack",
   brand: "Susri & Manoranjan",
-  hashtag: "#SusriGotRinku'd",
+  hashtag: "#ManofestedSusriously",
   scratchCard: {
     weddingDate: "11 December 2026",
     revealThreshold: royalWeddingConfig.scratchCard.revealThreshold,

@@ -1,7 +1,7 @@
 import { Flower2, Heart, Music, Palette, Sparkles } from "lucide-react";
 
 import susriHaldi from "@/assests/susriHaldi.png";
-import susriMehandi from "@/assests/susriMehandi.png";
+import susriMehandi from "@/assests/susriMehandi .png";
 import susriSangeet from "@/assests/SusriSangeet.png";
 import susriWedding from "@/assests/susriWedding.png";
 import type { RSVPEventOption } from "@/themes/royal-wedding/sections/RSVPSection";
@@ -147,7 +147,7 @@ export const sideScheduleCopy: Record<
   bride: {
     scheduleTitle: "The Celebrations",
     scheduleSubtitle:
-      "Sangeet, Mehendi, Haldi, and the wedding, hosted by the bride's family.",
+      "From joyful melodies to cherished traditions, join us as we celebrate love, laughter, and the beginning of our forever.",
     rsvpSubtitle:
       "Your presence is the greatest gift. Let us know which celebrations you can join.",
     showWeddingVenue: false,

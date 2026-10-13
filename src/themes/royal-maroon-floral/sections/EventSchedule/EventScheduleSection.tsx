@@ -23,7 +23,7 @@ interface EventScheduleSectionProps {
 
 export function EventScheduleSection({
   events = royalMaroonFloralEvents,
-  overline = "Our Celebrations",
+  overline = "The Celebrations",
   title = "Wedding Festivities",
   subtitle = "We can't wait to celebrate every special moment with you.",
   className,

@@ -14,7 +14,16 @@ import { rsvpContacts } from "../../families";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-export function RsvpContacts() {
+interface RsvpContactsProps {
+  /** Hides this side's RSVP card. Bride invitations omit the groom. */
+  omit?: "bride" | "groom";
+}
+
+export function RsvpContacts({ omit }: RsvpContactsProps) {
+  const contacts = omit
+    ? rsvpContacts.filter((contact) => contact.id !== omit)
+    : rsvpContacts;
+
   return (
     <ThemeSection
       id="rsvp-contacts"
@@ -25,11 +34,21 @@ export function RsvpContacts() {
         <ThemeSectionHeader
           overline="Reach the Families"
           title="Kindly Confirm"
-          subtitle="A call or message to either family is as welcome as a note below."
+          subtitle={
+            omit
+              ? "A call or message to the family is as welcome as a note below."
+              : "A call or message to either family is as welcome as a note below."
+          }
         />
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {rsvpContacts.map((contact, index) => (
+        <div
+          className={
+            contacts.length > 1
+              ? "mt-10 grid gap-4 sm:grid-cols-2"
+              : "mt-10 grid gap-4"
+          }
+        >
+          {contacts.map((contact, index) => (
             <motion.article
               key={contact.id}
               initial={{ opacity: 0, y: 28 }}

@@ -39,7 +39,7 @@ export function EventSchedule({
     >
       <ThemeSectionContent>
         <ThemeSectionHeader
-          overline="Our Celebrations"
+          overline="The Celebrations"
           title={title}
           subtitle={subtitle}
         />

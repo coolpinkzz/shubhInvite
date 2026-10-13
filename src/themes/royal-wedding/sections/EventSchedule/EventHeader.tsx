@@ -8,7 +8,7 @@ export type EventHeaderProps = Omit<ThemeSectionHeaderProps, "overline"> & {
 };
 
 export function EventHeader({
-  overline = "Our Celebrations",
+  overline = "The Celebrations",
   ...props
 }: EventHeaderProps) {
   return <ThemeSectionHeader overline={overline} {...props} />;

@@ -101,12 +101,12 @@ export function BlessingFooter({
           transition={{ duration: 0.75, ease: EASE }}
         >
           <p className="mt-2 font-theme-label text-[10px] font-semibold uppercase tracking-[0.28em] text-accent">
-            With Gratitude
+            With Love &amp; Gratitude
           </p>
           <h2 className="mt-2 font-theme-display text-6xl leading-none text-theme-primary sm:text-7xl">
             Thank You
           </h2>
-          <p className="mx-auto mt-4 max-w-xs font-theme-body text-base italic leading-relaxed text-muted sm:max-w-sm sm:text-[1.05rem]">
+          <p className="mx-auto mt-4 max-w-sm font-theme-body text-base italic leading-relaxed text-muted sm:max-w-md sm:text-[1.05rem]">
             {blessing}
           </p>
         </motion.div>

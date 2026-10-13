@@ -13,7 +13,17 @@ import { families } from "../../families";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-export function FamilyBlessings() {
+interface FamilyBlessingsProps {
+  /** Whose parents are shown first. */
+  lead?: "bride" | "groom";
+}
+
+export function FamilyBlessings({ lead = "groom" }: FamilyBlessingsProps) {
+  const orderedFamilies =
+    lead === "bride"
+      ? [...families].reverse()
+      : families;
+
   return (
     <ThemeSection id="family" className="scroll-mt-24 py-16" srTitle="Our Families">
       <ThemeSectionContent>
@@ -24,7 +34,7 @@ export function FamilyBlessings() {
         />
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
-          {families.map((family, index) => (
+          {orderedFamilies.map((family, index) => (
             <motion.article
               key={family.id}
               initial={{ opacity: 0, y: 28 }}

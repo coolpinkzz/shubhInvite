@@ -28,7 +28,9 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
         coupleClassName="text-[clamp(2.05rem,8vw,3.25rem)] sm:text-[3.4rem]"
         nameOrder={nameOrder}
       />
-      <FamilyBlessings />
+      <FamilyBlessings
+        lead={side === "bride" || side === "bride-wedding" ? "bride" : "groom"}
+      />
       <SandalwoodSchedule side={side} />
       {copy.showWeddingVenue ? (
         <VenueLocation
@@ -39,7 +41,11 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
           showMap={side !== "bride-wedding"}
         />
       ) : null}
-      <RsvpContacts />
+      <RsvpContacts
+        omit={
+          side === "bride" || side === "bride-wedding" ? "groom" : undefined
+        }
+      />
       <RSVPSection
         events={sandalwoodRsvpEventsForSide(side)}
         guestsAfterAttendance
@@ -49,7 +55,7 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
       />
       <BlessingFooter
         nameOrder={nameOrder}
-        blessing="Your presence is the blessing we cherish most. The Patnaik and Parija families look forward to celebrating with you."
+        blessing="Your presence is the greatest blessing we could ask for. Thank you for being part of our beautiful beginning and making our special moments even more memorable."
       />
     </>
   );
