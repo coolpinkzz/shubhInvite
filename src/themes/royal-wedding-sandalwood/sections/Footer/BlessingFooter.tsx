@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 
+import susriLogo from "@/assests/susriLogo.jpeg";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { isWeddingConfig } from "@/types/theme";
@@ -20,11 +22,6 @@ function formatHashtag(tag: string) {
   const trimmed = tag.trim();
   if (!trimmed) return "";
   return trimmed.startsWith("#") ? trimmed : `#${trimmed}`;
-}
-
-function firstInitial(name: string) {
-  const letter = name.trim().charAt(0);
-  return letter ? letter.toUpperCase() : "";
 }
 
 function CornerFlourish({ className }: { className?: string }) {
@@ -67,7 +64,6 @@ export function BlessingFooter({
     nameOrder === "groom"
       ? [couple.groom, couple.bride]
       : [couple.bride, couple.groom];
-  const monogram = `${firstInitial(firstName)}${firstInitial(secondName)}`;
 
   return (
     <footer
@@ -112,27 +108,29 @@ export function BlessingFooter({
         </motion.div>
 
         <motion.div
-          className="relative mx-auto mt-12 max-w-sm"
+          className="relative mx-auto mt-14 max-w-sm sm:mt-16"
           initial={reducedMotion ? false : { opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.8, delay: 0.08, ease: EASE }}
         >
           <div
-            className="absolute left-1/2 top-0 z-10 flex size-[4.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full"
+            className="absolute left-1/2 top-0 z-10 size-[6.75rem] -translate-x-1/2 -translate-y-1/2 rounded-full p-[3px] sm:size-[7.5rem]"
             style={{
               background:
                 "linear-gradient(160deg, var(--theme-accent-light), var(--theme-accent-dark))",
               boxShadow: "var(--theme-shadow-button)",
             }}
-            aria-hidden="true"
           >
-            <span
-              className="flex size-[3.55rem] items-center justify-center rounded-full font-theme-headline text-sm font-medium tracking-[0.18em] text-[var(--theme-accent-light)]"
-              style={{ background: "var(--theme-primary)" }}
-            >
-              {monogram}
-            </span>
+            <div className="size-full overflow-hidden rounded-full">
+              <Image
+                src={susriLogo}
+                alt="Susri and Manoranjan monogram"
+                width={1024}
+                height={1536}
+                className="size-full object-cover object-[center_32%]"
+              />
+            </div>
           </div>
 
           <div
@@ -144,7 +142,7 @@ export function BlessingFooter({
             }}
           >
             <div
-              className="relative overflow-hidden rounded-[1.75rem] px-6 pb-9 pt-14"
+              className="relative overflow-hidden rounded-[1.75rem] px-6 pb-9 pt-16 sm:pt-20"
               style={{
                 background:
                   "linear-gradient(180deg, var(--theme-primary) 0%, color-mix(in srgb, var(--theme-primary) 72%, black) 100%)",

@@ -3,10 +3,7 @@ import { RSVPSection } from "@/themes/royal-wedding/sections/RSVPSection";
 import { VenueLocation } from "@/themes/royal-wedding/sections/VenueLocation";
 import type { ThemeTemplateProps } from "@/types/theme";
 
-import {
-  sandalwoodCopyForSide,
-  sandalwoodRsvpEventsForSide,
-} from "./events";
+import { sandalwoodCopyForSide, sandalwoodRsvpEventsForSide } from "./events";
 import { venuePetals } from "./petals";
 import { BlessingFooter } from "./sections/Footer";
 import { ShivParvatiHero } from "./sections/Hero";
@@ -30,9 +27,9 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
         nameOrder={nameOrder}
       /> */}
       <ShivParvatiHero nameOrder={nameOrder} />
-      <FamilyBlessings
+      {/* <FamilyBlessings
         lead={side === "bride" || side === "bride-wedding" ? "bride" : "groom"}
-      />
+      /> */}
       <SandalwoodSchedule side={side} />
       {copy.showWeddingVenue ? (
         <VenueLocation

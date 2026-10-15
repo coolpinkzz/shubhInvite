@@ -19,13 +19,14 @@ interface FamilyBlessingsProps {
 }
 
 export function FamilyBlessings({ lead = "groom" }: FamilyBlessingsProps) {
-  const orderedFamilies =
-    lead === "bride"
-      ? [...families].reverse()
-      : families;
+  const orderedFamilies = lead === "bride" ? [...families].reverse() : families;
 
   return (
-    <ThemeSection id="family" className="scroll-mt-24 py-16" srTitle="Our Families">
+    <ThemeSection
+      id="family"
+      className="scroll-mt-24 py-8"
+      srTitle="Our Families"
+    >
       <ThemeSectionContent>
         <ThemeSectionHeader
           overline="With Their Blessings"
@@ -52,7 +53,9 @@ export function FamilyBlessings({ lead = "groom" }: FamilyBlessingsProps) {
                 <p className="mt-1 text-balance font-theme-display text-[clamp(1.55rem,6vw,1.85rem)] leading-tight text-theme-primary">
                   {family.father}
                 </p>
-                <p className="my-2 font-theme-body text-xl italic text-muted">&amp;</p>
+                <p className="my-2 font-theme-body text-xl italic text-muted">
+                  &amp;
+                </p>
                 <p className="font-theme-label text-[10px] font-semibold uppercase tracking-[0.16em] text-muted">
                   {family.motherLabel}
                 </p>

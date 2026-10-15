@@ -183,7 +183,7 @@ export function ThemeProvider({
             music={music}
             autoplay={musicAutoplay}
             className={cn(
-              "transition-opacity duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+              "transition-opacity duration-[2000ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
               !introComplete && "pointer-events-none",
               revealed ? "opacity-100" : "opacity-0",
             )}

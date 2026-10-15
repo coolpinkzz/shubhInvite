@@ -34,7 +34,7 @@ export function EventSchedule({
   return (
     <ThemeSection
       id="events"
-      className={className ?? "scroll-mt-24 py-16"}
+      className={className ?? "scroll-mt-24 py-8"}
       srTitle={title}
     >
       <ThemeSectionContent>

@@ -25,7 +25,10 @@ export interface EnvelopeIntroProps {
 }
 
 /** Shared with the invitation fade so the video and hero crossfade together. */
-export const INTRO_REVEAL_MS = 1200;
+export const INTRO_REVEAL_MS = 2000;
+
+/** Hold the video's last frame still before that fade begins. */
+const FINAL_FRAME_HOLD_MS = 1000;
 
 /** Media fragment that nudges Safari to decode and paint the first frame. */
 function videoSrcWithFirstFrame(src: string) {
@@ -45,15 +48,23 @@ export function EnvelopeIntro({
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasStartedRef = useRef(false);
   const hasFinishedRef = useRef(false);
+  const holdingFinalFrameRef = useRef(false);
+  const freezeTimerRef = useRef<number | null>(null);
+  const watchFrameRef = useRef<number | null>(null);
   const [awaitingTap, setAwaitingTap] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
+  const [fadingOut, setFadingOut] = useState(false);
 
   const finishIntro = useCallback(() => {
     if (hasFinishedRef.current) return;
     hasFinishedRef.current = true;
-    setIsVisible(false);
+    // Dissolve the frozen last frame. The invitation fades in underneath.
+    setFadingOut(true);
     onReveal?.();
-    window.setTimeout(onComplete, INTRO_REVEAL_MS);
+    window.setTimeout(() => {
+      setIsVisible(false);
+      onComplete();
+    }, INTRO_REVEAL_MS);
   }, [onComplete, onReveal]);
 
   const notifyStart = useCallback(() => {
@@ -61,6 +72,44 @@ export function EnvelopeIntro({
     hasStartedRef.current = true;
     onStart?.();
   }, [onStart]);
+
+  const holdFinalFrame = useCallback(() => {
+    if (holdingFinalFrameRef.current || hasFinishedRef.current) return;
+    holdingFinalFrameRef.current = true;
+
+    if (watchFrameRef.current !== null) {
+      window.cancelAnimationFrame(watchFrameRef.current);
+      watchFrameRef.current = null;
+    }
+
+    // Pause on the last frame so it stays painted. Letting playback hit
+    // `ended` can clear that frame to black on some browsers.
+    const video = videoRef.current;
+    if (video && !video.paused) {
+      video.pause();
+    }
+
+    freezeTimerRef.current = window.setTimeout(() => {
+      freezeTimerRef.current = null;
+      finishIntro();
+    }, FINAL_FRAME_HOLD_MS);
+  }, [finishIntro]);
+
+  const watchPlayback = useCallback(() => {
+    const video = videoRef.current;
+    if (!video || holdingFinalFrameRef.current || hasFinishedRef.current) return;
+
+    if (
+      Number.isFinite(video.duration) &&
+      video.duration > 0 &&
+      video.duration - video.currentTime <= 1 / 24
+    ) {
+      holdFinalFrame();
+      return;
+    }
+
+    watchFrameRef.current = window.requestAnimationFrame(watchPlayback);
+  }, [holdFinalFrame]);
 
   // iOS Safari: force a tiny seek so a frame can paint if no poster is provided.
   useEffect(() => {
@@ -111,15 +160,22 @@ export function EnvelopeIntro({
       video.muted = true;
       video.currentTime = 0;
       await video.play();
+      watchFrameRef.current = window.requestAnimationFrame(watchPlayback);
     } catch {
       finishIntro();
     }
-  }, [finishIntro, notifyStart, src]);
+  }, [finishIntro, notifyStart, src, watchPlayback]);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
+      if (freezeTimerRef.current !== null) {
+        window.clearTimeout(freezeTimerRef.current);
+      }
+      if (watchFrameRef.current !== null) {
+        window.cancelAnimationFrame(watchFrameRef.current);
+      }
     };
   }, []);
 
@@ -128,12 +184,13 @@ export function EnvelopeIntro({
       {isVisible ? (
         <motion.div
           className={cn(
-            "fixed inset-0 z-[100] flex items-center justify-center bg-[#050A12]",
+            "fixed inset-0 z-[100] flex items-center justify-center",
+            fadingOut ? "bg-transparent" : "bg-[#050A12]",
             className,
           )}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: INTRO_REVEAL_MS / 1000, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           aria-hidden={!isVisible}
         >
           {src ? (
@@ -142,11 +199,15 @@ export function EnvelopeIntro({
                 ref={videoRef}
                 src={videoSrcWithFirstFrame(src)}
                 poster={posterSrc}
-                className="absolute inset-0 h-full w-full object-cover"
+                className={cn(
+                  "absolute inset-0 h-full w-full object-cover transition-opacity ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+                  fadingOut && "opacity-0",
+                )}
+                style={{ transitionDuration: `${INTRO_REVEAL_MS}ms` }}
                 playsInline
                 muted
                 preload="auto"
-                onEnded={finishIntro}
+                onEnded={holdFinalFrame}
               />
               {/*
                 Keep a real <img> over the video while waiting.

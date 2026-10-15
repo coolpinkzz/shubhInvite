@@ -63,16 +63,6 @@ export function ThemeSectionHeader({
         </div>
       ) : null}
 
-      <motion.p
-        className="mb-2 font-theme-label text-[10px] font-semibold uppercase tracking-[0.2em] text-accent"
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-60px" }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      >
-        {overline}
-      </motion.p>
-
       <motion.h2
         id={titleId}
         className="font-theme-display text-[42px] leading-tight text-primary sm:text-5xl"
