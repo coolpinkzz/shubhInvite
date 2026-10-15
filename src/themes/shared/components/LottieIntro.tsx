@@ -6,6 +6,7 @@ import Lottie, { type LottieRefCurrentProps } from "lottie-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import { INTRO_REVEAL_MS } from "./EnvelopeIntro";
 
 export interface LottieIntroProps {
   /** Public path to a Lottie JSON file (e.g. /themes/.../loading.json). */
@@ -13,6 +14,8 @@ export interface LottieIntroProps {
   /** Optional emblem shown on the tap overlay. */
   emblemSrc?: string;
   onComplete: () => void;
+  /** Fired when the overlay starts fading, so the invitation can fade in with it. */
+  onReveal?: () => void;
   /** Fired on user tap — unlocks music in the same gesture. */
   onStart?: () => void;
   /** Soft background for the splash. Defaults to baby-reveal cream blue. */
@@ -24,12 +27,14 @@ export function LottieIntro({
   src,
   emblemSrc,
   onComplete,
+  onReveal,
   onStart,
   background = "linear-gradient(165deg, #0B1A28 0%, #16324A 45%, #1E4A6B 100%)",
   className,
 }: LottieIntroProps) {
   const lottieRef = useRef<LottieRefCurrentProps>(null);
   const hasStartedRef = useRef(false);
+  const hasFinishedRef = useRef(false);
   const [animationData, setAnimationData] = useState<object | null>(null);
   const [awaitingTap, setAwaitingTap] = useState(true);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -37,9 +42,12 @@ export function LottieIntro({
   const [loadError, setLoadError] = useState(false);
 
   const finishIntro = useCallback(() => {
+    if (hasFinishedRef.current) return;
+    hasFinishedRef.current = true;
     setIsVisible(false);
-    window.setTimeout(onComplete, 450);
-  }, [onComplete]);
+    onReveal?.();
+    window.setTimeout(onComplete, INTRO_REVEAL_MS);
+  }, [onComplete, onReveal]);
 
   const notifyStart = useCallback(() => {
     if (hasStartedRef.current) return;
@@ -114,7 +122,7 @@ export function LottieIntro({
           style={{ background }}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: INTRO_REVEAL_MS / 1000, ease: [0.16, 1, 0.3, 1] }}
           aria-label="Open invitation"
         >
           {isPlaying && animationData ? (

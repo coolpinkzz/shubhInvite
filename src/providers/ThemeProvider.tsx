@@ -19,7 +19,11 @@ import type {
   ThemeTokenOverrides,
   ThemeTokens,
 } from "@/types/theme";
-import { EnvelopeIntro } from "@/themes/shared/components/EnvelopeIntro";
+import { cn } from "@/lib/utils";
+import {
+  EnvelopeIntro,
+  INTRO_REVEAL_MS,
+} from "@/themes/shared/components/EnvelopeIntro";
 import { LottieIntro } from "@/themes/shared/components/LottieIntro";
 import {
   ThemeMusicControl,
@@ -62,6 +66,8 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const musicControlRef = useRef<ThemeMusicControlHandle>(null);
   const [introComplete, setIntroComplete] = useState(!intro);
+  /** Invitation stays hidden until the intro begins to fade, then eases in. */
+  const [revealed, setRevealed] = useState(!intro);
   /** Music waits for the intro video to start (or skips wait when there is no intro). */
   const [introMusicReady, setIntroMusicReady] = useState(!intro);
 
@@ -86,7 +92,12 @@ export function ThemeProvider({
     musicControlRef.current?.play();
   }, []);
 
+  const handleIntroReveal = useCallback(() => {
+    setRevealed(true);
+  }, []);
+
   const handleIntroComplete = useCallback(() => {
+    setRevealed(true);
     setIntroComplete(true);
     setIntroMusicReady(true);
   }, []);
@@ -100,6 +111,7 @@ export function ThemeProvider({
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (mediaQuery.matches) {
+      setRevealed(true);
       setIntroComplete(true);
       setIntroMusicReady(true);
       return;
@@ -107,6 +119,7 @@ export function ThemeProvider({
 
     const handleChange = (event: MediaQueryListEvent) => {
       if (event.matches) {
+        setRevealed(true);
         setIntroComplete(true);
         setIntroMusicReady(true);
       }
@@ -130,7 +143,15 @@ export function ThemeProvider({
           // Stay painted under the intro. `visibility: hidden` skips that
           // paint, so the video fade reveals a blank page before the hero.
           inert={!introComplete}
-          className={introComplete ? undefined : "pointer-events-none"}
+          className={cn(
+            intro &&
+              "transition-opacity ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+            !introComplete && "pointer-events-none",
+            revealed ? "opacity-100" : "opacity-0",
+          )}
+          style={
+            intro ? { transitionDuration: `${INTRO_REVEAL_MS}ms` } : undefined
+          }
         >
           {children}
         </div>
@@ -141,6 +162,7 @@ export function ThemeProvider({
               src={intro.lottieSrc}
               emblemSrc={intro.emblemSrc}
               onStart={handleIntroStart}
+              onReveal={handleIntroReveal}
               onComplete={handleIntroComplete}
             />
           ) : (
@@ -149,6 +171,7 @@ export function ThemeProvider({
               posterSrc={intro.posterSrc}
               emblemSrc={intro.emblemSrc}
               onStart={handleIntroStart}
+              onReveal={handleIntroReveal}
               onComplete={handleIntroComplete}
             />
           )
@@ -159,7 +182,11 @@ export function ThemeProvider({
             ref={musicControlRef}
             music={music}
             autoplay={musicAutoplay}
-            className={introComplete ? undefined : "pointer-events-none opacity-0"}
+            className={cn(
+              "transition-opacity duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+              !introComplete && "pointer-events-none",
+              revealed ? "opacity-100" : "opacity-0",
+            )}
           />
         ) : null}
       </div>

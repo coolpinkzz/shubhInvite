@@ -1,8 +1,8 @@
 import { Flower2, Heart, Music, Palette, Sparkles } from "lucide-react";
 
-import susriHaldi from "@/assests/susriHaldi.png";
-import susriMehandi from "@/assests/susriMehandi .png";
-import susriSangeet from "@/assests/SusriSangeet.png";
+import susriHaldi from "@/assests/susriHaldi.jpeg";
+import susriMehandi from "@/assests/susriMehandi.jpeg";
+import susriSangeet from "@/assests/susriSangeet.jpeg";
 import susriWedding from "@/assests/susriWedding.png";
 import type { RSVPEventOption } from "@/themes/royal-wedding/sections/RSVPSection";
 import type { WeddingEvent } from "@/themes/royal-wedding/sections/EventSchedule";

@@ -17,10 +17,15 @@ export interface EnvelopeIntroProps {
   /** Optional brand/emblem mark on the tap overlay. */
   emblemSrc?: string;
   onComplete: () => void;
+  /** Fired when the overlay starts fading, so the invitation can fade in with it. */
+  onReveal?: () => void;
   /** Fired when the user taps and playback begins (also used to unlock music). */
   onStart?: () => void;
   className?: string;
 }
+
+/** Shared with the invitation fade so the video and hero crossfade together. */
+export const INTRO_REVEAL_MS = 1200;
 
 /** Media fragment that nudges Safari to decode and paint the first frame. */
 function videoSrcWithFirstFrame(src: string) {
@@ -33,18 +38,23 @@ export function EnvelopeIntro({
   posterSrc,
   emblemSrc,
   onComplete,
+  onReveal,
   onStart,
   className,
 }: EnvelopeIntroProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hasStartedRef = useRef(false);
+  const hasFinishedRef = useRef(false);
   const [awaitingTap, setAwaitingTap] = useState(true);
   const [isVisible, setIsVisible] = useState(true);
 
   const finishIntro = useCallback(() => {
+    if (hasFinishedRef.current) return;
+    hasFinishedRef.current = true;
     setIsVisible(false);
-    window.setTimeout(onComplete, 500);
-  }, [onComplete]);
+    onReveal?.();
+    window.setTimeout(onComplete, INTRO_REVEAL_MS);
+  }, [onComplete, onReveal]);
 
   const notifyStart = useCallback(() => {
     if (hasStartedRef.current) return;
@@ -123,7 +133,7 @@ export function EnvelopeIntro({
           )}
           initial={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: INTRO_REVEAL_MS / 1000, ease: [0.16, 1, 0.3, 1] }}
           aria-hidden={!isVisible}
         >
           {src ? (

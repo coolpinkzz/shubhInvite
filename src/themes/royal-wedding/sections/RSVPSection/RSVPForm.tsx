@@ -127,7 +127,7 @@ export function RSVPForm({
           )}
         />
 
-        {guestsAfterAttendance && attending !== false ? (
+        {guestsAfterAttendance && attending === true ? (
           <Controller
             name="guests"
             control={control}

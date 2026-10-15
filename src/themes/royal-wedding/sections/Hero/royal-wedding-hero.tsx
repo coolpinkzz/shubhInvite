@@ -6,6 +6,7 @@ import goldCornerBorder from "@/assests/gold-corner-border.png";
 import ivoryCreamBg from "@/assests/ivoryCreamBg.png";
 import lordGanesha from "@/assests/lord_ganesha.svg";
 import brideGroom from "@/assests/bride-groom-2.png";
+import floralHandframe from "@/assests/FloralHandframe.png";
 import latkan from "@/assests/latkan.png";
 import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
@@ -31,6 +32,40 @@ const NAV_ITEMS_WITHOUT_GALLERY = NAV_ITEMS.filter(
 );
 
 type NavSectionId = (typeof NAV_ITEMS)[number]["id"];
+
+/**
+ * Outer 32% of FloralHandframe.png holds each hand and its flowers.
+ * The panel aspect matches that crop so the artwork is never stretched.
+ */
+const HAND_FRAME_PANEL_CLASS =
+  "pointer-events-none absolute top-[clamp(17.5rem,46vw,24rem)] z-[1] aspect-[492/1024] w-[clamp(6.75rem,32vw,22rem)] overflow-hidden";
+
+function FloralHandFrame() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-[1]" aria-hidden="true">
+      <div className={cn(HAND_FRAME_PANEL_CLASS, "left-0")}>
+        <Image
+          src={floralHandframe}
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 768px) 32vw, 352px"
+          className="object-cover object-left"
+        />
+      </div>
+      <div className={cn(HAND_FRAME_PANEL_CLASS, "right-0")}>
+        <Image
+          src={floralHandframe}
+          alt=""
+          fill
+          priority
+          sizes="(max-width: 768px) 32vw, 352px"
+          className="object-cover object-right"
+        />
+      </div>
+    </div>
+  );
+}
 
 function scrollToSection(id: NavSectionId) {
   if (id === "home") {
@@ -120,6 +155,8 @@ export function RoyalWeddingHero({
           className="object-cover"
         />
       </div>
+
+      <FloralHandFrame />
 
       <PetalRain options={petals} />
 
