@@ -1,4 +1,4 @@
-import { RoyalWeddingHero } from "@/themes/royal-wedding/sections/Hero";
+// import { RoyalWeddingHero } from "@/themes/royal-wedding/sections/Hero";
 import { RSVPSection } from "@/themes/royal-wedding/sections/RSVPSection";
 import { VenueLocation } from "@/themes/royal-wedding/sections/VenueLocation";
 import type { ThemeTemplateProps } from "@/types/theme";
@@ -7,8 +7,9 @@ import {
   sandalwoodCopyForSide,
   sandalwoodRsvpEventsForSide,
 } from "./events";
-import { heroPetals, venuePetals } from "./petals";
+import { venuePetals } from "./petals";
 import { BlessingFooter } from "./sections/Footer";
+import { ShivParvatiHero } from "./sections/Hero";
 import { FamilyBlessings } from "./sections/Families";
 import { RsvpContacts } from "./sections/RsvpContacts";
 import { SandalwoodSchedule } from "./sections/Schedule";
@@ -22,12 +23,13 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
 
   return (
     <>
-      <RoyalWeddingHero
+      {/* <RoyalWeddingHero
         petals={heroPetals}
         showGalleryNav={false}
         coupleClassName="text-[clamp(2.05rem,8vw,3.25rem)] sm:text-[3.4rem]"
         nameOrder={nameOrder}
-      />
+      /> */}
+      <ShivParvatiHero nameOrder={nameOrder} />
       <FamilyBlessings
         lead={side === "bride" || side === "bride-wedding" ? "bride" : "groom"}
       />

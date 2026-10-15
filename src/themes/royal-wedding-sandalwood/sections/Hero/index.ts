@@ -1,0 +1,1 @@
+export { ShivParvatiHero } from "./ShivParvatiHero";
