@@ -2,7 +2,7 @@ import type { ThemeDefinition, ThemeTokens } from "@/types/theme";
 
 import { royalWeddingTokens } from "./royal-wedding";
 import { royalWeddingFontClassName } from "./royal-wedding/fonts";
-import { royalWeddingIntro } from "./royal-wedding/intro";
+import { royalWeddingSandalwoodIntro } from "./royal-wedding-sandalwood/intro";
 import { royalWeddingMusic } from "./royal-wedding/music";
 import { royalWeddingSandalwoodConfig } from "./royal-wedding-sandalwood/config";
 import { RoyalWeddingSandalwoodTemplate } from "./royal-wedding-sandalwood/template";
@@ -56,7 +56,7 @@ export const royalWeddingSandalwoodTheme = {
   tokens: royalWeddingSandalwoodTokens,
   config: royalWeddingSandalwoodConfig,
   music: royalWeddingMusic,
-  intro: royalWeddingIntro,
+  intro: royalWeddingSandalwoodIntro,
   fontClassName: royalWeddingFontClassName,
   Template: RoyalWeddingSandalwoodTemplate,
 } satisfies ThemeDefinition;
