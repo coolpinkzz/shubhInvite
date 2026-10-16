@@ -1,14 +1,15 @@
 // import { RoyalWeddingHero } from "@/themes/royal-wedding/sections/Hero";
-import { RSVPSection } from "@/themes/royal-wedding/sections/RSVPSection";
 import { VenueLocation } from "@/themes/royal-wedding/sections/VenueLocation";
 import type { ThemeTemplateProps } from "@/types/theme";
 
-import { sandalwoodCopyForSide, sandalwoodRsvpEventsForSide } from "./events";
-import { venuePetals } from "./petals";
+import { sandalwoodCopyForSide, sandalwoodGuestEventsForSide } from "./events";
+import { heroPetals, venuePetals } from "./petals";
 import { BlessingFooter } from "./sections/Footer";
 import { ShivParvatiHero } from "./sections/Hero";
-import { FamilyBlessings } from "./sections/Families";
+import { FamilyBlessings, TheFamilies } from "./sections/Families";
+import { AwaitingPresence } from "./sections/Presence";
 import { RsvpContacts } from "./sections/RsvpContacts";
+import { SandalwoodRsvpSection } from "./sections/Rsvp";
 import { SandalwoodSchedule } from "./sections/Schedule";
 import { weddingVenue } from "./venue";
 
@@ -26,7 +27,7 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
         coupleClassName="text-[clamp(2.05rem,8vw,3.25rem)] sm:text-[3.4rem]"
         nameOrder={nameOrder}
       /> */}
-      <ShivParvatiHero nameOrder={nameOrder} />
+      <ShivParvatiHero nameOrder={nameOrder} petals={heroPetals} />
       {/* <FamilyBlessings
         lead={side === "bride" || side === "bride-wedding" ? "bride" : "groom"}
       /> */}
@@ -40,18 +41,18 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
           showMap={side !== "bride-wedding"}
         />
       ) : null}
-      <RsvpContacts
+      {/* <RsvpContacts
         omit={
           side === "bride" || side === "bride-wedding" ? "groom" : undefined
         }
-      />
-      <RSVPSection
-        events={sandalwoodRsvpEventsForSide(side)}
-        guestsAfterAttendance
-        title="Kindly RSVP"
+      /> */}
+      <AwaitingPresence />
+      <SandalwoodRsvpSection
+        events={sandalwoodGuestEventsForSide(side)}
         subtitle={copy.rsvpSubtitle}
-        className="scroll-mt-24 pb-8"
+        className="scroll-mt-24 bg-[#FBF6F1] pb-12 pt-10"
       />
+      <TheFamilies />
       <BlessingFooter
         nameOrder={nameOrder}
         blessing="Your presence is the greatest blessing we could ask for. Thank you for being part of our beautiful beginning and making our special moments even more memorable."

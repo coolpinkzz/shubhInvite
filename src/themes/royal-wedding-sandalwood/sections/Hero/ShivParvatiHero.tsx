@@ -9,6 +9,10 @@ import { useTheme } from "@/hooks/useTheme";
 import { cn } from "@/lib/utils";
 import { MaterialIcon } from "@/themes/royal-wedding/components/material-icon";
 import { CountdownTimer } from "@/themes/royal-wedding/sections/Hero/countdown-timer";
+import {
+  PetalRain,
+  type PetalRainProps,
+} from "@/themes/royal-wedding/sections/Hero/petal-rain";
 import { SaveToCalendar } from "@/themes/royal-wedding/sections/Hero/save-to-calendar";
 import { ScratchRevealCard } from "@/themes/royal-wedding/sections/Hero/scratch-reveal-card";
 import { hexToRgba } from "@/themes/shared/utils/color";
@@ -47,9 +51,13 @@ function scrollToSection(id: NavSectionId) {
 interface ShivParvatiHeroProps {
   /** Whose name is written first. Defaults to the bride. */
   nameOrder?: "bride" | "groom";
+  petals?: PetalRainProps["options"];
 }
 
-export function ShivParvatiHero({ nameOrder = "bride" }: ShivParvatiHeroProps) {
+export function ShivParvatiHero({
+  nameOrder = "bride",
+  petals,
+}: ShivParvatiHeroProps) {
   const { config, tokens } = useTheme();
   const [isDateRevealed, setIsDateRevealed] = useState(false);
   const [activeSection, setActiveSection] = useState<NavSectionId>("home");
@@ -91,7 +99,9 @@ export function ShivParvatiHero({ nameOrder = "bride" }: ShivParvatiHeroProps) {
   const secondName = couple[secondRole];
 
   return (
-    <div id="home" className="relative scroll-mt-4 bg-background pb-8">
+    <div id="home" className="relative scroll-mt-4 bg-background">
+      <PetalRain options={petals} />
+
       <div className="relative mx-auto w-full">
         <Image
           src={shivParvatiBg}
@@ -104,7 +114,7 @@ export function ShivParvatiHero({ nameOrder = "bride" }: ShivParvatiHeroProps) {
         />
 
         {/* Sits in the open paper between the feet and the banana leaves. */}
-        <div className="absolute inset-x-[11%] top-[50%] bottom-[11%] flex flex-col items-center justify-center text-center">
+        <div className="absolute inset-x-[11%] top-[45%] bottom-[11%] flex flex-col items-center justify-center text-center">
           <div className="animate-fade-in flex w-full flex-col items-center gap-4">
             <Image
               src={ganeshjiTop}
@@ -123,7 +133,7 @@ export function ShivParvatiHero({ nameOrder = "bride" }: ShivParvatiHeroProps) {
               blessings on the auspicious occasion of the wedding celebration of
             </p>
 
-            <h1 className="mt-2 flex flex-col items-center gap-2">
+            <h1 className="mt-2 flex flex-col items-center gap-1.5">
               <span className="font-theme-display text-[clamp(2.15rem,8vw,2.75rem)] leading-none text-[#C23B6E]">
                 {firstName}
               </span>
@@ -144,18 +154,21 @@ export function ShivParvatiHero({ nameOrder = "bride" }: ShivParvatiHeroProps) {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[430px] px-5 pb-4 pt-6 text-center md:max-w-[480px]">
-        <ScratchRevealCard
-          weddingDate={scratchCard.weddingDate}
-          revealThreshold={scratchCard.revealThreshold}
-          onRevealed={() => setIsDateRevealed(true)}
-        />
-        {isDateRevealed ? (
-          <>
-            <CountdownTimer targetDate={countdownTarget} />
-            <SaveToCalendar config={config} />
-          </>
-        ) : null}
+      <div className="bg-[#F7F3EB] px-5 pb-10 pt-8 text-center">
+        <div className="mx-auto w-full max-w-[430px] md:max-w-[480px]">
+          <ScratchRevealCard
+            variant="plaque"
+            weddingDate={scratchCard.weddingDate}
+            revealThreshold={scratchCard.revealThreshold}
+            onRevealed={() => setIsDateRevealed(true)}
+          />
+          {isDateRevealed ? (
+            <>
+              <CountdownTimer targetDate={countdownTarget} />
+              <SaveToCalendar config={config} />
+            </>
+          ) : null}
+        </div>
       </div>
 
       <nav

@@ -28,7 +28,7 @@ function CornerFlourish({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 56 56"
-      className={cn("size-12 text-[var(--theme-accent-light)]", className)}
+      className={cn("size-12 text-white/55", className)}
       fill="none"
       aria-hidden="true"
     >
@@ -141,38 +141,28 @@ export function BlessingFooter({
               boxShadow: "var(--theme-shadow-hero)",
             }}
           >
-            <div
-              className="relative overflow-hidden rounded-[1.75rem] px-6 pb-9 pt-16 sm:pt-20"
-              style={{
-                background:
-                  "linear-gradient(180deg, var(--theme-primary) 0%, color-mix(in srgb, var(--theme-primary) 72%, black) 100%)",
-              }}
-            >
+            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#5C3A2E] px-6 pb-9 pt-16 sm:pt-20">
               <CornerFlourish className="absolute left-2 top-2" />
               <CornerFlourish className="absolute right-2 top-2 scale-x-[-1]" />
               <CornerFlourish className="absolute bottom-2 left-2 scale-y-[-1]" />
               <CornerFlourish className="absolute bottom-2 right-2 -scale-x-100 -scale-y-100" />
 
-              <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-[var(--theme-accent-light)]">
+              <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-white">
                 {firstName}
               </p>
-              <p className="my-1 font-theme-body text-2xl italic leading-none text-[var(--theme-accent)]">
+              <p className="my-1 font-theme-body text-2xl italic leading-none text-white">
                 &amp;
               </p>
-              <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-[var(--theme-accent-light)]">
+              <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-white">
                 {secondName}
               </p>
 
               <div
-                className="mx-auto mt-6 h-px w-24"
-                style={{
-                  background:
-                    "linear-gradient(90deg, transparent, var(--theme-accent-light), transparent)",
-                }}
+                className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-white/70 to-transparent"
                 aria-hidden="true"
               />
 
-              <p className="mt-4 text-balance px-2 font-theme-label text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--theme-accent-light)]/90">
+              <p className="mt-4 text-balance px-2 font-theme-label text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
                 {date}
               </p>
             </div>

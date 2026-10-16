@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, MapPin } from "lucide-react";
+import { Send } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -60,20 +60,21 @@ export function EventInvitationCard({
         />
       </div>
       {event.mapsUrl ? (
-        <a
-          href={event.mapsUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3.5 font-theme-label text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-[var(--theme-shadow-button)]"
-        >
-          <MapPin className="size-4" strokeWidth={2} aria-hidden="true" />
-          View on Google Maps
-          <ExternalLink
-            className="size-3.5 opacity-70"
-            strokeWidth={2}
-            aria-hidden="true"
-          />
-        </a>
+        <div className="relative mx-auto mt-5 w-full max-w-sm">
+          <a
+            href={event.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="relative z-10 flex w-full items-center justify-center gap-2.5 rounded-full bg-[#A3543A] px-6 py-4 font-theme-label text-[13px] font-medium uppercase tracking-[0.22em] text-white shadow-[0_12px_24px_-14px_rgba(90,36,22,0.7)] transition-transform active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A3543A] focus-visible:ring-offset-2"
+          >
+            <Send
+              className="size-[1.05rem] -rotate-6"
+              strokeWidth={1.75}
+              aria-hidden="true"
+            />
+            Get Directions
+          </a>
+        </div>
       ) : null}
     </motion.article>
   );

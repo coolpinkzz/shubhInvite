@@ -7,6 +7,11 @@ export const rsvpSchema = z
       .trim()
       .min(1, "Please enter your full name")
       .max(100, "Name must be 100 characters or less"),
+    phone: z
+      .string()
+      .trim()
+      .max(20, "Contact number must be 20 characters or less")
+      .default(""),
     guests: z.number().int().min(1).max(5),
     attending: z
       .boolean()

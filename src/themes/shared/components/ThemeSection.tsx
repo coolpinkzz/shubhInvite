@@ -116,17 +116,13 @@ export function ThemeFloralDivider({
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       aria-hidden="true"
     >
-      <div
-        className={cn("h-px flex-1 bg-gradient-to-r", lineOpacity[size])}
-      />
+      <div className={cn("h-px flex-1 bg-gradient-to-r", lineOpacity[size])} />
       <div className={cn("flex items-center", gapClass)}>
         <span className={cn("size-1.5 rounded-full", dotOpacity[size])} />
         {variant === "star" ? <StarIcon /> : <LotusIcon />}
         <span className={cn("size-1.5 rounded-full", dotOpacity[size])} />
       </div>
-      <div
-        className={cn("h-px flex-1 bg-gradient-to-r", lineOpacity[size])}
-      />
+      <div className={cn("h-px flex-1 bg-gradient-to-r", lineOpacity[size])} />
     </motion.div>
   );
 }
@@ -150,7 +146,11 @@ export function ThemeSection({
     <section
       id={id}
       aria-labelledby={srTitle ? `${id}-title` : undefined}
-      className={cn("relative overflow-hidden bg-surface px-5 sm:px-6", className)}
+      // bg hsl(60deg 26.83% 91.96%)
+      className={cn(
+        "relative overflow-hidden bg-[hsl(60deg_26.83%_91.96%)] px-5 sm:px-6",
+        className,
+      )}
     >
       <div
         className="event-schedule-pattern pointer-events-none absolute inset-0 opacity-[0.04]"

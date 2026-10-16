@@ -27,21 +27,21 @@ export function createBurstParticle(
   groundY: number,
 ): FlowerParticleState {
   const angle = -Math.PI / 2 + (Math.random() - 0.5) * 1.2;
-  const speed = 4 + Math.random() * 6;
+  const speed = 280 + Math.random() * 240;
 
   return {
     id: particleId++,
     kind: pickKind(),
-    x: origin.x + (Math.random() - 0.5) * 40,
+    x: origin.x + (Math.random() - 0.5) * 48,
     y: origin.y,
     vx: Math.cos(angle) * speed,
     vy: Math.sin(angle) * speed,
-    size: 6 + Math.random() * 10,
+    size: 8 + Math.random() * 12,
     rotation: Math.random() * 360,
-    rotationSpeed: (Math.random() - 0.5) * 8,
-    opacity: 0.85 + Math.random() * 0.15,
+    rotationSpeed: (Math.random() - 0.5) * 220,
+    opacity: 0.9 + Math.random() * 0.1,
     birth: performance.now(),
-    life: 4500 + Math.random() * 1500,
+    life: 5200 + Math.random() * 1600,
     windPhase: Math.random() * Math.PI * 2,
     bounced: false,
     groundY,
@@ -56,15 +56,15 @@ export function createShowerParticle(
     id: particleId++,
     kind: pickKind(),
     x: Math.random() * screenWidth,
-    y: -20 - Math.random() * 60,
-    vx: (Math.random() - 0.5) * 1.5,
-    vy: 1.5 + Math.random() * 2.5,
-    size: 5 + Math.random() * 12,
+    y: -24 - Math.random() * 80,
+    vx: (Math.random() - 0.5) * 36,
+    vy: 70 + Math.random() * 90,
+    size: 8 + Math.random() * 14,
     rotation: Math.random() * 360,
-    rotationSpeed: (Math.random() - 0.5) * 6,
-    opacity: 0.75 + Math.random() * 0.25,
+    rotationSpeed: (Math.random() - 0.5) * 180,
+    opacity: 0.85 + Math.random() * 0.15,
     birth: performance.now(),
-    life: 4000 + Math.random() * 2000,
+    life: 5600 + Math.random() * 1800,
     windPhase: Math.random() * Math.PI * 2,
     bounced: false,
     groundY,
@@ -80,12 +80,13 @@ export function updateFlowerParticle(
   const age = now - particle.birth;
   if (age > particle.life) return false;
 
+  const dt = Math.min(delta, 34) / 1000;
   const wind = Math.sin(now / 400 + particle.windPhase) * windStrength;
-  particle.vx += wind * delta * 0.02;
-  particle.vy += 0.18 * delta;
-  particle.x += particle.vx * delta * 0.06;
-  particle.y += particle.vy * delta * 0.06;
-  particle.rotation += particle.rotationSpeed * delta * 0.06;
+  particle.vx += wind * 22 * dt;
+  particle.vy += 90 * dt;
+  particle.x += particle.vx * dt;
+  particle.y += particle.vy * dt;
+  particle.rotation += particle.rotationSpeed * dt;
 
   if (particle.y >= particle.groundY && !particle.bounced) {
     particle.y = particle.groundY;
@@ -170,12 +171,15 @@ function drawJasmine(ctx: CanvasRenderingContext2D, size: number) {
       0,
       Math.PI * 2,
     );
-    ctx.fillStyle = "#FFFEF8";
+    ctx.fillStyle = "#FFF6F8";
+    ctx.strokeStyle = "#E7B7C4";
+    ctx.lineWidth = 0.8;
     ctx.fill();
+    ctx.stroke();
   }
   ctx.beginPath();
   ctx.arc(0, 0, size * 0.12, 0, Math.PI * 2);
-  ctx.fillStyle = "#F5F0E6";
+  ctx.fillStyle = "#F3C3CE";
   ctx.fill();
 }
 

@@ -182,6 +182,42 @@ export function sandalwoodEventsForSide(side?: InviteSide) {
   return sandalwoodEvents.filter((event) => event.sides.includes(side));
 }
 
+export interface SandalwoodGuestEvent {
+  id: string;
+  title: string;
+  date: string;
+}
+
+function ordinalDay(day: number) {
+  const teen = day % 100;
+  if (teen >= 11 && teen <= 13) return `${day}th`;
+  switch (day % 10) {
+    case 1:
+      return `${day}st`;
+    case 2:
+      return `${day}nd`;
+    case 3:
+      return `${day}rd`;
+    default:
+      return `${day}th`;
+  }
+}
+
+/** "Wednesday, 9 December 2026" → "Wednesday, 9th December 2026". */
+function withOrdinalDate(label: string) {
+  return label.replace(/\b(\d{1,2})\b/, (day) => ordinalDay(Number(day)));
+}
+
+export function sandalwoodGuestEventsForSide(
+  side?: InviteSide,
+): SandalwoodGuestEvent[] {
+  return sandalwoodEventsForSide(side).map((event, index) => ({
+    id: event.id,
+    title: `Day ${index + 1}: ${event.title}`,
+    date: withOrdinalDate(event.date),
+  }));
+}
+
 export function sandalwoodRsvpEventsForSide(side?: InviteSide) {
   const eventIds = new Set(
     sandalwoodEventsForSide(side).map((event) => event.id),

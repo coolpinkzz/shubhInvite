@@ -16,7 +16,15 @@
  * Each invitation (theme id) gets its own tab, created on the first RSVP.
  */
 
-const HEADERS = ["Submitted At", "Guest Name", "Attending", "Guests", "Events", "Message"];
+const HEADERS = [
+  "Submitted At",
+  "Guest Name",
+  "Attending",
+  "Guests",
+  "Events",
+  "Message",
+  "Contact Number",
+];
 const TIME_ZONE = "Asia/Kolkata";
 
 function doPost(e) {
@@ -44,6 +52,7 @@ function doPost(e) {
         row.guests,
         row.events,
         row.message,
+        row.phone || "",
       ]);
     } finally {
       lock.releaseLock();
@@ -69,9 +78,26 @@ function getOrCreateSheet(name) {
     sheet.setColumnWidth(2, 200);
     sheet.setColumnWidth(5, 260);
     sheet.setColumnWidth(6, 360);
+    sheet.setColumnWidth(7, 160);
   }
 
+  ensureContactColumn(sheet);
   return sheet;
+}
+
+/** Older tabs were created before contact numbers were collected. */
+function ensureContactColumn(sheet) {
+  const width = Math.max(sheet.getLastColumn(), HEADERS.length);
+  const headers = sheet.getRange(1, 1, 1, width).getValues()[0];
+  if (headers.indexOf("Contact Number") !== -1) return;
+
+  const column = sheet.getLastColumn() + 1;
+  sheet
+    .getRange(1, column)
+    .setValue("Contact Number")
+    .setFontWeight("bold")
+    .setBackground("#F7D9C4");
+  sheet.setColumnWidth(column, 160);
 }
 
 function json(body) {

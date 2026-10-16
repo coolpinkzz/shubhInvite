@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
 import { useTheme } from "@/hooks/useTheme";
 import {
@@ -18,9 +19,9 @@ interface FlowerShowerProps {
   onComplete?: () => void;
 }
 
-const BURST_COUNT = 36;
-const SHOWER_DURATION = 3500;
-const TOTAL_DURATION = 5500;
+const BURST_COUNT = 42;
+const SHOWER_DURATION = 4200;
+const TOTAL_DURATION = 7000;
 
 export function FlowerShower({
   active,
@@ -47,9 +48,14 @@ export function FlowerShower({
   const showerSpawnRef = useRef<number>(0);
   const onCompleteRef = useRef(onComplete);
   onCompleteRef.current = onComplete;
+  const [canPortal, setCanPortal] = useState(false);
 
   useEffect(() => {
-    if (!active || !origin) return;
+    setCanPortal(true);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (!active || !canPortal) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -64,28 +70,33 @@ export function FlowerShower({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const burstOrigin = origin ?? {
+      x: window.innerWidth / 2,
+      y: window.innerHeight * 0.42,
+    };
+    const groundY = window.innerHeight - 28;
+
     particlesRef.current = [];
     startRef.current = performance.now();
     lastFrameRef.current = startRef.current;
     showerSpawnRef.current = 0;
 
     for (let i = 0; i < BURST_COUNT; i++) {
-      particlesRef.current.push(
-        createBurstParticle(origin, window.innerHeight - 40),
-      );
+      particlesRef.current.push(createBurstParticle(burstOrigin, groundY));
     }
 
     const tick = (now: number) => {
       const elapsed = now - startRef.current;
-      const delta = Math.min(32, now - lastFrameRef.current);
+      const delta = Math.min(34, now - lastFrameRef.current);
       lastFrameRef.current = now;
 
       if (elapsed < SHOWER_DURATION) {
         showerSpawnRef.current += delta;
-        while (showerSpawnRef.current > 80) {
-          showerSpawnRef.current -= 80;
+        while (showerSpawnRef.current > 48) {
+          showerSpawnRef.current -= 48;
           particlesRef.current.push(
-            createShowerParticle(window.innerWidth, window.innerHeight - 40),
+            createShowerParticle(window.innerWidth, groundY),
+            createShowerParticle(window.innerWidth, groundY),
           );
         }
       }
@@ -118,16 +129,20 @@ export function FlowerShower({
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", resize);
       particlesRef.current = [];
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, [active, origin, duration]);
+  }, [active, canPortal, origin, duration]);
 
-  if (!active) return null;
+  if (!canPortal) return null;
 
-  return (
+  return createPortal(
     <canvas
       ref={canvasRef}
-      className="pointer-events-none fixed inset-0 z-[60]"
+      className={`pointer-events-none fixed inset-0 z-[80] h-[100dvh] w-screen ${
+        active ? "" : "invisible"
+      }`}
       aria-hidden="true"
-    />
+    />,
+    document.body,
   );
 }

@@ -45,6 +45,7 @@ export async function appendRsvpToGoogleSheet(
     row: {
       submittedAt: new Date().toISOString(),
       name: neutralizeFormula(response.name),
+      phone: neutralizeFormula(response.phone.trim()),
       attending: response.attending ? "Yes" : "No",
       guests: response.attending ? response.guests : 0,
       events: eventLabels.map(neutralizeFormula).join(", "),
