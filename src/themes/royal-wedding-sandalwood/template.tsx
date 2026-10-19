@@ -32,7 +32,7 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
         lead={side === "bride" || side === "bride-wedding" ? "bride" : "groom"}
       /> */}
       <SandalwoodSchedule side={side} />
-      {copy.showWeddingVenue ? (
+      {/* {copy.showWeddingVenue ? (
         <VenueLocation
           {...weddingVenue}
           petals={venuePetals}
@@ -40,7 +40,7 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
           subtitle={copy.venueSubtitle}
           showMap={side !== "bride-wedding"}
         />
-      ) : null}
+      ) : null} */}
       {/* <RsvpContacts
         omit={
           side === "bride" || side === "bride-wedding" ? "groom" : undefined

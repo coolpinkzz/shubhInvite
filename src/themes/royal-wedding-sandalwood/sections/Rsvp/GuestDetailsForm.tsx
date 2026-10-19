@@ -249,6 +249,26 @@ export function GuestDetailsForm({ events, onSubmit }: GuestDetailsFormProps) {
           </>
         ) : null}
 
+        <Field
+          id="guest-message"
+          label="A message for the couple"
+          error={errors.message?.message}
+        >
+          <textarea
+            id="guest-message"
+            rows={4}
+            maxLength={300}
+            placeholder="Leave a warm wish or note..."
+            aria-invalid={errors.message ? true : undefined}
+            aria-describedby={errors.message ? "guest-message-error" : undefined}
+            className={cn(
+              "min-h-[9.25rem] w-full resize-none rounded-[1.35rem] border border-[#E4CDB8] bg-white px-5 py-4 font-theme-body text-[17px] leading-relaxed text-[#3F3330] outline-none transition-shadow placeholder:text-[#B7A79C] focus:border-[#8E4034] focus:ring-2 focus:ring-[#8E4034]/15",
+              errors.message && "border-[#9B3B3B]",
+            )}
+            {...register("message")}
+          />
+        </Field>
+
         <button
           type="submit"
           disabled={isSubmitting}

@@ -79,10 +79,64 @@ function drawGoldScratchLayer(
   ctx.fillRect(0, 0, width, height);
 }
 
+function headlineFontFamily(root: HTMLElement) {
+  const probe = document.createElement("span");
+  probe.className = "font-theme-headline";
+  probe.textContent = "A";
+  probe.style.cssText =
+    "position:absolute;visibility:hidden;pointer-events:none";
+  root.appendChild(probe);
+  const family = getComputedStyle(probe).fontFamily;
+  probe.remove();
+  return family || '"Playfair Display", Georgia, serif';
+}
+
+function drawCrispTrackedText(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  centerX: number,
+  centerY: number,
+  fontFamily: string,
+) {
+  const scale = ctx.getTransform().a || 1;
+  ctx.save();
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+  const fontSize = Math.max(1, Math.round(13 * scale));
+  const tracking = Math.round(1.35 * scale);
+  ctx.font = `600 ${fontSize}px ${fontFamily}`;
+  ctx.fillStyle = "#2A2118";
+  ctx.textAlign = "left";
+  ctx.textBaseline = "alphabetic";
+
+  const glyphs = Array.from(text);
+  const widths = glyphs.map((glyph) => ctx.measureText(glyph).width);
+  let total = widths.reduce((sum, width) => sum + width, 0);
+  for (let index = 0; index < glyphs.length - 1; index++) {
+    if (glyphs[index] !== " " && glyphs[index + 1] !== " ") total += tracking;
+  }
+
+  const sample = ctx.measureText(text);
+  const ascent = sample.actualBoundingBoxAscent || fontSize * 0.72;
+  const descent = sample.actualBoundingBoxDescent || fontSize * 0.18;
+  let x = Math.round(centerX * scale - total / 2);
+  const y = Math.round(centerY * scale + (ascent - descent) / 2);
+
+  glyphs.forEach((glyph, index) => {
+    ctx.fillText(glyph, x, y);
+    x += widths[index] ?? 0;
+    const next = glyphs[index + 1];
+    if (next && glyph !== " " && next !== " ") x += tracking;
+  });
+
+  ctx.restore();
+}
+
 function drawPlaqueScratchLayer(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
+  fontFamily: string,
 ) {
   const base = ctx.createLinearGradient(0, 0, 0, height);
   base.addColorStop(0, "#F6E7B2");
@@ -95,19 +149,19 @@ function drawPlaqueScratchLayer(
 
   const sheen = ctx.createLinearGradient(width * 0.28, 0, width * 0.7, 0);
   sheen.addColorStop(0, "rgba(255,255,255,0)");
-  sheen.addColorStop(0.42, "rgba(255,255,255,0.42)");
-  sheen.addColorStop(0.58, "rgba(255,255,255,0.05)");
+  sheen.addColorStop(0.42, "rgba(255,255,255,0.28)");
+  sheen.addColorStop(0.58, "rgba(255,255,255,0.04)");
   sheen.addColorStop(1, "rgba(255,255,255,0)");
   ctx.fillStyle = sheen;
   ctx.fillRect(0, 0, width, height);
 
-  const fontSize = Math.max(11, Math.min(15, width * 0.038));
-  ctx.fillStyle = "#3A2A1A";
-  ctx.font = `500 ${fontSize}px "Playfair Display", Georgia, serif`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.letterSpacing = "2.4px";
-  ctx.fillText("◆  SCRATCH TO REVEAL  ◆", width / 2, height / 2);
+  drawCrispTrackedText(
+    ctx,
+    "◆  SCRATCH TO REVEAL  ◆",
+    width / 2,
+    height / 2,
+    fontFamily,
+  );
 }
 
 function drawFloralMotif(
@@ -276,23 +330,28 @@ export function ScratchRevealCard({
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
-    const rect = container.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const width = Math.floor(rect.width);
-    const height = Math.floor(rect.height);
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    if (width === 0 || height === 0) return;
 
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
+    const dpr = window.devicePixelRatio || 1;
+    const canvasWidth = Math.max(1, Math.round(width * dpr));
+    const canvasHeight = Math.max(1, Math.round(height * dpr));
+
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
     if (!ctx) return;
 
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.setTransform(canvasWidth / width, 0, 0, canvasHeight / height, 0, 0);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = "high";
     ctxRef.current = ctx;
     if (variant === "plaque") {
-      drawPlaqueScratchLayer(ctx, width, height);
+      drawPlaqueScratchLayer(ctx, width, height, headlineFontFamily(container));
       return;
     }
     drawGoldScratchLayer(ctx, width, height, colors);
@@ -446,15 +505,14 @@ export function ScratchRevealCard({
             <span className="h-px w-16 bg-[#E6D0A4] sm:w-20" />
           </div>
 
-          <motion.div
+          <div
             ref={cardRef}
-            className="relative"
-            animate={isRevealed ? { y: -4 } : { y: 0 }}
-            transition={{ type: "spring", stiffness: 260, damping: 22 }}
+            className="relative transition-transform duration-500 ease-out"
+            style={isRevealed ? { transform: "translateY(-4px)" } : undefined}
           >
             <div
               ref={containerRef}
-              className="relative mx-auto h-[6.35rem] w-full overflow-hidden rounded-[1.35rem] border border-[#C6A15A] bg-white"
+              className="relative mx-auto h-[100px] w-full overflow-hidden rounded-[1.35rem] border border-[#C6A15A] bg-white"
               style={{
                 boxShadow: "0 10px 28px -16px rgba(120, 84, 24, 0.45)",
               }}
@@ -518,7 +576,7 @@ export function ScratchRevealCard({
                 role="img"
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </>
     );

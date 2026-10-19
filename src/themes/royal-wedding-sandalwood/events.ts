@@ -3,7 +3,9 @@ import { Flower2, Heart, Music, Palette, Sparkles } from "lucide-react";
 import susriHaldi from "@/assests/susriHaldi.jpeg";
 import susriMehandi from "@/assests/susriMehandi.jpeg";
 import susriSangeet from "@/assests/susriSangeet.jpeg";
-import susriWedding from "@/assests/susriWedding.png";
+import susriWedding from "@/assests/susriWedding.jpeg";
+import susriReception from "@/assests/susriReception.jpeg";
+import manoranjanHaldi from "@/assests/manoranjanHaldi.jpeg";
 import type { RSVPEventOption } from "@/themes/royal-wedding/sections/RSVPSection";
 import type { WeddingEvent } from "@/themes/royal-wedding/sections/EventSchedule";
 import type { InviteSide } from "@/types/theme";
@@ -52,6 +54,8 @@ export const sandalwoodEvents: SandalwoodEvent[] = [
     id: "haldi-groom",
     sides: ["groom"],
     title: "Haldi",
+    cardVariant: "invitation",
+    invitationImage: manoranjanHaldi,
     hostedBy: "Hosted by the Groom",
     date: "Friday, 11 December 2026",
     time: "9:00 AM onwards",
@@ -82,7 +86,7 @@ export const sandalwoodEvents: SandalwoodEvent[] = [
   },
   {
     id: "wedding",
-    sides: ["bride", "bride-wedding"],
+    sides: ["bride", "bride-wedding", "groom"],
     cardVariant: "invitation",
     invitationImage: susriWedding,
     title: "Wedding",
@@ -100,6 +104,8 @@ export const sandalwoodEvents: SandalwoodEvent[] = [
   {
     id: "reception",
     sides: ["groom"],
+    cardVariant: "invitation",
+    invitationImage: susriReception,
     title: "Reception",
     hostedBy: "Hosted by the Groom",
     date: "Sunday, 13 December 2026",
