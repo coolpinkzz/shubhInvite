@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { inviteSides } from "@/types/theme";
+
 export const rsvpSchema = z
   .object({
     name: z
@@ -39,6 +41,11 @@ export const rsvpSubmissionSchema = z.object({
   response: rsvpSchema,
   /** Human-readable labels for `response.events`, shown in the sheet. */
   eventLabels: z.array(z.string().max(100)).max(10),
+  /**
+   * Which invite link was opened: `/bride`, `/groom`, or `/bride-wedding`.
+   * Omitted on the unsided invitation.
+   */
+  side: z.enum(inviteSides).optional(),
 });
 
 export type RSVPSubmissionInput = z.input<typeof rsvpSubmissionSchema>;

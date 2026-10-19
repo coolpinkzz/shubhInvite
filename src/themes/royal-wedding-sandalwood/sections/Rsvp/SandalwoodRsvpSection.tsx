@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { submitRsvp } from "@/features/rsvp/actions/submit-rsvp";
 import { useTheme } from "@/hooks/useTheme";
@@ -9,6 +9,8 @@ import {
   ThemeSection,
   ThemeSectionContent,
 } from "@/themes/shared/components";
+
+import type { InviteSide } from "@/types/theme";
 
 import type { SandalwoodGuestEvent } from "../../events";
 import { GuestDetailsForm } from "./GuestDetailsForm";
@@ -18,12 +20,15 @@ interface SandalwoodRsvpSectionProps {
   events: SandalwoodGuestEvent[];
   subtitle?: string;
   className?: string;
+  /** Which invite link is open: bride, groom, or bride-wedding. */
+  side?: InviteSide;
 }
 
 export function SandalwoodRsvpSection({
   events,
   subtitle,
   className,
+  side,
 }: SandalwoodRsvpSectionProps) {
   const { themeId } = useTheme();
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -33,6 +38,7 @@ export function SandalwoodRsvpSection({
     async (data: GuestDetailsValues) => {
       const result = await submitRsvp({
         invitationId: themeId,
+        side,
         response: data,
         eventLabels: events
           .filter((event) => data.events.includes(event.id))
@@ -41,7 +47,7 @@ export function SandalwoodRsvpSection({
       if (!result.ok) throw new Error(result.error);
       setIsSubmitted(true);
     },
-    [events, themeId],
+    [events, side, themeId],
   );
 
   return (
@@ -93,8 +99,23 @@ export function SandalwoodRsvpSection({
 }
 
 function ThankYouCard({ onBack }: { onBack: () => void }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    cardRef.current?.scrollIntoView({
+      behavior: reducedMotion ? "auto" : "smooth",
+      block: "center",
+    });
+  }, []);
+
   return (
-    <div className="rounded-[28px] border border-[#E8D5C6] bg-[#FFF8F3] px-6 py-10 text-center shadow-[0_18px_50px_-28px_rgba(90,40,30,0.35)]">
+    <div
+      ref={cardRef}
+      className="scroll-mt-24 rounded-[28px] border border-[#E8D5C6] bg-[#FFF8F3] px-6 py-10 text-center shadow-[0_18px_50px_-28px_rgba(90,40,30,0.35)]"
+    >
       <h2 className="font-theme-headline text-3xl text-[#7A2F3B]">Thank you</h2>
       <p className="mx-auto mt-3 max-w-xs font-theme-body text-base italic leading-relaxed text-[#8A7368]">
         Your response has reached us. We are grateful you took the time to reply.

@@ -13,18 +13,30 @@
  * After editing this script, use Deploy → Manage deployments → Edit → New version,
  * otherwise the web app keeps running the old code.
  *
- * Each invitation (theme id) gets its own tab, created on the first RSVP.
+ * RSVPs are appended to the RSVP-Details tab, created on the first response.
  */
 
 const HEADERS = [
   "Submitted At",
+  "Invitation",
   "Guest Name",
+  "Contact Number",
   "Attending",
   "Guests",
   "Events",
   "Message",
-  "Contact Number",
 ];
+
+const COLUMN_WIDTHS = {
+  "Submitted At": 170,
+  Invitation: 150,
+  "Guest Name": 200,
+  "Contact Number": 160,
+  Attending: 170,
+  Guests: 140,
+  Events: 280,
+  Message: 360,
+};
 const TIME_ZONE = "Asia/Kolkata";
 
 function doPost(e) {
@@ -45,15 +57,7 @@ function doPost(e) {
     lock.waitLock(10000);
     try {
       const sheet = getOrCreateSheet(String(payload.sheetName || "RSVPs"));
-      sheet.appendRow([
-        Utilities.formatDate(new Date(row.submittedAt), TIME_ZONE, "dd MMM yyyy, hh:mm a"),
-        row.name,
-        row.attending,
-        row.guests,
-        row.events,
-        row.message,
-        row.phone || "",
-      ]);
+      appendRsvpRow(sheet, row);
     } finally {
       lock.releaseLock();
     }
@@ -73,31 +77,62 @@ function getOrCreateSheet(name) {
     sheet = spreadsheet.insertSheet(safeName);
     sheet.appendRow(HEADERS);
     sheet.setFrozenRows(1);
-    sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight("bold").setBackground("#F7D9C4");
-    sheet.setColumnWidth(1, 170);
-    sheet.setColumnWidth(2, 200);
-    sheet.setColumnWidth(5, 260);
-    sheet.setColumnWidth(6, 360);
-    sheet.setColumnWidth(7, 160);
+    styleHeaderRow(sheet, HEADERS.length);
+    HEADERS.forEach(function (header, index) {
+      sheet.setColumnWidth(index + 1, COLUMN_WIDTHS[header] || 140);
+    });
   }
 
-  ensureContactColumn(sheet);
+  ensureHeaders(sheet, HEADERS);
   return sheet;
 }
 
-/** Older tabs were created before contact numbers were collected. */
-function ensureContactColumn(sheet) {
-  const width = Math.max(sheet.getLastColumn(), HEADERS.length);
+/** Writes each value under its header, so older tabs keep their column order. */
+function appendRsvpRow(sheet, row) {
+  const width = Math.max(sheet.getLastColumn(), 1);
   const headers = sheet.getRange(1, 1, 1, width).getValues()[0];
-  if (headers.indexOf("Contact Number") !== -1) return;
+  const values = {
+    "Submitted At": Utilities.formatDate(
+      new Date(row.submittedAt),
+      TIME_ZONE,
+      "dd MMM yyyy, hh:mm a",
+    ),
+    Invitation: row.invitation || "",
+    "Guest Name": row.name,
+    "Contact Number": row.phone || "",
+    Attending: row.attending,
+    Guests: row.guests,
+    Events: row.events,
+    Message: row.message,
+  };
 
-  const column = sheet.getLastColumn() + 1;
+  sheet.appendRow(
+    headers.map(function (header) {
+      return Object.prototype.hasOwnProperty.call(values, header) ? values[header] : "";
+    }),
+  );
+}
+
+/** Adds any column this version expects that an older tab does not have yet. */
+function ensureHeaders(sheet, required) {
+  const width = Math.max(sheet.getLastColumn(), 1);
+  const headers = sheet.getRange(1, 1, 1, width).getValues()[0].filter(String);
+
+  required.forEach(function (header) {
+    if (headers.indexOf(header) !== -1) return;
+    const column = sheet.getLastColumn() + 1;
+    sheet.getRange(1, column).setValue(header);
+    styleHeaderRow(sheet, column);
+    sheet.setColumnWidth(column, COLUMN_WIDTHS[header] || 140);
+    headers.push(header);
+  });
+}
+
+function styleHeaderRow(sheet, columnCount) {
   sheet
-    .getRange(1, column)
-    .setValue("Contact Number")
+    .getRange(1, 1, 1, columnCount)
     .setFontWeight("bold")
     .setBackground("#F7D9C4");
-  sheet.setColumnWidth(column, 160);
 }
 
 function json(body) {

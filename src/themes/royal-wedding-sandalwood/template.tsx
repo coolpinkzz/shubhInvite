@@ -48,6 +48,7 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
       /> */}
       <AwaitingPresence />
       <SandalwoodRsvpSection
+        side={side}
         events={sandalwoodGuestEventsForSide(side)}
         subtitle={copy.rsvpSubtitle}
         className="scroll-mt-24 bg-[#FBF6F1] pb-12 pt-10"
