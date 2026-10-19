@@ -79,89 +79,29 @@ function drawGoldScratchLayer(
   ctx.fillRect(0, 0, width, height);
 }
 
-function headlineFontFamily(root: HTMLElement) {
-  const probe = document.createElement("span");
-  probe.className = "font-theme-headline";
-  probe.textContent = "A";
-  probe.style.cssText =
-    "position:absolute;visibility:hidden;pointer-events:none";
-  root.appendChild(probe);
-  const family = getComputedStyle(probe).fontFamily;
-  probe.remove();
-  return family || '"Playfair Display", Georgia, serif';
-}
-
-function drawCrispTrackedText(
-  ctx: CanvasRenderingContext2D,
-  text: string,
-  centerX: number,
-  centerY: number,
-  fontFamily: string,
-) {
-  const scale = ctx.getTransform().a || 1;
-  ctx.save();
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-  const fontSize = Math.max(1, Math.round(13 * scale));
-  const tracking = Math.round(1.35 * scale);
-  ctx.font = `600 ${fontSize}px ${fontFamily}`;
-  ctx.fillStyle = "#2A2118";
-  ctx.textAlign = "left";
-  ctx.textBaseline = "alphabetic";
-
-  const glyphs = Array.from(text);
-  const widths = glyphs.map((glyph) => ctx.measureText(glyph).width);
-  let total = widths.reduce((sum, width) => sum + width, 0);
-  for (let index = 0; index < glyphs.length - 1; index++) {
-    if (glyphs[index] !== " " && glyphs[index + 1] !== " ") total += tracking;
-  }
-
-  const sample = ctx.measureText(text);
-  const ascent = sample.actualBoundingBoxAscent || fontSize * 0.72;
-  const descent = sample.actualBoundingBoxDescent || fontSize * 0.18;
-  let x = Math.round(centerX * scale - total / 2);
-  const y = Math.round(centerY * scale + (ascent - descent) / 2);
-
-  glyphs.forEach((glyph, index) => {
-    ctx.fillText(glyph, x, y);
-    x += widths[index] ?? 0;
-    const next = glyphs[index + 1];
-    if (next && glyph !== " " && next !== " ") x += tracking;
-  });
-
-  ctx.restore();
-}
-
-function drawPlaqueScratchLayer(
+function paintOpaqueMask(
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
-  fontFamily: string,
 ) {
-  const base = ctx.createLinearGradient(0, 0, 0, height);
-  base.addColorStop(0, "#F6E7B2");
-  base.addColorStop(0.22, "#E6C56A");
-  base.addColorStop(0.5, "#D4AE45");
-  base.addColorStop(0.78, "#C99A3A");
-  base.addColorStop(1, "#E8D08A");
-  ctx.fillStyle = base;
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.globalCompositeOperation = "source-over";
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, width, height);
+}
 
-  const sheen = ctx.createLinearGradient(width * 0.28, 0, width * 0.7, 0);
-  sheen.addColorStop(0, "rgba(255,255,255,0)");
-  sheen.addColorStop(0.42, "rgba(255,255,255,0.28)");
-  sheen.addColorStop(0.58, "rgba(255,255,255,0.04)");
-  sheen.addColorStop(1, "rgba(255,255,255,0)");
-  ctx.fillStyle = sheen;
-  ctx.fillRect(0, 0, width, height);
-
-  drawCrispTrackedText(
-    ctx,
-    "◆  SCRATCH TO REVEAL  ◆",
-    width / 2,
-    height / 2,
-    fontFamily,
-  );
+function applyCanvasMask(cover: HTMLElement, canvas: HTMLCanvasElement) {
+  const value = `url("${canvas.toDataURL()}")`;
+  cover.style.webkitMaskImage = value;
+  cover.style.maskImage = value;
+  cover.style.webkitMaskSize = "100% 100%";
+  cover.style.maskSize = "100% 100%";
+  cover.style.webkitMaskRepeat = "no-repeat";
+  cover.style.maskRepeat = "no-repeat";
+  cover.style.webkitMaskPosition = "center";
+  cover.style.maskPosition = "center";
+  cover.style.maskMode = "alpha";
 }
 
 function drawFloralMotif(
@@ -308,7 +248,9 @@ export function ScratchRevealCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const coverRef = useRef<HTMLDivElement>(null);
   const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+  const maskFrameRef = useRef(0);
   const isScratchingRef = useRef(false);
   const lastPointRef = useRef<{ x: number; y: number } | null>(null);
   const particleIdRef = useRef(0);
@@ -334,6 +276,22 @@ export function ScratchRevealCard({
     const height = container.clientHeight;
     if (width === 0 || height === 0) return;
 
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
+    if (!ctx) return;
+
+    if (variant === "plaque") {
+      const canvasWidth = Math.max(1, Math.round(width));
+      const canvasHeight = Math.max(1, Math.round(height));
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      paintOpaqueMask(ctx, canvasWidth, canvasHeight);
+      ctxRef.current = ctx;
+      if (coverRef.current) applyCanvasMask(coverRef.current, canvas);
+      return;
+    }
+
     const dpr = window.devicePixelRatio || 1;
     const canvasWidth = Math.max(1, Math.round(width * dpr));
     const canvasHeight = Math.max(1, Math.round(height * dpr));
@@ -343,17 +301,10 @@ export function ScratchRevealCard({
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
 
-    const ctx = canvas.getContext("2d", { willReadFrequently: true });
-    if (!ctx) return;
-
     ctx.setTransform(canvasWidth / width, 0, 0, canvasHeight / height, 0, 0);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
     ctxRef.current = ctx;
-    if (variant === "plaque") {
-      drawPlaqueScratchLayer(ctx, width, height, headlineFontFamily(container));
-      return;
-    }
     drawGoldScratchLayer(ctx, width, height, colors);
   }, [colors, variant]);
 
@@ -378,6 +329,10 @@ export function ScratchRevealCard({
     if (containerRef.current) observer.observe(containerRef.current);
     return () => {
       observer.disconnect();
+      if (maskFrameRef.current) {
+        window.cancelAnimationFrame(maskFrameRef.current);
+        maskFrameRef.current = 0;
+      }
       void fontsReady;
     };
   }, [initCanvas, reducedMotion]);
@@ -447,6 +402,15 @@ export function ScratchRevealCard({
       lastPointRef.current = { x, y };
       spawnGoldDust(x, y);
 
+      if (variant === "plaque" && !maskFrameRef.current) {
+        maskFrameRef.current = window.requestAnimationFrame(() => {
+          maskFrameRef.current = 0;
+          const maskCanvas = canvasRef.current;
+          const cover = coverRef.current;
+          if (maskCanvas && cover) applyCanvasMask(cover, maskCanvas);
+        });
+      }
+
       progressFrameRef.current++;
       if (progressFrameRef.current % 4 === 0) {
         const next = getScratchProgress(ctx);
@@ -454,7 +418,7 @@ export function ScratchRevealCard({
         if (next >= revealThreshold) triggerReveal();
       }
     },
-    [isRevealed, isRevealing, revealThreshold, spawnGoldDust, triggerReveal],
+    [isRevealed, isRevealing, revealThreshold, spawnGoldDust, triggerReveal, variant],
   );
 
   const handlePointerDown = (e: ReactPointerEvent<HTMLCanvasElement>) => {
@@ -547,6 +511,31 @@ export function ScratchRevealCard({
                 />
               </div>
 
+              <div
+                ref={coverRef}
+                className={`pointer-events-none absolute inset-0 z-20 flex items-center justify-center ${
+                  isRevealed || isRevealing ? "opacity-0" : "opacity-100"
+                } ${isRevealing ? "scratch-layer-fade" : ""}`}
+                style={{
+                  background:
+                    "linear-gradient(180deg, #F6E7B2 0%, #E6C56A 22%, #D4AE45 50%, #C99A3A 78%, #E8D08A 100%)",
+                }}
+              >
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, rgba(255,255,255,0) 28%, rgba(255,255,255,0.28) 42%, rgba(255,255,255,0.04) 58%, rgba(255,255,255,0) 70%)",
+                  }}
+                  aria-hidden="true"
+                />
+                <p className="relative flex items-center gap-2.5 font-theme-headline text-[13px] font-semibold uppercase leading-none text-[#2A2118] [text-rendering:geometricPrecision]">
+                  <span aria-hidden="true">◆</span>
+                  <span className="tracking-[0.18em]">Scratch to reveal</span>
+                  <span aria-hidden="true">◆</span>
+                </p>
+              </div>
+
               {goldDust.map((particle) => (
                 <span
                   key={particle.id}
@@ -563,11 +552,9 @@ export function ScratchRevealCard({
 
               <canvas
                 ref={canvasRef}
-                className={`absolute inset-0 z-20 touch-none transition-opacity duration-700 ${
-                  isRevealed || isRevealing
-                    ? "pointer-events-none opacity-0"
-                    : "cursor-crosshair opacity-100"
-                } ${isRevealing ? "scratch-layer-fade" : ""}`}
+                className={`absolute inset-0 z-30 touch-none opacity-0 ${
+                  isRevealed || isRevealing ? "pointer-events-none" : ""
+                }`}
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
