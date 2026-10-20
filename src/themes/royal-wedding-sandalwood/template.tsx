@@ -2,6 +2,7 @@
 import { VenueLocation } from "@/themes/royal-wedding/sections/VenueLocation";
 import type { ThemeTemplateProps } from "@/types/theme";
 
+import { sandalwoodHashtags } from "./config";
 import { sandalwoodCopyForSide, sandalwoodGuestEventsForSide } from "./events";
 import { heroPetals, venuePetals } from "./petals";
 import { BlessingFooter } from "./sections/Footer";
@@ -59,6 +60,9 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
       </section>
       <BlessingFooter
         nameOrder={nameOrder}
+        hashtag={
+          side === "groom" ? sandalwoodHashtags.groom : sandalwoodHashtags.bride
+        }
         blessing="Your presence is the greatest blessing we could ask for. Thank you for being part of our beautiful beginning and making our special moments even more memorable."
       />
     </>

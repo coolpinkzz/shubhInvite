@@ -19,6 +19,8 @@ interface BlessingFooterProps {
   blessing?: string;
   /** Whose name is written first. Defaults to the bride. */
   nameOrder?: "bride" | "groom";
+  /** Overrides the theme hashtag for this invite link. */
+  hashtag?: string;
 }
 
 function formatHashtag(tag: string) {
@@ -94,14 +96,15 @@ export function BlessingFooter({
   className,
   blessing = "Your presence is the blessing we cherish most. We look forward to celebrating this day with you.",
   nameOrder = "bride",
+  hashtag,
 }: BlessingFooterProps) {
   const reducedMotion = useReducedMotion();
   const { config } = useTheme();
 
   if (!isWeddingConfig(config)) return null;
 
-  const { couple, date, hashtag } = config;
-  const weddingTag = hashtag ? formatHashtag(hashtag) : "";
+  const { couple, date, hashtag: themeHashtag } = config;
+  const weddingTag = formatHashtag(hashtag ?? themeHashtag ?? "");
   const [firstName, secondName] =
     nameOrder === "groom"
       ? [couple.groom, couple.bride]
