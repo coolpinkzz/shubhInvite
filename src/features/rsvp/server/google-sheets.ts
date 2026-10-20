@@ -66,7 +66,6 @@ export async function appendRsvpToGoogleSheet(
       submittedAt: new Date().toISOString(),
       invitation: side ? INVITATION_LABEL[side] : "All",
       name: neutralizeFormula(response.name),
-      phone: neutralizeFormula(response.phone.trim()),
       attending: attending ? "Joyfully Accept" : "Regretfully Decline",
       guests: attending ? (PARTY_SIZE_LABEL[response.guests] ?? String(response.guests)) : "",
       events: attending ? eventLabels.map(neutralizeFormula).join(", ") : "",

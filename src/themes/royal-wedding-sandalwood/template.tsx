@@ -8,7 +8,6 @@ import { BlessingFooter } from "./sections/Footer";
 import { ShivParvatiHero } from "./sections/Hero";
 import { FamilyBlessings, TheFamilies } from "./sections/Families";
 import { AwaitingPresence } from "./sections/Presence";
-import { RsvpContacts } from "./sections/RsvpContacts";
 import { SandalwoodRsvpSection } from "./sections/Rsvp";
 import { SandalwoodSchedule } from "./sections/Schedule";
 import { weddingVenue } from "./venue";
@@ -41,11 +40,6 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
           showMap={side !== "bride-wedding"}
         />
       ) : null} */}
-      {/* <RsvpContacts
-        omit={
-          side === "bride" || side === "bride-wedding" ? "groom" : undefined
-        }
-      /> */}
       <AwaitingPresence />
       <SandalwoodRsvpSection
         side={side}

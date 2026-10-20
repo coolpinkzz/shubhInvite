@@ -44,7 +44,6 @@ export function GuestDetailsForm({ events, onSubmit }: GuestDetailsFormProps) {
     resolver: zodResolver(guestDetailsSchema),
     defaultValues: {
       name: "",
-      phone: "",
       guests: 1,
       attending: null,
       events: [],
@@ -98,24 +97,6 @@ export function GuestDetailsForm({ events, onSubmit }: GuestDetailsFormProps) {
             aria-describedby={errors.name ? "guest-name-error" : undefined}
             className={cn(fieldClassName, errors.name && "border-[#9B3B3B]")}
             {...register("name")}
-          />
-        </Field>
-
-        <Field
-          id="guest-phone"
-          label="Contact number"
-          error={errors.phone?.message}
-        >
-          <input
-            id="guest-phone"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            placeholder="Contact number"
-            aria-invalid={errors.phone ? true : undefined}
-            aria-describedby={errors.phone ? "guest-phone-error" : undefined}
-            className={cn(fieldClassName, errors.phone && "border-[#9B3B3B]")}
-            {...register("phone")}
           />
         </Field>
 

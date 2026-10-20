@@ -11,6 +11,9 @@ import { ThemeFloralDivider } from "@/themes/shared/components";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
+const CARD = "#54362C";
+const GOLD = "#C6A56A";
+
 interface BlessingFooterProps {
   className?: string;
   blessing?: string;
@@ -27,24 +30,63 @@ function formatHashtag(tag: string) {
 function CornerFlourish({ className }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 56 56"
-      className={cn("size-12 text-white/55", className)}
+      viewBox="0 0 52 52"
+      className={cn("size-11 text-[#E7D6B8]/80 sm:size-12", className)}
       fill="none"
       aria-hidden="true"
     >
       <path
-        d="M6 50V22C6 13.2 13.2 6 22 6H50"
+        d="M6 38V16.5C6 10.7 10.7 6 16.5 6H38"
         stroke="currentColor"
-        strokeWidth="1.1"
+        strokeWidth="0.9"
+        strokeLinecap="round"
       />
       <path
-        d="M6 34C16 34 22 28 22 18"
+        d="M14.5 28.5C14.5 20.8 20.8 14.5 28.5 14.5"
         stroke="currentColor"
-        strokeWidth="0.8"
-        opacity="0.65"
+        strokeWidth="0.75"
+        strokeLinecap="round"
       />
-      <circle cx="22" cy="22" r="1.6" fill="currentColor" />
+      <path
+        d="M14.2 14.2l1.35 1.35-1.35 1.35-1.35-1.35z"
+        fill="currentColor"
+      />
     </svg>
+  );
+}
+
+function Diamond({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn("size-[5px] shrink-0 rotate-45 bg-current", className)}
+      aria-hidden="true"
+    />
+  );
+}
+
+function NameDivider() {
+  return (
+    <div
+      className="mx-auto mt-6 flex w-[min(100%,16.5rem)] items-center text-[#E7D3AE] sm:mt-7"
+      aria-hidden="true"
+    >
+      <span className="h-px flex-1 bg-current" />
+      <Diamond className="mx-2" />
+      <span className="h-px w-7 bg-current sm:w-9" />
+      <svg
+        viewBox="0 0 28 16"
+        className="mx-1.5 h-4 w-7 shrink-0"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M14 0.4 15.35 6.05 21.2 8 15.35 9.95 14 15.6 12.65 9.95 6.8 8 12.65 6.05Z" />
+        <path d="M14 3.15 14.9 6.55 18.35 8 14.9 9.45 14 12.85 13.1 9.45 9.65 8 13.1 6.55Z" transform="rotate(90 14 8)" />
+        <circle cx="14" cy="8" r="1.05" className="text-[#54362C]" fill="#54362C" />
+      </svg>
+      <span className="h-px w-7 bg-current sm:w-9" />
+      <Diamond className="mx-2" />
+      <span className="h-px flex-1 bg-current" />
+    </div>
   );
 }
 
@@ -69,25 +111,21 @@ export function BlessingFooter({
     <footer
       id="footer"
       className={cn(
-        "relative z-20 overflow-hidden px-5 pb-32 pt-2 text-center sm:px-6",
+        "relative z-20 overflow-hidden px-4 pb-32 pt-2 text-center sm:px-6",
         className,
       )}
       aria-label="Closing blessing"
     >
       <div
-        className="event-schedule-pattern pointer-events-none absolute inset-0 opacity-[0.045]"
-        aria-hidden="true"
-      />
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-40"
+        className="pointer-events-none absolute inset-0 opacity-70"
         style={{
-          background:
-            "radial-gradient(ellipse at center top, color-mix(in srgb, var(--theme-accent) 28%, transparent) 0%, transparent 72%)",
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg width='140' height='140' viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C4A882' fill-opacity='0.55'%3E%3Ccircle cx='22' cy='18' r='1.15'/%3E%3Ccircle cx='28' cy='18' r='1.15'/%3E%3Ccircle cx='25' cy='15' r='1.15'/%3E%3Ccircle cx='25' cy='21' r='1.15'/%3E%3Ccircle cx='25' cy='18' r='0.85'/%3E%3Ccircle cx='98' cy='86' r='1.15'/%3E%3Ccircle cx='104' cy='86' r='1.15'/%3E%3Ccircle cx='101' cy='83' r='1.15'/%3E%3Ccircle cx='101' cy='89' r='1.15'/%3E%3Ccircle cx='101' cy='86' r='0.85'/%3E%3C/g%3E%3C/svg%3E\")",
         }}
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto w-full max-w-md">
+      <div className="relative mx-auto w-full max-w-xl">
         <ThemeFloralDivider variant="lotus" size="lg" />
 
         <motion.div
@@ -108,64 +146,50 @@ export function BlessingFooter({
         </motion.div>
 
         <motion.div
-          className="relative mx-auto mt-14 max-w-sm sm:mt-16"
+          className="relative mx-auto mt-12 w-full max-w-[40rem] sm:mt-14"
           initial={reducedMotion ? false : { opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.8, delay: 0.08, ease: EASE }}
         >
           <div
-            className="absolute left-1/2 top-0 z-10 size-[6.75rem] -translate-x-1/2 -translate-y-1/2 rounded-full p-[3px] sm:size-[7.5rem]"
+            className="relative z-0 overflow-hidden rounded-[1.65rem] px-5 pb-7 pt-[7.15rem] sm:rounded-[1.85rem] sm:px-10 sm:pb-8 sm:pt-[8.35rem]"
             style={{
-              background:
-                "linear-gradient(160deg, var(--theme-accent-light), var(--theme-accent-dark))",
-              boxShadow: "var(--theme-shadow-button)",
+              backgroundColor: CARD,
+              border: `1px solid ${GOLD}`,
+              boxShadow: "0 22px 50px -28px rgba(62, 32, 18, 0.55)",
             }}
           >
-            <div className="size-full overflow-hidden rounded-full">
-              <Image
-                src={susriLogo}
-                alt="Susri and Manoranjan monogram"
-                width={1024}
-                height={1536}
-                className="size-full object-cover object-[center_32%]"
-              />
-            </div>
+            <CornerFlourish className="absolute left-2.5 top-2.5 sm:left-3.5 sm:top-3.5" />
+            <CornerFlourish className="absolute right-2.5 top-2.5 -scale-x-100 sm:right-3.5 sm:top-3.5" />
+            <CornerFlourish className="absolute bottom-2.5 left-2.5 -scale-y-100 sm:bottom-3.5 sm:left-3.5" />
+            <CornerFlourish className="absolute bottom-2.5 right-2.5 -scale-100 sm:bottom-3.5 sm:right-3.5" />
+
+            <p className="text-balance font-theme-display text-[clamp(2.05rem,8.4vw,3.35rem)] leading-[1.12] text-white">
+              {firstName}
+            </p>
+            <p className="my-0.5 font-theme-display text-[1.85rem] leading-none text-white sm:text-[2.15rem]">
+              &amp;
+            </p>
+            <p className="text-balance font-theme-display text-[clamp(2.05rem,8.4vw,3.35rem)] leading-[1.12] text-white">
+              {secondName}
+            </p>
+
+            <NameDivider />
+
+            <p className="mt-4 font-theme-label text-[10px] font-medium uppercase tracking-[0.22em] text-white sm:text-[11px] sm:tracking-[0.26em]">
+              {date}
+            </p>
           </div>
 
-          <div
-            className="rounded-[1.85rem] p-px"
-            style={{
-              background:
-                "linear-gradient(180deg, var(--theme-accent-light) 0%, var(--theme-accent-dark) 100%)",
-              boxShadow: "var(--theme-shadow-hero)",
-            }}
-          >
-            <div className="relative overflow-hidden rounded-[1.75rem] bg-[#5C3A2E] px-6 pb-9 pt-16 sm:pt-20">
-              <CornerFlourish className="absolute left-2 top-2" />
-              <CornerFlourish className="absolute right-2 top-2 scale-x-[-1]" />
-              <CornerFlourish className="absolute bottom-2 left-2 scale-y-[-1]" />
-              <CornerFlourish className="absolute bottom-2 right-2 -scale-x-100 -scale-y-100" />
-
-              <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-white">
-                {firstName}
-              </p>
-              <p className="my-1 font-theme-body text-2xl italic leading-none text-white">
-                &amp;
-              </p>
-              <p className="text-balance font-theme-display text-[clamp(1.7rem,7vw,2.65rem)] leading-[1.05] text-white">
-                {secondName}
-              </p>
-
-              <div
-                className="mx-auto mt-6 h-px w-24 bg-gradient-to-r from-transparent via-white/70 to-transparent"
-                aria-hidden="true"
-              />
-
-              <p className="mt-4 text-balance px-2 font-theme-label text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
-                {date}
-              </p>
-            </div>
+          <div className="pointer-events-none absolute left-1/2 top-2 z-20 size-[5.65rem] -translate-x-1/2 overflow-hidden rounded-full sm:top-2.5 sm:size-[6.65rem]">
+            <Image
+              src={susriLogo}
+              alt="Susri and Manoranjan monogram"
+              width={1024}
+              height={1536}
+              className="size-full object-cover object-[center_34%]"
+            />
           </div>
         </motion.div>
 

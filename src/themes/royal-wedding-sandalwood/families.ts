@@ -16,30 +16,3 @@ export const families = [
     mother: "Jyotirmayee Parija",
   },
 ] as const;
-
-export const rsvpContacts = [
-  {
-    id: "groom",
-    title: "RSVP · Groom",
-    names: [
-      "Bhabani Prasad Patnaik",
-      "Sabita Patnaik",
-      "Monalisa Patnaik",
-      "& Patnaik Family",
-    ],
-    phones: [{ display: "9337136916", tel: "+919337136916" }],
-  },
-  {
-    id: "bride",
-    title: "RSVP · Bride",
-    names: [
-      "Jyotirmayee Parija",
-      "Sushri Pragnya Parija",
-      "Bhabani Shankar Parija & Family",
-    ],
-    phones: [
-      { display: "8018607847", tel: "+918018607847" },
-      { display: "9178663299", tel: "+919178663299" },
-    ],
-  },
-] as const;

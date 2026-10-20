@@ -87,12 +87,30 @@ function paintOpaqueMask(
   ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.globalCompositeOperation = "source-over";
   ctx.globalAlpha = 1;
-  ctx.fillStyle = "#000";
+  // White stays visible if the phone reads the mask as luminance. Black does not.
+  ctx.fillStyle = "#fff";
   ctx.fillRect(0, 0, width, height);
 }
 
+function exportMaskCanvas(source: HTMLCanvasElement) {
+  const src = source.getContext("2d");
+  if (!src || source.width === 0 || source.height === 0) {
+    return source.toDataURL();
+  }
+
+  // Read the CPU buffer. toDataURL() on a hidden phone canvas can return a blank image.
+  const pixels = src.getImageData(0, 0, source.width, source.height);
+  const copy = document.createElement("canvas");
+  copy.width = source.width;
+  copy.height = source.height;
+  const copyCtx = copy.getContext("2d");
+  if (!copyCtx) return source.toDataURL();
+  copyCtx.putImageData(pixels, 0, 0);
+  return copy.toDataURL();
+}
+
 function applyCanvasMask(cover: HTMLElement, canvas: HTMLCanvasElement) {
-  const value = `url("${canvas.toDataURL()}")`;
+  const value = `url("${exportMaskCanvas(canvas)}")`;
   cover.style.webkitMaskImage = value;
   cover.style.maskImage = value;
   cover.style.webkitMaskSize = "100% 100%";
@@ -102,6 +120,7 @@ function applyCanvasMask(cover: HTMLElement, canvas: HTMLCanvasElement) {
   cover.style.webkitMaskPosition = "center";
   cover.style.maskPosition = "center";
   cover.style.maskMode = "alpha";
+  cover.style.setProperty("-webkit-mask-source-type", "alpha");
 }
 
 function drawFloralMotif(
@@ -325,7 +344,10 @@ export function ScratchRevealCard({
 
     initCanvas();
     const fontsReady = document.fonts?.ready.then(() => initCanvas());
-    const observer = new ResizeObserver(initCanvas);
+    const observer = new ResizeObserver(() => {
+      if (isScratchingRef.current) return;
+      initCanvas();
+    });
     if (containerRef.current) observer.observe(containerRef.current);
     return () => {
       observer.disconnect();
