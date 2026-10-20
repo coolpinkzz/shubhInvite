@@ -5,6 +5,7 @@ import type { ThemeTemplateProps } from "@/types/theme";
 import { sandalwoodCopyForSide, sandalwoodGuestEventsForSide } from "./events";
 import { heroPetals, venuePetals } from "./petals";
 import { BlessingFooter } from "./sections/Footer";
+import { RsvpFamilyContact } from "./sections/Rsvp/RsvpFamilyContact";
 import { ShivParvatiHero } from "./sections/Hero";
 import { FamilyBlessings, TheFamilies } from "./sections/Families";
 import { AwaitingPresence } from "./sections/Presence";
@@ -47,7 +48,15 @@ export function RoyalWeddingSandalwoodTemplate({ side }: ThemeTemplateProps) {
         subtitle={copy.rsvpSubtitle}
         className="scroll-mt-24 bg-[#FBF6F1] pb-12 pt-10"
       />
-      <TheFamilies />
+      <TheFamilies side={side} />
+      <section
+        aria-label="RSVP contacts"
+        className="bg-[#F7F4EC] px-5 pb-16 sm:px-6"
+      >
+        <div className="mx-auto w-full max-w-[420px]">
+          <RsvpFamilyContact side={side} />
+        </div>
+      </section>
       <BlessingFooter
         nameOrder={nameOrder}
         blessing="Your presence is the greatest blessing we could ask for. Thank you for being part of our beautiful beginning and making our special moments even more memorable."

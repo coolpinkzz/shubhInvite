@@ -2,29 +2,39 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 
+import type { InviteSide } from "@/types/theme";
+
 import { GoldDivider } from "../../components/GoldDivider";
 import { families } from "../../families";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-const CARD_ORDER = ["bride", "groom"] as const;
+type FamilyId = "bride" | "groom";
 
-const CARD_LABEL: Record<(typeof CARD_ORDER)[number], string> = {
+const CARD_LABEL: Record<FamilyId, string> = {
   bride: "Bride's Family",
   groom: "Groom's Family",
 };
 
-export function TheFamilies() {
+function cardOrderForSide(side?: InviteSide): readonly FamilyId[] {
+  return side === "groom" ? ["groom", "bride"] : ["bride", "groom"];
+}
+
+interface TheFamiliesProps {
+  side?: InviteSide;
+}
+
+export function TheFamilies({ side }: TheFamiliesProps) {
   const reducedMotion = useReducedMotion();
-  const cards = CARD_ORDER.map((id) => families.find((family) => family.id === id)).filter(
-    (family): family is (typeof families)[number] => family !== undefined,
-  );
+  const cards = cardOrderForSide(side)
+    .map((id) => families.find((family) => family.id === id))
+    .filter((family): family is (typeof families)[number] => family !== undefined);
 
   return (
     <section
       id="family"
       aria-labelledby="family-title"
-      className="bg-[#F7F4EC] px-5 py-16 text-center sm:px-6 sm:py-20"
+      className="bg-[#F7F4EC] px-5 pb-8 pt-16 text-center sm:px-6 sm:pb-10 sm:pt-20"
     >
       <div className="mx-auto w-full max-w-[26rem]">
         <motion.header
