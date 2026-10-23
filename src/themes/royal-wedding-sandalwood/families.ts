@@ -24,6 +24,7 @@ export const rsvpContacts = [
     names: [
       "Bhabani Prasad Patnaik",
       "Sabita Patnaik",
+      "Shubhrajyoti Das",
       "Monalisa Patnaik",
       "& Patnaik Family",
     ],
@@ -34,8 +35,10 @@ export const rsvpContacts = [
     title: "RSVP · Bride",
     names: [
       "Jyotirmayee Parija",
+      "Bhabani Shankar Parija",
       "Sushri Pragnya Parija",
-      "Bhabani Shankar Parija & Family",
+      "Ranjit Pattnayak",
+      "& Family",
     ],
     phones: [
       { display: "8018607847", tel: "+918018607847" },

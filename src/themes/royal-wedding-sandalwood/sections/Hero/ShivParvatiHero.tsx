@@ -61,10 +61,21 @@ export function ShivParvatiHero({
   const { config, tokens } = useTheme();
   const [isDateRevealed, setIsDateRevealed] = useState(false);
   const [activeSection, setActiveSection] = useState<NavSectionId>("home");
+  const [showScrollHint, setShowScrollHint] = useState(true);
 
   const handleNavClick = useCallback((id: NavSectionId) => {
     setActiveSection(id);
     scrollToSection(id);
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowScrollHint(window.scrollY < 48);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
@@ -170,6 +181,33 @@ export function ShivParvatiHero({
           ) : null}
         </div>
       </div>
+
+      {showScrollHint ? (
+        <button
+          type="button"
+          onClick={() => {
+            const reduceMotion = window.matchMedia(
+              "(prefers-reduced-motion: reduce)",
+            ).matches;
+            window.scrollBy({
+              top: Math.round(window.innerHeight * 0.72),
+              behavior: reduceMotion ? "auto" : "smooth",
+            });
+          }}
+          aria-label="Scroll down to see the invitation"
+          className="fixed bottom-[5.35rem] left-1/2 z-40 flex -translate-x-1/2 flex-col items-center gap-0.5 rounded-full border border-[#E4CDB8] bg-[#FFF8F3]/95 px-4 py-1.5 text-[#7A2F3B] shadow-[0_12px_28px_-14px_rgba(90,40,30,0.55)]"
+        >
+          <span className="font-theme-label text-[10px] font-semibold uppercase tracking-[0.22em]">
+            Scroll
+          </span>
+          <span
+            className="text-lg leading-none motion-safe:animate-bounce"
+            aria-hidden="true"
+          >
+            👇
+          </span>
+        </button>
+      ) : null}
 
       <nav
         aria-label="Invitation sections"
